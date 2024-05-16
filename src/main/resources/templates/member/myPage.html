@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <table>
+        <tr>
+            <th>이름</th>
+            <th>아이디</th>
+            <th>비밀번호</th>
+            <th>닉네임</th>
+            <th>이메일</th>
+            <th>주소</th>
+            <th>전화번호</th>
+        </tr>
+        <tr th:object="${session.user}">
+            <td th:text="*{name}"></td>
+            <td th:text="*{userid}"></td>
+            <td th:text="*{userpw}"></td>
+            <td th:text="*{nick}"></td>
+            <td th:text="*{email}"></td>
+            <td th:text="*{address}"></td>
+            <td th:text="*{phone}"></td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -31,4 +31,22 @@ public class MemberController {
         return "redirect:/";
     }
 
+    @GetMapping("/signUp")
+    public void signUp() {}
+
+    @PostMapping("/signUp")
+    public String signUp(MemberVO input) {
+        ms.signUp(input);
+        return "redirect:/";
+    }
+
+    @GetMapping("/myPage")
+    public void myPage() {}
+
+    @PostMapping("/myPage")
+    public String myPage(MemberVO input) {
+
+        return "redirect:/";
+    }
+
 }

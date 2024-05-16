@@ -14,4 +14,8 @@ public class MemberService {
     public MemberVO login(MemberVO input) {
         return dao.selectOne(input);
     }
+
+    public void signUp(MemberVO input) {
+        dao.insert(input);
+    }
 }

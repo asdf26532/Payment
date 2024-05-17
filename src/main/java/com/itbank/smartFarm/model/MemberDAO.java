@@ -1,7 +1,7 @@
 package com.itbank.smartFarm.model;
 
-import com.itbank.smartFarm.model.vo.MemberVO;
-import com.itbank.smartFarm.model.vo.TestVO;
+import com.itbank.smartFarm.vo.MemberVO;
+import com.itbank.smartFarm.vo.TestVO;
 import org.apache.ibatis.annotations.*;
 
 @Mapper

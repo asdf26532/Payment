@@ -2,11 +2,13 @@ package com.itbank.smartFarm.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Setter
-@Getter
+@Getter @Setter
+@ToString
 public class MemberVO {
-	private int id, phone;
-	private String name, address, email, userid, userpw, nick;
-}
 
+    private int id, phone;
+    private String name, address, email;
+    private String userid, userpw, newpw, nick;
+}

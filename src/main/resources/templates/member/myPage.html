@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartFarm</title>
+    <title>회원 정보</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,15 +19,14 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
 
-        h1 {
-            margin-bottom: 30px;
+        .user-info p {
+            margin-bottom: 10px;
         }
 
         .buttons button {
-            margin: 0 10px;
+            margin-top: 20px;
             padding: 10px 20px;
             border: none;
             background-color: #007bff;
@@ -43,28 +42,19 @@
 </head>
 <body>
 <div class="container">
-    <h1>SmartFarm</h1>
+    <h1>회원 정보</h1>
+    <div class="user-info">
+        <p><strong>이름:</strong> <span th:text="${session.user.name}"></span></p>
+        <p><strong>아이디:</strong> <span th:text="${session.user.userid}"></span></p>
+        <p><strong>닉네임:</strong> <span th:text="${session.user.nick}"></span></p>
+        <p><strong>이메일:</strong> <span th:text="${session.user.email}"></span></p>
+        <p><strong>주소:</strong> <span th:text="${session.user.address}"></span></p>
+        <p><strong>전화번호:</strong> <span th:text="${session.user.phone}"></span></p>
+    </div>
     <div class="buttons">
-        <th:block th:if="${session.user == null}">
-            <div class="buttons">
-                <a href="/member/login"><button>로그인</button></a>
-                <a href="/member/signUp"><button>회원가입</button></a>
-            </div>
-        </th:block>
-        <th:block th:if="${session.user != null}">
-            <div class="buttons">
-                <a href="/member/logout"><button>로그아웃</button></a>
-                <a href="/member/myPage"><button>나의정보</button></a>
-            </div>
-        </th:block>
+        <button onclick="location.href='/member/update'">회원 정보 수정</button>
+        <button onclick="location.href='/member/delete'">회원 탈퇴</button>
     </div>
 </div>
-
-<h1 th:text="${msg}"></h1>
-<p>테스트요</p>
-
-<a href="pay/pay">pay</a>
-<a href="pay/order">장바구니</a>
-
 </body>
 </html>

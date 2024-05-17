@@ -4,8 +4,8 @@ spring:
   mvc:
     view:
       suffix: .html
-#  datasource:
-#    driver-class-name: oracle.jdbc.driver.OracleDriver
-#    url: jdbc:oracle:thin:@192.168.1.100:1521:xe
-#    username: c##user1
-#    password: 1
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.1.100:1521:xe
+    username: c##smart
+    password: 1

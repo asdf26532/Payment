@@ -67,7 +67,7 @@ public class OrderController {
 		
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/add") //이거 아직 안됨????
 	public ModelAndView add(OrderItemVo oiv, OrdersVO ov, ShipmentsVO sv) {
 		ModelAndView mav = new ModelAndView();
 	    

@@ -1,5 +1,6 @@
 package com.itbank.smartFarm.controller;
 
+import com.itbank.smartFarm.aop.PasswordEncoder;
 import com.itbank.smartFarm.model.vo.MemberVO;
 import com.itbank.smartFarm.service.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -14,11 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
-
-/*
-    미구현 기능
-    - 비밀번호 해쉬처리
-*/
 
 @Controller
 @RequestMapping("/member")
@@ -69,7 +65,16 @@ public class MemberController {
     @PostMapping("/update")
     public String myPage(MemberVO input, HttpSession session) {
         MemberVO member = (MemberVO) session.getAttribute("user");
-        ms.update(input, member);
+        String pw = input.getUserpw();
+        // hash처리 pw
+        pw = PasswordEncoder.encode(pw);
+        if(member.getUserpw().equals(pw)){
+            member.setUserpw(input.getNewpw());
+            member.setEmail(input.getEmail());
+            member.setAddress(input.getAddress());
+            member.setPhone(input.getPhone());
+            ms.update(member);
+        }
         return "redirect:/member/logout";
     }
 

@@ -17,7 +17,7 @@ public interface MemberDAO {
             "values (#{name}, #{address}, #{email}, #{userid}, #{userpw}, #{nick})")
     void insert(MemberVO input);
 
-    @Update("update member set userpw = #{newpw}, email = #{email}, " +
+    @Update("update member set userpw = #{userpw}, email = #{email}, " +
             "address = #{address}, phone = #{phone} where id = #{id}")
     void update(MemberVO input);
 

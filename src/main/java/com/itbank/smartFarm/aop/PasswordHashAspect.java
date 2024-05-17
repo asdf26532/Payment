@@ -20,7 +20,7 @@ public class PasswordHashAspect {
         input.setUserpw(PasswordEncoder.encode(input.getUserpw()));
     }
 
-    @Before("execution(* com.itbank.smartFarm.service.MemberService.update(..)) && args(input, ..)")
+    @Before("execution(* com.itbank.smartFarm.service.MemberService.update(..)) && args(input)")
     public void hashPasswordBeforeUpdate(MemberVO input) {
         input.setUserpw(PasswordEncoder.encode(input.getUserpw()));
     }

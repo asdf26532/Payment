@@ -1,5 +1,6 @@
 package com.itbank.smartFarm.service;
 
+import com.itbank.smartFarm.aop.PasswordEncoder;
 import com.itbank.smartFarm.model.MemberDAO;
 import com.itbank.smartFarm.model.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,9 @@ public class MemberService {
     @Autowired
     private MemberDAO dao;
 
-    @Transactional(readOnly = true)
     public MemberVO login(MemberVO input) {
+        String hash = input.getUserpw();
+        System.out.println(hash);
         return dao.selectOne(input);
     }
 
@@ -23,11 +25,8 @@ public class MemberService {
         dao.insert(input);
     }
 
-    public void update(MemberVO input, MemberVO member) {
-        if(member.getUserpw().equals(input.getUserpw())){
-            input.setId(member.getId());
-            dao.update(input);
-        }
+    public void update(MemberVO input) {
+        dao.update(input);
     }
 
     public void delete(MemberVO member) {
@@ -45,8 +44,7 @@ public class MemberService {
             String newPw = UUID.randomUUID().toString().substring(0, 8);
 
             // 해쉬처리
-
-            member.setUserpw(newPw);
+            member.setUserpw(PasswordEncoder.encode(newPw));
             dao.newPw(member);
             return newPw;
         }

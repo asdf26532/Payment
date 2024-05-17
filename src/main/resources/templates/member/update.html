@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기</title>
+    <title>회원 정보 수정</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,26 +55,35 @@
         button:hover {
             background-color: #0056b3;
         }
+
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>아이디 찾기</h1>
+    <h1>회원 정보 수정</h1>
     <form method="post">
         <div class="form-group">
-            <label for="phone">전화번호:</label>
-            <input type="tel" id="phone" name="phone" required>
+            <label for="userpw">현재 비밀번호:</label>
+            <input type="password" id="userpw" name="userpw" required>
         </div>
-        <button type="submit">아이디 찾기</button>
+        <div class="form-group">
+            <label for="newpw">변경할 비밀번호:</label>
+            <input type="password" id="newpw" name="newpw" required>
+        </div>
+        <div class="form-group">
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" th:value="${session.user.email}" required>
+        </div>
+        <div class="form-group">
+            <label for="address">주소:</label>
+            <input type="text" id="address" name="address" th:value="${session.user.address}" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">전화번호:</label>
+            <input type="tel" id="phone" name="phone" th:value="${session.user.phone}" required>
+        </div>
+        <button type="submit">정보 수정</button>
     </form>
-
-    <script type="text/javascript" th:inline="javascript">
-        var userid = '[[${userid}]]';
-        if (userid != 'null') {
-            alert('회원님의 아이디는 ' + userid + '입니다.');
-            location.href = '/';
-        }
-    </script>
 </div>
 </body>
 </html>

@@ -10,5 +10,5 @@ public class MemberVO {
 
     private int id, phone;
     private String name, address, email;
-    private String userid, userpw, nick;
+    private String userid, userpw, newpw, nick;
 }

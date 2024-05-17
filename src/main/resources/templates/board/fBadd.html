@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>fBadd</title>
+</head>
+<body>
+
+<header th:replace="~{header :: header}"></header>
+
+<main>
+    <form method="POST">
+        <p>제목 : <input th:name="title" th:value="${row.title}" th:required></p>
+        <p>내용 : <textarea th:name="contents" th:value="${row.contents}"  ></textarea></p>
+
+        <p><input th:name="member_id" value="${member_id }" type="hidden" required></p>
+
+        <button>작성하기</button>
+    </form>
+</main>
+
+</body>
+</html>

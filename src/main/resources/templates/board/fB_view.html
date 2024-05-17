@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+        <table th:with="row = ${row}">
+
+
+        </table>
+
+        <div th:if="${row.nick == user.nick }">
+            <a href="$/board/update/${row.idx }">
+                <button>수정</button>
+            </a>
+
+            <a href="/board/delete/${row.idx }">
+                <button>삭제</button>
+            </a>
+        </div>
+
+
+
+</body>
+</html>

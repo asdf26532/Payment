@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>FreeBoard</title>
+</head>
+<body>
+
+
+<header th:replace="~{header :: header}"></header>
+
+<main th:with="list = ${map['list']} , pg = ${map['pg'] } ">
+<table>
+  <tr>
+    <th th:text="글번호"></th>
+    <th th:text="제목"></th>
+    <th th:text="작성자"></th>
+    <th th:text="조회수"></th>
+    <th th:text="작성일"></th>
+  </tr>
+  <tr>
+    <td th:text="${list.id_number}"></td>
+    <td><a href="/board/fB_view/${list.id_number}" th:text="${list.title}"></a></td>
+    <td th:text="${list.nick}"></td>
+    <td th:text="${list.v_count}"></td>
+    <td th:text="${list.w_date}"></td>
+  </tr>
+</table>
+
+<br>
+<div th:if ="${not empty param.type }">
+    <div th:with ="type = '&type=${param.type}' ">
+    <div th:with ="search = '&search=${param.search}' ">
+
+            <ul class="page">
+                <li th:if ="${pg.prev }">
+                  <a href="/board/freeBoard?page=${pg.begin - 1}${type}${search}">
+                    이전
+                  </a>
+                </li>
+
+                <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                  <a href="/board/freeBoard?page=${i }${type}${search}">
+                    ${i }
+                  </a>
+                </li>
+
+                <li th:if ="${pg.next }">
+                  <a href="/board/freeBoard?page=${pg.end + 1}${type}${search}">
+                    다음
+                  </a>
+                </li>
+            </ul>
+
+
+            <br>
+
+            <form>
+              <select name="type">
+                <option value="title">제목</option>
+                <option value="nick">작성자</option>
+                <option value="contents">내용</option>
+              </select>
+
+              <input name="search">
+
+              <button>검색</button>
+            </form>
+
+
+
+
+       </div>
+    </div>
+
+    <br>
+
+    <a href="/board/fBadd">
+      <button>글 작성</button>
+    </a>
+</div>
+
+</main>
+</body>
+</html>

@@ -81,4 +81,14 @@ public class OrderController {
 	}
 	
 
+	@GetMapping("/market/detailPage/{id}")
+	public ModelAndView detail(@PathVariable("id") int id) {
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("orderlist", os.getorder(id));
+		mav.setViewName("pay/update");
+
+		return mav;
+	}
+	
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<title>장바구니</title>
+</head>
+<body>
+
+	<h3>장바구니 목록</h3>
+
+	<table>
+		<tr>
+			<th>상품번호</th>
+			<th>주문자 번호</th>
+			<th>운송장번호</th>
+			<th>주문일</th>
+			<th>주문상태</th>
+			<th>주문수량</th>
+			<th>상품가격</th>
+			<th>주문수정</th>
+			<th>주문삭제</th>
+		</tr>
+
+		<tr th:each="row : ${orderlist}">
+			<td th:text="${row.order_id}"></td>
+			<td th:text="${row.member_id}"></td>
+			<td th:text="${row.orderitems_id}"></td>
+			<td th:text="${row.delivery_id}"></td>
+			<td th:text="${row.order_date}"></td>
+			<td th:text="${row.status}"></td>
+			<td th:text="${row.total_item_count}"></td>
+			<td th:text="${row.total_item_count}"></td>
+			<td th:text="${row.total_order_price}"></td>
+			<td><a th:href="@{'/pay/update/' + ${row.order_id}}">수정</a>
+			</td>
+			<td><a th:href="@{'/pay/delete/' + ${row.order_id}}">삭제</a>
+			</td>
+
+		</tr>
+	</table>
+
+</body>
+</html>

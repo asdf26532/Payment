@@ -43,6 +43,9 @@ public class MemberService {
         MemberVO member = dao.findPw(input);
         if(member != null){
             String newPw = UUID.randomUUID().toString().substring(0, 8);
+
+            // 해쉬처리
+
             member.setUserpw(newPw);
             dao.newPw(member);
             return newPw;

@@ -3,68 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartFarm</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 30px;
-        }
-
-        .buttons button {
-            margin: 0 10px;
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .buttons button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Smart Farm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
 <body>
-<div class="container">
-    <h1>SmartFarm</h1>
-    <div class="buttons">
+<!--
+// v0 by Vercel.
+// https://v0.dev/t/68N4upbWUUQ
+-->
+
+<header class="flex items-center justify-between px-6 py-4 bg-white shadow">
+    <div class="flex items-center gap-4">
+        <a href="#">
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-8 h-8 text-green-500"
+            >
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+            </svg>
+            <span class="sr-only">Smart Farm</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6">
+            <a class="text-gray-600 hover:text-green-500" href="#">
+                Features
+            </a>
+            <a class="text-gray-600 hover:text-green-500" href="#">
+                Pricing
+            </a>
+            <a class="text-gray-600 hover:text-green-500" href="#">
+                About
+            </a>
+            <a class="text-gray-600 hover:text-green-500" href="#">
+                Contact
+            </a>
+        </nav>
+    </div>
+    <div class="flex items-center gap-4">
         <th:block th:if="${session.user == null}">
-            <div class="buttons">
-                <a href="/member/login"><button>로그인</button></a>
-                <a href="/member/signUp"><button>회원가입</button></a>
-            </div>
+            <a
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                    href="/member/signUp"
+            >
+                Sign Up
+            </a>
+            <a
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-green-500 bg-white border border-green-500 rounded-md hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                    href="/member/login"
+            >
+                Login
+            </a>
         </th:block>
         <th:block th:if="${session.user != null}">
-            <div class="buttons">
-                <a href="/member/logout"><button>로그아웃</button></a>
-                <a href="/member/myPage"><button>나의정보</button></a>
-            </div>
+            <a
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                    href="/member/myPage"
+            >
+                My Page
+            </a>
+            <a
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-green-500 bg-white border border-green-500 rounded-md hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                    href="/member/logout"
+            >
+                Logout
+            </a>
         </th:block>
+        <a
+                class="inline-flex items-center justify-center p-2 text-gray-400 bg-white border border-gray-200 rounded-md hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                href="/pay/order"
+        >
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-6 h-6"
+            >
+                <circle cx="8" cy="21" r="1"></circle>
+                <circle cx="19" cy="21" r="1"></circle>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+            </svg>
+            <span class="sr-only">Shopping Cart</span>
+        </a>
+        <a
+                class="inline-flex items-center justify-center p-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2"
+                href="#"
+        >
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-6 h-6"
+            >
+                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                <line x1="2" x2="22" y1="10" y2="10"></line>
+            </svg>
+            <span class="sr-only">Pay</span>
+        </a>
     </div>
-</div>
-
-<h1 th:text="${msg}"></h1>
-<p>테스트요</p>
-
-<a href="pay/pay">pay</a>
-<a href="pay/order">장바구니</a>
-
+</header>
+<main>
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800 mb-4">Revolutionize Your Farm with Smart Technology</h1>
+                    <p class="text-gray-600 mb-8">
+                        Our smart farm solutions help you optimize your operations, reduce costs, and increase productivity.
+                    </p>
+                    <div class="flex gap-4">
+                        <a
+                                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                                href="#"
+                        >
+                            Get Started
+                        </a>
+                        <a
+                                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-green-500 bg-white border border-green-500 rounded-md hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                                href="#"
+                        >
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <img
+                            src="/placeholder.svg"
+                            width="500"
+                            height="400"
+                            alt="Smart Farm"
+                            class="w-full h-auto rounded-lg"
+                            style="aspect-ratio: 500 / 400; object-fit: cover;"
+                    />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="w-12 h-12 text-green-500 mb-4"
+                    >
+                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                        <path d="M4 6h.01"></path>
+                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                        <path d="M12 18h.01"></path>
+                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                        <circle cx="12" cy="12" r="2"></circle>
+                        <path d="m13.41 10.59 5.66-5.66"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Precision Farming</h3>
+                    <p class="text-gray-600">Our smart sensors and analytics help you optimize your crop management.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="w-12 h-12 text-green-500 mb-4"
+                    >
+                        <path d="m10 11 11 .9c.6 0 .9.5.8 1.1l-.8 5h-1"></path>
+                        <path d="M16 18h-5"></path>
+                        <path d="M18 5a1 1 0 0 0-1 1v5.573"></path>
+                        <path d="M3 4h9l1 7.246"></path>
+                        <path d="M4 11V4"></path>
+                        <path d="M7 15h.01"></path>
+                        <path d="M8 10.1V4"></path>
+                        <circle cx="18" cy="18" r="2"></circle>
+                        <circle cx="7" cy="15" r="5"></circle>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Automated Equipment</h3>
+                    <p class="text-gray-600">Streamline your operations with our smart farm equipment.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="w-12 h-12 text-green-500 mb-4"
+                    >
+                        <path d="M2 22c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8 1.5 4 4 0 0 0 6.187-2.353 3.5 3.5 0 0 0 3.69-5.116A3.5 3.5 0 0 0 20.95 8 3.5 3.5 0 1 0 16 3.05a3.5 3.5 0 0 0-5.831 1.373 3.5 3.5 0 0 0-5.116 3.69 4 4 0 0 0-2.348 6.155C3.499 15.42 4.409 16.712 4.2 18.1 3.926 19.743 3.014 20.732 2 22"></path>
+                        <path d="M2 22 17 7"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Controlled Environment</h3>
+                    <p class="text-gray-600">Optimize your greenhouse and indoor farming with our solutions.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="w-12 h-12 text-green-500 mb-4"
+                    >
+                        <path d="M6 2v14a2 2 0 0 0 2 2h14"></path>
+                        <path d="M18 22V8a2 2 0 0 0-2-2H2"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Intelligent Irrigation</h3>
+                    <p class="text-gray-600">Reduce water usage and improve crop health with our smart irrigation systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <img
+                            src="/placeholder.svg"
+                            width="500"
+                            height="400"
+                            alt="Smart Farm Analytics"
+                            class="w-full h-auto rounded-lg"
+                            style="aspect-ratio: 500 / 400; object-fit: cover;"
+                    />
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Unlock the Power of Data-Driven Farming</h2>
+                    <p class="text-gray-600 mb-8">
+                        Our smart farm analytics platform provides real-time insights to help you make informed decisions and
+                        optimize your operations.
+                    </p>
+                    <div class="flex gap-4">
+                        <a
+                                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                                href="#"
+                        >
+                            Explore Analytics
+                        </a>
+                        <a
+                                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-green-500 bg-white border border-green-500 rounded-md hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                                href="#"
+                        >
+                            Request Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4 md:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <a class="flex items-center gap-2 mb-4" href="#">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="w-8 h-8 text-green-500"
+                    >
+                        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                    </svg>
+                    <span class="text-2xl font-bold">Smart Farm</span>
+                </a>
+                <p class="text-gray-400">Revolutionize your farm with our smart technology solutions.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                About
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                Careers
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Products</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                Precision Farming
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                Automated Equipment
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                Controlled Environment
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-gray-400 hover:text-white" href="#">
+                                Intelligent Irrigation
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-4">Follow Us</h4>
+                <div class="flex gap-4">
+                    <a class="text-gray-400 hover:text-white" href="#">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="w-6 h-6"
+                        >
+                            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+                        </svg>
+                    </a>
+                    <a class="text-gray-400 hover:text-white" href="#">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="w-6 h-6"
+                        >
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a class="text-gray-400 hover:text-white" href="#">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="w-6 h-6"
+                        >
+                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a class="text-gray-400 hover:text-white" href="#">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="w-6 h-6"
+                        >
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect width="4" height="12" x="2" y="9"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 text-center text-gray-400">© 2024 Smart Farm. All rights reserved.</div>
+    </div>
+</footer>
 </body>
 </html>

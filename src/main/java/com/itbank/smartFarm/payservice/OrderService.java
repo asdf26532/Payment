@@ -3,7 +3,8 @@ package com.itbank.smartFarm.payservice;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.itbank.smartFarm.payDAO.OrderDAO;
+
+import com.itbank.smartFarm.payModel.OrderDAO;
 import com.itbank.smartFarm.vo.CartVO;
 import com.itbank.smartFarm.vo.OrderItemVo;
 import com.itbank.smartFarm.vo.OrdersVO;
@@ -25,32 +26,24 @@ public class OrderService {
 
 	public int modify(OrderItemVo input) {
 		return od.order(input);
-		
 	}
 
 	public int deleteorder(int id) {
 		return od.deleteOrder(id);
 	}
 
-	public int addorders(OrdersVO ov) {
-		return od.addorders(ov);
-		
-	}
+//	public int addorders(OrdersVO ov) {
+//		return od.addorders(ov);
+//	}
+//
+//	public int addorderitems(OrderItemVo oiv) {
+//		return od.addorderitems(oiv);
+//	}
+//
+//	public int addshipments(ShipmentsVO sv) {
+//		return od.addshipments(sv);
+//	}
 
-	public int addorderitems(OrderItemVo oiv) {
-		return od.addorderitems(oiv);
-		
-	}
-
-	public int addshipments(ShipmentsVO sv) {
-		return od.addshipments(sv);
-		
-	}
-
-	public order getdetail(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 }

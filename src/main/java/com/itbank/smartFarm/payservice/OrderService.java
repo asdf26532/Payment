@@ -28,22 +28,9 @@ public class OrderService {
 		return od.order(input);
 	}
 
-	public int deleteorder(int id) {
-		return od.deleteOrder(id);
+	public void deleteOrder(int orderId) {
+        od.deleteOrderItems(orderId);
+        od.deleteShipmentByOrder(orderId);
+        od.deleteOrder(orderId);
 	}
-
-//	public int addorders(OrdersVO ov) {
-//		return od.addorders(ov);
-//	}
-//
-//	public int addorderitems(OrderItemVo oiv) {
-//		return od.addorderitems(oiv);
-//	}
-//
-//	public int addshipments(ShipmentsVO sv) {
-//		return od.addshipments(sv);
-//	}
-
-	
-	
 }

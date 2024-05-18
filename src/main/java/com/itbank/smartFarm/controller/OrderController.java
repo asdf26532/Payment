@@ -18,7 +18,7 @@ public class OrderController {
 	private OrderService os;
 	@GetMapping("/order")
 	public String list(Model model) {
-		model.addAttribute("orderlist", os.getOrders(888));
+		model.addAttribute("orderlist", os.getOrders(456));
 
 		return "pay/order";
 	}
@@ -60,23 +60,7 @@ public class OrderController {
 
 	@GetMapping("/delete/{order_id}")
 	public String delete(@PathVariable("order_id") int id) {
-		os.deleteorder(id);
-		return "redirect:/pay/order";
-
+	    os.deleteOrder(id);
+	    return "pay/order";
 	}
-
-//	@PostMapping("/add")
-//	public ModelAndView add(OrderItemVo oiv, OrdersVO ov, ShipmentsVO sv) {
-//		ModelAndView mav = new ModelAndView();
-//	    
-//		os.addorders(ov);
-//		os.addorderitems(oiv);
-//		os.addshipments(sv);
-//	    
-//	    mav.setViewName("pay/order");
-//
-//	    return mav;
-//	}
-
-
 }

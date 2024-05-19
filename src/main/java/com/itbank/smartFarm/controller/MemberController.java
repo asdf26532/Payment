@@ -24,7 +24,7 @@ public class MemberController {
     private MemberService ms;
 
     // 로그인 페이지로 이동
-    @GetMapping("/Newlogin")
+    @GetMapping("/login")
     public void login() {}
 
     // 로그인시 DB에 해당 아이디가 있는지 체크후 아이디를 세션으로 반환

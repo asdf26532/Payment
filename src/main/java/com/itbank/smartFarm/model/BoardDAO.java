@@ -12,9 +12,7 @@ import java.util.Map;
 @Mapper
 public interface BoardDAO {
 
-
-    @Select("select * from board where type_number = 102")
-    List<BoardVO> selectFreeAll(Map<String, Object> param);
+    List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Select("select * from board where type_number = 102 and id_number = #{idx}")
     BoardVO selectFreeOne(int idx);
@@ -25,9 +23,20 @@ public interface BoardDAO {
     @Select("select count(*) from freeBoard_view")
     int totalBoard();
 
-    @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) where type_number = 102")
+    @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
+            "where type_number = 102")
     int insertFb(BoardVO input);
 
     @Delete("delete from board where id_number = #{idx}")
     int delete(int idx);
+
+    List<BoardVO> selectQnaAll(Map<String, Object> param);
+
+    @Select("select * from board where type_number = 105 and id_number = #{idx}")
+    BoardVO selectQnaOne(int idx);
+
+    @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
+            "where type_number = 105")
+    int insertQna(BoardVO input);
+
 }

@@ -18,12 +18,12 @@
     <th th:text="조회수"></th>
     <th th:text="작성일"></th>
   </tr>
-  <tr>
-    <td th:text="${list.id_number}"></td>
-    <td><a href="/board/fB_view/${list.id_number}" th:text="${list.title}"></a></td>
-    <td th:text="${list.nick}"></td>
-    <td th:text="${list.v_count}"></td>
-    <td th:text="${list.w_date}"></td>
+  <tr th:each="row : ${list}">
+    <td th:text="${row.id_number}"></td>
+    <td><a href="/board/fB_view/${row.id_number}" th:text="${row.title}"></a></td>
+    <td th:text="${row.nick}"></td>
+    <td th:text="${row.v_count}"></td>
+    <td th:text="${row.w_date}"></td>
   </tr>
 </table>
 

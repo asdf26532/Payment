@@ -9,11 +9,29 @@
 
         <table th:with="row = ${row}">
 
+            <tr>
+                <th th:text="제목"></th>
+                <td th:text="${row.title}"></td>
+            </tr>
+            <tr>
+                <th th:text="작성자"></th>
+                <td th:text="${row.nick}"></td>
+            </tr>
+            <tr>
+                <th th:text="조회수"></th>
+                <td th:text="${row.v_count }"></td>
+                <th th:text="작성일"></th>
+                <td th:text="${row.w_date}"></td>
+            </tr>
+            <tr>
+                <th th:text="내용"></th>
+                <td th:text="${row.contents}"></td>
+            </tr>
 
         </table>
 
         <div th:if="${row.nick == user.nick }">
-            <a href="$/board/update/${row.idx }">
+            <a href="$/board/updatefB/${row.idx }">
                 <button>수정</button>
             </a>
 

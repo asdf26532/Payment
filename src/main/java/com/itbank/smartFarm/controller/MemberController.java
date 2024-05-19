@@ -24,7 +24,7 @@ public class MemberController {
     private MemberService ms;
 
     // 로그인 페이지로 이동
-    @GetMapping("/login")
+    @GetMapping("/Newlogin")
     public void login() {}
 
     // 로그인시 DB에 해당 아이디가 있는지 체크후 아이디를 세션으로 반환
@@ -46,7 +46,6 @@ public class MemberController {
     public void signUp() {}
 
     // 가입란에 작성한 폼을 insert하여 추가하고 홈으로 리다이렉트
-    // - 추후에 아이디 중복체크 (비동기)등을 추가예정
     @PostMapping("/signUp")
     public String signUp(MemberVO input) {
         ms.signUp(input);

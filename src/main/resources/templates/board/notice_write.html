@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title th:text="${notice != null} ? '공지사항 수정' : '공지사항 작성'"></title>
+</head>
+<body>
+
+	<script
+		src="https://cdn.tiny.cloud/1/bmpz83s4yqa4fgfuozripnlgp9hjdztmwwmpnqkfnjhs8r39/tinymce/7/tinymce.min.js"
+		referrerpolicy="origin"></script>
+
+	<script>
+		tinymce
+				.init({
+					selector : 'textarea',
+					plugins : 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+					toolbar : 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+				});
+	</script>
+
+	<form
+		th:action="${notice != null} ? @{'/board/notice_update/' + ${notice.id}} : @{'/board/notice_write'}"
+		method="POST">
+		<table>
+			<tr>
+				<td><input name="title" placeholder="제목"
+					th:value="${notice != null} ? ${notice.title} : ''" required></td>
+			</tr>
+			<tr>
+				<td><textarea name="contents" placeholder="내용"
+						th:text="${notice != null} ? ${notice.contents} : ''"></textarea></td>
+			</tr>
+		</table>
+
+		<br>
+
+		<button th:text="${notice != null} ? '수정' : '작성'"></button>
+	</form>
+</body>
+</html>

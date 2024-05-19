@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>장터</title>
+<style>
+.content {
+    font-family: 'Arial', sans-serif; /* 기본 글꼴 설정 */
+    font-size: 14px; /* 기본 폰트 크기 설정 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: black; /* 링크 색상 설정 */
+}
+</style>
+</head>
+<body>
+    <div th:replace="~{piece :: header}"></div>
+    
+    <h1>장터</h1>
+    <hr>
+
+    <table>
+        <tr>
+            <th>카테고리</th>
+            <th>판매상태</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>조회수</th>
+            <th>작성자</th>
+        </tr>
+        <tr th:each="freemarket : ${freemarkets}">
+            <td>
+                <span th:text="${freemarket.category}"></span>
+            </td>
+            <td th:text="${freemarket.soldout == 1 ? '판매중' : '판매완료'}"></td>
+            <td th:text="${freemarket.title}"></td>
+            <td>
+                <a class="content"
+                   th:href="@{/board/freemarket_view/{id}(id=${freemarket.id})}"
+                   th:utext="${#strings.length(freemarket.contents) > 10 ?
+                    #strings.substring(freemarket.contents, 0, 10) : freemarket.contents}"></a>
+            </td>
+            <td th:text="${freemarket.v_count}"></td>
+            <td th:text="${freemarket.nick}"></td>
+        </tr>
+    </table>
+
+    <a href="/board/freemarket_write"><button>글 작성</button></a>
+
+    <div th:replace="~{piece :: footer}"></div>
+</body>
+</html>

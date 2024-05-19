@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공지사항</title>
+<style>
+.content {
+	font-family: 'Arial', sans-serif; /* 기본 글꼴 설정 */
+	font-size: 14px; /* 기본 폰트 크기 설정 */
+	text-decoration: none; /* 링크 밑줄 제거 */
+	color: black; /* 링크 색상 설정 */
+}
+</style>
+</head>
+<body>
+	<div th:replace="~{piece :: header}"></div>
+
+	<h1>공지사항</h1>
+	<hr>
+
+	<table>
+		<tr>
+			<th>제목</th>
+			<th>내용</th>
+			<th>조회수</th>
+			<th>작성자</th>
+		</tr>
+		<tr th:each="notice : ${notices}">
+			<td th:text="${notice.title}"></td>
+			<td><a class="content"
+				th:href="@{/board/notice_view/{id}(id=${notice.id})}"
+				th:utext="${#strings.length(notice.contents) > 10 ? 
+                #strings.substring(notice.contents, 0, 10) : notice.contents}"></a></td>
+			<td th:text="${notice.v_count}"></td>
+			<td th:text="${notice.nick}"></td>
+		</tr>
+	</table>
+
+	<a href="/board/notice_write"><button>글 작성</button></a>
+
+	<div th:replace="~{piece :: footer}"></div>
+</body>
+</html>

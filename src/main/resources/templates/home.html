@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<title>Home</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartFarm</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f2f2f2;
+}
+
+.container {
+	max-width: 600px;
+	margin: 50px auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+h1 {
+	margin-bottom: 30px;
+}
+
+.buttons button {
+	margin: 0 10px;
+	padding: 10px 20px;
+	border: none;
+	background-color: #007bff;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+.buttons button:hover {
+	background-color: #0056b3;
+}
+</style>
+</head>
+
+<body>
+	<div th:replace="~{piece :: header}"></div>
+
+	<h2>SmartFarm 홈페이지에 오신 것을 환영합니다!!!</h2>
+
+	<div class="container">
+		<h1>SmartFarm</h1>
+		<div class="buttons">
+			<th:block th:if="${session.user == null}">
+				<div class="buttons">
+					<a href="/member/login"><button>로그인</button></a> <a
+						href="/member/signUp"><button>회원가입</button></a>
+				</div>
+			</th:block>
+			<th:block th:if="${session.user != null}">
+				<div class="buttons">
+					<a href="/member/logout"><button>로그아웃</button></a> <a
+						href="/member/myPage"><button>나의정보</button></a>
+				</div>
+			</th:block>
+		</div>
+	</div>
+
+
+	<div th:replace="~{piece :: footer}"></div>
+</body>
+</html>

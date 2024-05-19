@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itbank.smartFarm.model.BoardDAO">
+
+
+    <select id="selectFreeAll"
+            parameterType="map"
+            resultType="com.itbank.smartFarm.vo.BoardVO">
+        select * from board_view
+            <if test="type != null">
+                where ${type} like '%${search}%'
+            </if>
+            order by id_number desc
+            offset #{offset} rows
+            fetch first #{boardCount} rows only
+            where type_number = 102
+
+
+    </select>
+
+    <select id="selectQnaAll"
+            parameterType="map"
+            resultType="com.itbank.smartFarm.vo.BoardVO">
+        select * from board_view
+        <if test="type != null">
+            where ${type} like '%${search}%'
+        </if>
+        order by id_number desc
+        offset #{offset} rows
+        fetch first #{boardCount} rows only
+        where type_number = 105
+
+    </select>
+
+</mapper>

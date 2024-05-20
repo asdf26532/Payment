@@ -47,10 +47,6 @@ public class OrderService {
 		
 	}
 
-	public order getdetail(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 }

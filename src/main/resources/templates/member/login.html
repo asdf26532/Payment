@@ -17,13 +17,14 @@
         <div class="mb-8 text-center">
             <h1 class="text-3xl font-bold text-[#1a3c1a]">Smart Farm Login</h1>
         </div>
-        <form class="space-y-6">
+        <form class="space-y-6" method="post">
             <div>
                 <label for="username" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
                     Username
                 </label>
                 <input
                         id="username"
+                        name="userid"
                         placeholder="Enter your username"
                         class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
                         type="text"
@@ -35,6 +36,7 @@
                 </label>
                 <input
                         id="password"
+                        name="userpw"
                         placeholder="Enter your password"
                         class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
                         type="password"
@@ -48,14 +50,14 @@
             </button>
         </form>
         <div class="mt-6 flex justify-between text-sm font-medium text-[#1a3c1a]">
-            <a class="hover:underline" href="#">
+            <a class="hover:underline" href="/member/signUp">
                 Sign Up
             </a>
-            <a class="hover:underline" href="#">
-                Forgot Username
+            <a class="hover:underline" href="/member/findId">
+                아이디 찾기
             </a>
-            <a class="hover:underline" href="#">
-                Forgot Password
+            <a class="hover:underline" href="/member/findPw">
+                비밀번호 찾기
             </a>
         </div>
     </div>

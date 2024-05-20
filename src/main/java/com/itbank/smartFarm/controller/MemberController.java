@@ -48,6 +48,7 @@ public class MemberController {
     // 가입란에 작성한 폼을 insert하여 추가하고 홈으로 리다이렉트
     @PostMapping("/signUp")
     public String signUp(MemberVO input) {
+        System.out.println(input);
         ms.signUp(input);
         return "redirect:/";
     }

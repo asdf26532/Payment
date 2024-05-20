@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.itbank.smartFarm.payservice.OrderService;
-import com.itbank.smartFarm.vo.OrderItemVo;
-import com.itbank.smartFarm.vo.OrdersVO;
-import com.itbank.smartFarm.vo.ShipmentsVO;
+import com.itbank.smartFarm.model.vo.OrderItemVo;
+import com.itbank.smartFarm.model.vo.OrdersVO;
+import com.itbank.smartFarm.model.vo.ShipmentsVO;
 
 @Controller
 @RequestMapping("/pay")
 public class OrderController {
+
 	@Autowired
 	private OrderService os;
 

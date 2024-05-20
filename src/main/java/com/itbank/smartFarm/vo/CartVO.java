@@ -1,4 +1,4 @@
-package com.itbank.smartFarm.vo;
+package com.itbank.smartFarm.model.vo;
 
 import java.sql.Date;
 

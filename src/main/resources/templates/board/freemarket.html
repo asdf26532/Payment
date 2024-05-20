@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장터</title>
+    <style>
+        .content {
+            font-family: 'Arial', sans-serif; /* 기본 글꼴 설정 */
+            font-size: 14px; /* 기본 폰트 크기 설정 */
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: black; /* 링크 색상 설정 */
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{piece :: header}"></div>
+
+<h1>장터</h1>
+<hr>
+<form action="/board/freemarket" method="get">
+    <label for="category">카테고리:</label>
+    <select id="category" name="category">
+        <option value="">전체</option>
+        <option value="곡물">곡물</option>
+        <option value="과일">과일</option>
+        <option value="채소">채소</option>
+        <option value="사료 작물">사료 작물</option>
+        <option value="비료 작물">비료 작물</option>
+        <option value="원예 작물">원예 작물</option>
+        <option value="공예 작물">공예 작물</option>
+    </select>
+
+    <label for="soldout">판매 상태:</label>
+    <select id="soldout" name="soldout">
+        <option value="">전체</option>
+        <option value="1">판매중</option>
+        <option value="0">판매 완료</option>
+    </select>
+
+    <button type="submit">필터 적용</button>
+</form>
+<hr>
+
+<table>
+    <tr>
+        <th>카테고리</th>
+        <th>판매상태</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>조회수</th>
+        <th>작성자</th>
+    </tr>
+    <tr th:each="freemarket : ${freemarkets}">
+        <td>
+            <span th:text="${freemarket.category}"></span>
+        </td>
+        <td th:text="${freemarket.soldout == 1 ? '판매중' : '판매완료'}"></td>
+        <td th:text="${freemarket.title}"></td>
+        <td>
+            <a class="content"
+               th:href="@{/board/freemarket_view/{id}(id=${freemarket.id})}"
+               th:utext="${#strings.length(freemarket.contents) > 10 ?
+                    #strings.substring(freemarket.contents, 0, 10) : freemarket.contents}"></a>
+        </td>
+        <td th:text="${freemarket.v_count}"></td>
+        <td th:text="${freemarket.nick}"></td>
+    </tr>
+</table>
+
+<a href="/board/freemarket_write">
+    <button>글 작성</button>
+</a>
+
+<div th:replace="~{piece :: footer}"></div>
+</body>
+</html>

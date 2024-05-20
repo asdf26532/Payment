@@ -1,21 +1,15 @@
-package com.itbank.smartFarm.vo;
+package com.itbank.smartFarm.model.vo;
+
+import java.sql.Date;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
-
 @Getter
 @Setter
 public class BoardVO {
-
-    private String title, contents;
-    private int id_number, member_id;
-    private int type_number;
-    private String category;
-    private int soldout, secret;
-    private int v_count;
-    private Date w_date;
-    private String nick;
-
+	private int id, type, member_id;
+	private String title, contents, category, nick;
+	private int soldout, v_count, secret;
+	private Date w_date;
 }

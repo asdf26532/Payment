@@ -7,10 +7,10 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import com.itbank.smartFarm.vo.CartVO;
-import com.itbank.smartFarm.vo.OrderItemVo;
-import com.itbank.smartFarm.vo.OrdersVO;
-import com.itbank.smartFarm.vo.ShipmentsVO;
+import com.itbank.smartFarm.model.vo.CartVO;
+import com.itbank.smartFarm.model.vo.OrderItemVo;
+import com.itbank.smartFarm.model.vo.OrdersVO;
+import com.itbank.smartFarm.model.vo.ShipmentsVO;
 
 @Mapper
 public interface OrderDAO {

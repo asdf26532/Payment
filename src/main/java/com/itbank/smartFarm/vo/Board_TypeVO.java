@@ -1,4 +1,4 @@
-package com.itbank.smartFarm.vo;
+package com.itbank.smartFarm.model.vo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Board_TypeVO {
-
-    private int id_number;
-    private String name;
+	private int id;
+	private String name;
 }

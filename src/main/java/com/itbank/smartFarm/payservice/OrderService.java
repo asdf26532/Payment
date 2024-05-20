@@ -4,13 +4,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.itbank.smartFarm.payDAO.OrderDAO;
-import com.itbank.smartFarm.vo.CartVO;
-import com.itbank.smartFarm.vo.OrderItemVo;
-import com.itbank.smartFarm.vo.OrdersVO;
-import com.itbank.smartFarm.vo.ShipmentsVO;
+import com.itbank.smartFarm.model.vo.CartVO;
+import com.itbank.smartFarm.model.vo.OrderItemVo;
+import com.itbank.smartFarm.model.vo.OrdersVO;
+import com.itbank.smartFarm.model.vo.ShipmentsVO;
 
 @Service
 public class OrderService {
+
 	@Autowired
 	private OrderDAO od;
 
@@ -51,6 +52,6 @@ public class OrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
+
 }

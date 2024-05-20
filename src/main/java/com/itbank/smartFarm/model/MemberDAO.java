@@ -13,8 +13,8 @@ public interface MemberDAO {
     @Select("select * from member where userid = #{userid} and userpw = #{userpw}")
     MemberVO selectOne(MemberVO input);
 
-    @Insert("insert into member (name, address, email, userid, userpw, nick) " +
-            "values (#{name}, #{address}, #{email}, #{userid}, #{userpw}, #{nick})")
+    @Insert("insert into member (name, address, email, userid, userpw, nick, phone) " +
+            "values (#{name}, #{address}, #{email}, #{userid}, #{userpw}, #{nick}, #{phone})")
     void insert(MemberVO input);
 
     @Update("update member set userpw = #{userpw}, email = #{email}, " +

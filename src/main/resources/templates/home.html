@@ -41,24 +41,29 @@
         }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <h1>SmartFarm</h1>
-    <div class="buttons">
-        <th:block th:if="${session.user == null}">
-            <div class="buttons">
-                <a href="/member/login"><button>로그인</button></a>
-                <a href="/member/signUp"><button>회원가입</button></a>
-            </div>
-        </th:block>
-        <th:block th:if="${session.user != null}">
-            <div class="buttons">
-                <a href="/member/logout"><button>로그아웃</button></a>
-                <a href="/member/myPage"><button>나의정보</button></a>
-            </div>
-        </th:block>
-    </div>
-</div>
+	<div th:replace="~{piece :: header}"></div>
+
+	<h2>SmartFarm 홈페이지에 오신 것을 환영합니다!!!</h2>
+
+	<div class="container">
+		<h1>SmartFarm</h1>
+		<div class="buttons">
+			<th:block th:if="${session.user == null}">
+				<div class="buttons">
+					<a href="/member/login"><button>로그인</button></a> <a
+						href="/member/signUp"><button>회원가입</button></a>
+				</div>
+			</th:block>
+			<th:block th:if="${session.user != null}">
+				<div class="buttons">
+					<a href="/member/logout"><button>로그아웃</button></a> <a
+						href="/member/myPage"><button>나의정보</button></a>
+				</div>
+			</th:block>
+		</div>
+	</div>
 
 <h1 th:text="${msg}"></h1>
 <p>테스트요</p>
@@ -66,5 +71,6 @@
 <a href="pay/pay">pay</a>
 <a href="pay/order">장바구니</a>
 
+	<div th:replace="~{piece :: footer}"></div>
 </body>
 </html>

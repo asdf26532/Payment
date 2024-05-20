@@ -29,6 +29,9 @@
 					th:value="${notice != null} ? ${notice.title} : ''" required></td>
 			</tr>
 			<tr>
+				<td><input name="memberid" th:value="notice.memberid" type=hidden></td>
+			</tr>
+			<tr>
 				<td><textarea name="contents" placeholder="내용"
 						th:text="${notice != null} ? ${notice.contents} : ''"></textarea></td>
 			</tr>

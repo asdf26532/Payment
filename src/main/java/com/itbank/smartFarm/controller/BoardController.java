@@ -44,29 +44,21 @@ public class BoardController {
 		int memberId = (user != null) ? user.getId() : -1;
 
 		bs.updateViewCount(id);
-		model.addAttribute("notice", bs.getBoard(id));
+		model.addAttribute("notice", bs.getNotice(id));
 		model.addAttribute("memberid", memberId);
 		return "board/notice_view";
 	}
 
-	// 공지 사항 작성 폼으로 전송 (member_id != 1001시 로그인으로 리다이렉트)
+	// 공지 사항 작성 폼으로 전송 (인터셉트 = member_id != 1001시 로그인으로 리다이렉트)
 	@GetMapping("/notice_write")
-	public String noticewrite(HttpServletRequest request, RedirectAttributes redirect) {
-		// 현재 세션에 저장된 유저 정보 획득
-		MemberVO user = getUser(request);
-		;
-		// 관리자가 아닌 경우 리다이렉트
-		if (user == null || user.getId() != 1001) {
-			return "redirect:/member/login";
-		}
-		// 관리자인 경우 글 작성 페이지로 이동
+	public String noticewrite() {
 		return "board/notice_write";
 	}
 
 	// 공지 사항 작성 처리
 	@PostMapping("/notice_write")
 	public String noticewrite(BoardVO input) {
-		bs.addBoard(input);
+		bs.addNotice(input);
 		return "redirect:/board/notice";
 	}
 
@@ -80,23 +72,23 @@ public class BoardController {
 	// 현재 글 번호(id) 정보 획득 후 공지사항 업데이트(notice_write form 재활용) 폼으로 전송
 	@GetMapping("/notice_update/{id}")
 	public String noticeupdate(@PathVariable("id") int id, Model model) {
-		model.addAttribute("notice", bs.getBoard(id));
+		model.addAttribute("notice", bs.getNotice(id));
 		return "board/notice_write";
 	}
 
 	// 공지사항 업데이트
 	@PostMapping("/notice_update/{id}")
 	public String noticeupdate(BoardVO input) {
-		bs.updateBoard(input);
+		bs.updateNotice(input);
 		return "redirect:/board/notice";
 	}
+	
+	
 
-	
-	
 	// 전체 장터 게시글 리스트화
 	@GetMapping("/freemarket")
 	public String freemarkets(Model model) {
-		model.addAttribute("freemarkets", bs.getFreemarkets());
+		model.addAttribute("freemarkets", bs.getMarkets());
 		return "board/freemarket";
 	}
 
@@ -104,33 +96,29 @@ public class BoardController {
 	@GetMapping("/freemarket_view/{id}")
 	public String freemarket(@PathVariable("id") int id, Model model, HttpServletRequest request) {
 		MemberVO user = getUser(request);
-		int memberId = (user != null) ? user.getId() : -1;
+		// 상세 글 조회 시, 현재 접속 중인 계정의 id를 검색해 수정/삭제 버튼을 보이게 하기 위함
+		int memberid = (user != null) ? user.getId() : -1;
 
 		bs.updateViewCount(id);
-		model.addAttribute("freemarket", bs.getFreemarket(id));
-		model.addAttribute("memberid", memberId);
+		model.addAttribute("freemarket", bs.getMarket(id));
+		model.addAttribute("memberid", memberid);
 		return "board/freemarket_view";
 	}
 
 	// 장터 작성 폼으로 전송 (비 로그인 시 로그인으로 리다이렉트)
 	@GetMapping("/freemarket_write")
-	public String freemarketwrite(HttpServletRequest request, RedirectAttributes redirect) {
-		// 현재 세션에 저장된 유저 정보 획득
-		HttpSession session = request.getSession();
-		MemberVO user = (MemberVO) session.getAttribute("user");
-		// 비 로그인 시 리다이렉트
-		if (user == null) {
-			return "redirect:/member/login";
-		}
-		// 로그인 시 글 작성 페이지로 이동
+	public String freemarketwrite() {
 		return "board/freemarket_write";
 	}
 
 	// 장터 글 작성 처리
 	@PostMapping("/freemarket_write")
-	public String freemarketwrite(BoardVO input) {
-		bs.addBoard(input);
-		return "redirect:/board/freemarket";
+	public String freemarketwrite(BoardVO input, HttpServletRequest request) {
+	    // 현재 세션에 저장된 유저 정보 획득
+	    MemberVO user = getUser(request);
+	    input.setMember_id(user.getId());
+	    bs.addMarket(input);
+	    return "redirect:/board/freemarket";
 	}
 
 	// 장터 글 삭제
@@ -140,17 +128,17 @@ public class BoardController {
 		return "redirect:/board/freemarket";
 	}
 
-	// 현재 글 번호(id) 정보 획득 후 공지사항 업데이트(freemarket_write form 재활용) 폼으로 전송
+	// 현재 글 번호(id) 정보 획득 후 장터 글 업데이트(freemarket_write form 재활용) 폼으로 전송
 	@GetMapping("/freemarket_update/{id}")
 	public String freemarketupdate(@PathVariable("id") int id, Model model) {
-		model.addAttribute("freemarket", bs.getBoard(id));
+		model.addAttribute("freemarket", bs.getMarket(id));
 		return "board/freemarket_write";
 	}
 
 	// 장터 글 업데이트
 	@PostMapping("/freemarket_update/{id}")
 	public String freemarketupdate(BoardVO input) {
-		bs.updateBoard(input);
+		bs.updateMarket(input);
 		return "redirect:/board/freemarket";
 	}
 }

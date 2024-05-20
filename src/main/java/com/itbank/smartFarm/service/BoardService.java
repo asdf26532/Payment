@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itbank.smartFarm.model.BoardDAO;
 import com.itbank.smartFarm.model.vo.BoardVO;
@@ -19,7 +20,7 @@ public class BoardService {
 		return bd.getAllNotices();
 	}
 
-	public BoardVO getBoard(int id) {
+	public BoardVO getNotice(int id) {
 		return bd.getOneNotice(id);
 	}
 
@@ -27,26 +28,39 @@ public class BoardService {
 		return bd.updateViewCount(id);
 
 	}
-
-	public int addBoard(BoardVO input) {
+	@Transactional
+	public int addNotice(BoardVO input) {
 		return bd.addNotice(input);
 
 	}
 
+	@Transactional
 	public int deleteBoard(int id) {
-		return bd.deleteNotice(id);
+		return bd.deleteBoard(id);
 	}
-
-	public void updateBoard(BoardVO input) {
+	
+	@Transactional
+	public void updateNotice(BoardVO input) {
 		bd.updateNotice(input);
 	}
 
-	public List<BoardVO> getFreemarkets() {
+	public List<BoardVO> getMarkets() {
 		return bd.getAllFreemarkets();
 	}
 	
-	public BoardVO getFreemarket(int id) {
+	public BoardVO getMarket(int id) {
 		return bd.getOneFreeMarket(id);
+	}
+
+	@Transactional
+	public int addMarket(BoardVO input) {
+		return bd.addFreeMarket(input);
+		
+	}
+	
+	@Transactional
+	public void updateMarket(BoardVO input) {
+		bd.updateFreeMarket(input);
 	}
 
 }

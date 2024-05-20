@@ -41,20 +41,19 @@
 		</tr>
 	</table>
 
-	<div th:if="${id == freemarket.memberid}">
+	<div th:if="${memberid == freemarket.member_id}">
 		<form th:action="'/board/freemarket_update/' + ${freemarket.id}"
 			method="get">
 			<input type="submit" value="수정">
 		</form>
 	</div>
 
-	<div th:if="${id == freemarket.memberid}">
+	<div th:if="${memberid == freemarket.member_id}">
 		<form th:action="'/board/freemarket_delete/' + ${freemarket.id}"
 			method="post" onsubmit="return delcheck()">
 			<input type="submit" value="삭제">
 		</form>
 	</div>
-
 
 	<script>
 		function delcheck() {

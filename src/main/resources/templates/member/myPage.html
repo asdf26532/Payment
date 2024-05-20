@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 정보</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info p {
+            margin-bottom: 10px;
+        }
+
+        .buttons button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>회원 정보</h1>
+    <div class="user-info">
+        <p><strong>이름:</strong> <span th:text="${session.user.name}"></span></p>
+        <p><strong>아이디:</strong> <span th:text="${session.user.userid}"></span></p>
+        <p><strong>닉네임:</strong> <span th:text="${session.user.nick}"></span></p>
+        <p><strong>이메일:</strong> <span th:text="${session.user.email}"></span></p>
+        <p><strong>주소:</strong> <span th:text="${session.user.address}"></span></p>
+        <p><strong>전화번호:</strong> <span th:text="${session.user.phone}"></span></p>
+    </div>
+    <div class="buttons">
+        <button onclick="location.href='/member/update'">회원 정보 수정</button>
+        <button onclick="location.href='/member/delete'">회원 탈퇴</button>
+    </div>
+</div>
+</body>
+</html>

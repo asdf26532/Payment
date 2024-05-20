@@ -3,10 +3,7 @@ package com.itbank.smartFarm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itbank.smartFarm.service.BoardService;
@@ -86,9 +83,13 @@ public class BoardController {
 	
 
 	// 전체 장터 게시글 리스트화
+	// 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
 	@GetMapping("/freemarket")
-	public String freemarkets(Model model) {
-		model.addAttribute("freemarkets", bs.getMarkets());
+	public String freemarkets(
+			@RequestParam(required = false) String category,
+			@RequestParam(required = false) Integer soldout,
+			Model model) {
+		model.addAttribute("freemarkets", bs.getMarkets(category, soldout));
 		return "board/freemarket";
 	}
 
@@ -141,4 +142,5 @@ public class BoardController {
 		bs.updateMarket(input);
 		return "redirect:/board/freemarket";
 	}
+
 }

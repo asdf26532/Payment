@@ -13,54 +13,57 @@ import com.itbank.smartFarm.model.vo.MemberVO;
 @Service
 public class BoardService {
 
-	@Autowired
-	private BoardDAO bd;
+    @Autowired
+    private BoardDAO bd;
 
-	public List<BoardVO> getNotices() {
-		return bd.getAllNotices();
-	}
+    public List<BoardVO> getNotices() {
+        return bd.getAllNotices();
+    }
 
-	public BoardVO getNotice(int id) {
-		return bd.getOneNotice(id);
-	}
+    public BoardVO getNotice(int id) {
+        return bd.getOneNotice(id);
+    }
 
-	public int updateViewCount(int id) {
-		return bd.updateViewCount(id);
+    public int updateViewCount(int id) {
+        return bd.updateViewCount(id);
 
-	}
-	@Transactional
-	public int addNotice(BoardVO input) {
-		return bd.addNotice(input);
+    }
 
-	}
+    @Transactional
+    public int addNotice(BoardVO input) {
+        return bd.addNotice(input);
 
-	@Transactional
-	public int deleteBoard(int id) {
-		return bd.deleteBoard(id);
-	}
-	
-	@Transactional
-	public void updateNotice(BoardVO input) {
-		bd.updateNotice(input);
-	}
+    }
 
-	public List<BoardVO> getMarkets() {
-		return bd.getAllFreemarkets();
-	}
-	
-	public BoardVO getMarket(int id) {
-		return bd.getOneFreeMarket(id);
-	}
+    @Transactional
+    public int deleteBoard(int id) {
+        return bd.deleteBoard(id);
+    }
 
-	@Transactional
-	public int addMarket(BoardVO input) {
-		return bd.addFreeMarket(input);
-		
-	}
-	
-	@Transactional
-	public void updateMarket(BoardVO input) {
-		bd.updateFreeMarket(input);
-	}
+    @Transactional
+    public void updateNotice(BoardVO input) {
+        bd.updateNotice(input);
+    }
+
+    public List<BoardVO> getMarkets(String category, Integer soldout) {
+        return bd.getAllFreemarkets(category, soldout);
+    }
+
+    public BoardVO getMarket(int id) {
+        return bd.getOneFreeMarket(id);
+    }
+
+    @Transactional
+    public int addMarket(BoardVO input) {
+        return bd.addFreeMarket(input);
+
+    }
+
+    @Transactional
+    public void updateMarket(BoardVO input) {
+        bd.updateFreeMarket(input);
+    }
+
+
 
 }

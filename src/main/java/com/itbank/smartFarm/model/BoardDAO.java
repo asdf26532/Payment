@@ -2,11 +2,7 @@ package com.itbank.smartFarm.model;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import com.itbank.smartFarm.model.vo.BoardVO;
 
@@ -30,8 +26,17 @@ public interface BoardDAO {
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
     public int updateNotice(BoardVO input);
 
-    @Select("Select * from member_board_view where type = 104 order by id desc")
-    public List<BoardVO> getAllFreemarkets();
+    @Select("<script>" +
+            "SELECT * FROM member_board_view WHERE type = 104" +
+            "<if test='category != null and !category.isEmpty()'>" +
+            " AND category = #{category}" +
+            "</if>" +
+            "<if test='soldout != null'>" +
+            " AND soldout = #{soldout}" +
+            "</if>" +
+            " ORDER BY id DESC" +
+            "</script>")
+    public List<BoardVO> getAllFreemarkets(@Param("category") String category, @Param("soldout") Integer soldout);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 104")
 	public BoardVO getOneFreeMarket(int id);
@@ -42,5 +47,6 @@ public interface BoardDAO {
     
     @Update("UPDATE board SET title = #{title}, contents = #{contents}, category = #{category}, soldout = #{soldout} WHERE id = #{id}")
     public int updateFreeMarket(BoardVO input);
+
 
 }

@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.itbank.smartFarm.components.Paging;
 import com.itbank.smartFarm.model.BoardDAO;
-import com.itbank.smartFarm.vo.BoardVO;
+import com.itbank.smartFarm.vo.ReplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.itbank.smartFarm.model.vo.BoardVO;
 
 import com.itbank.smartFarm.model.BoardDAO;
-import com.itbank.smartFarm.model.vo.BoardVO;
 import com.itbank.smartFarm.model.vo.MemberVO;
 
 import java.util.HashMap;
@@ -55,6 +55,7 @@ public class BoardService {
     }
 
     public BoardVO getfB(int idx) {
+        bd.viewUp(idx);
         return bd.selectFreeOne(idx);
     }
 
@@ -125,6 +126,7 @@ public class BoardService {
     }
 
     public BoardVO getSelectQna(int idx) {
+        bd.viewUp(idx);
         return bd.selectQnaOne(idx);
     }
 
@@ -132,5 +134,19 @@ public class BoardService {
         return bd.insertQna(input);
 
     }
+
+
+    public List<ReplyVO> getReplys() {
+        return bd.selectReplyAll();
+    }
+
+    public List<ReplyVO> getReplys(int board_id) {
+        return bd.selectReplys(board_id);
+    }
+
+    public int addReply(ReplyVO input) {
+        return bd.insertReply(input);
+    }
+
 
 }

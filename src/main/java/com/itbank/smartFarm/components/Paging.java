@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
+@Component
 public class Paging {
     private int reqPage, offset;
     private int boardCount = 10;

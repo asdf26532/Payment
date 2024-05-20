@@ -6,14 +6,14 @@
     <select id="selectFreeAll"
             parameterType="map"
             resultType="com.itbank.smartFarm.vo.BoardVO">
-        select * from board_view
-            <if test="type != null">
-                where ${type} like '%${search}%'
+        select * from member_board_view
+            <if test="group != null">
+                where ${group} like '%${search}%'
             </if>
-            order by id_number desc
+            order by id desc
             offset #{offset} rows
             fetch first #{boardCount} rows only
-            where type_number = 102
+            where type = 102
 
 
     </select>
@@ -22,14 +22,38 @@
             parameterType="map"
             resultType="com.itbank.smartFarm.vo.BoardVO">
         select * from board_view
-        <if test="type != null">
-            where ${type} like '%${search}%'
+        <if test="group != null">
+            where ${group} like '%${search}%'
         </if>
-        order by id_number desc
+        order by id desc
         offset #{offset} rows
         fetch first #{boardCount} rows only
-        where type_number = 105
+        where type = 105
 
     </select>
+
+    <update id="viewUp"
+            parameterType="int">
+
+        update board set v_count = v_count + 1
+        where id = #{id}
+    </update>
+
+    <select id="selectReplys"
+            parameterType="int"
+            resultType="com.itbank.model.vo.ReplyVO">
+
+        select * from reply_view
+        where board_id = #{board_id}
+        order by id desc
+    </select>
+
+    <insert id="insertReply"
+            parameterType="com.itbank.model.vo.ReplyVO">
+
+        insert into
+            reply(board_id, member_id, contents)
+        values(#{board_id}, #{member_id}, #{contents})
+    </insert>
 
 </mapper>

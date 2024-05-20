@@ -10,11 +10,10 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@192.168.1.100:1521:xe
     username: c##smartfarm
-#    username: c##sfproject
     password: 1
 
 server:
-  port: 8081
+  port: 8088
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml

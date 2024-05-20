@@ -19,7 +19,7 @@
     <th th:text="작성일"></th>
   </tr>
   <tr th:each="row : ${list}">
-    <td th:text="${row.id_number}"></td>
+    <td th:text="${row.id}"></td>
     <td><a href="/board/fB_view/${row.id_number}" th:text="${row.title}"></a></td>
     <td th:text="${row.nick}"></td>
     <td th:text="${row.v_count}"></td>
@@ -28,25 +28,25 @@
 </table>
 
 <br>
-<div th:if ="${not empty param.type }">
-    <div th:with ="type = '&type=${param.type}' ">
+<div th:if ="${not empty param.group }">
+    <div th:with ="group = '&group=${param.group}' ">
     <div th:with ="search = '&search=${param.search}' ">
 
             <ul class="page">
                 <li th:if ="${pg.prev }">
-                  <a href="/board/freeBoard?page=${pg.begin - 1}${type}${search}">
+                  <a href="/board/freeBoard?page=${pg.begin - 1}${group}${search}">
                     이전
                   </a>
                 </li>
 
                 <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-                  <a href="/board/freeBoard?page=${i }${type}${search}">
+                  <a href="/board/freeBoard?page=${i }${group}${search}">
                     ${i }
                   </a>
                 </li>
 
                 <li th:if ="${pg.next }">
-                  <a href="/board/freeBoard?page=${pg.end + 1}${type}${search}">
+                  <a href="/board/freeBoard?page=${pg.end + 1}${group}${search}">
                     다음
                   </a>
                 </li>
@@ -56,10 +56,10 @@
             <br>
 
             <form>
-              <select name="type">
-                <option value="title">제목</option>
-                <option value="nick">작성자</option>
-                <option value="contents">내용</option>
+              <select name="group" th:field="*{group}">
+                <option value="title" >제목</option>
+                <option value="nick" >작성자</option>
+                <option value="contents" >내용</option>
               </select>
 
               <input name="search">
@@ -78,7 +78,10 @@
     <a href="/board/fBadd">
       <button>글 작성</button>
     </a>
+
 </div>
+
+
 
 </main>
 </body>

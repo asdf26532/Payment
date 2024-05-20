@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CartVO {
-	private int order_id, member_id, delivery_id, orderitems_id, total_order_price, total_item_count;
+	private int order_id, member_id, delivery_id, orderitems_id, phone, unit_price, count;
 	private Date order_date;
-	private String status;
+	private String status, member_name, member_email, member_address, product_name, order_status, address, delivery_status;
 
 
 }

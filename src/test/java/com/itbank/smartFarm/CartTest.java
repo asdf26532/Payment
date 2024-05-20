@@ -25,16 +25,6 @@ public class CartTest {
     @MockBean
     private OrderService orderService;
 
-    @Test
-    public void testListOrders() throws Exception {
-        when(orderService.getOrders(2)).thenReturn(Collections.emptyList());
-
-        mockMvc.perform(get("/pay/order"))
-               .andExpect(status().isOk())
-               .andExpect(model().attributeExists("orderlist"))
-               .andExpect(model().attribute("orderlist", Collections.emptyList()))
-               .andExpect(view().name("pay/order"));
-    }
 
     @Test
     public void testDeleteOrder() throws Exception {

@@ -3,82 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <title>QnA</title>
+    <style>
+        .content {
+            font-family: 'Arial', sans-serif; /* 기본 글꼴 설정 */
+            font-size: 14px; /* 기본 폰트 크기 설정 */
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: black; /* 링크 색상 설정 */
+        }
+    </style>
 </head>
 <body>
 
-<header th:replace="~{header :: header}"></header>
+<header th:replace="~{piece :: header}"></header>
 
-<main th:with="list = ${map['list']} , pg = ${map['pg'] } ">
+<main th:with="list=${map['list']}, pg=${map['pg']}">
     <table>
         <tr>
-            <th th:text="글번호"></th>
-            <th th:text="제목"></th>
-            <th th:text="작성자"></th>
-            <th th:text="조회수"></th>
-            <th th:text="작성일"></th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>조회수</th>
+            <th>작성자</th>
+            <th>작성일</th>
         </tr>
         <tr th:each="row : ${list}">
-            <td th:text="${row.id_number}"></td>
-            <td><a href="/board/fB_view/${row.id_number}" th:text="${row.title}"></a></td>
-            <td th:text="${row.nick}"></td>
-            <td th:text="${row.v_count}"></td>
-            <td th:text="${row.w_date}"></td>
+            <td th:text="${row.title != null ? row.title : ''}"></td>
+            <td>
+                <a class="content"
+                   th:href="@{/board/QnA_view/{id}(id=${row.id})}"
+                   th:utext="${#strings.length(row.contents) > 10 ? #strings.substring(row.contents, 0, 10) : row.contents}"></a>
+            </td>
+            <td th:text="${row.v_count != null ? row.v_count : ''}"></td>
+            <td th:text="${row.nick != null ? row.nick : ''}"></td>
+            <td th:text="${row.w_date != null ? row.w_date : ''}"></td>
         </tr>
     </table>
 
     <br>
-    <div th:if ="${not empty param.type }">
-        <div th:with ="type = '&type=${param.type}' ">
-            <div th:with ="search = '&search=${param.search}' ">
+    <div th:if="${param != null and param['type'] != null and #strings.isNotEmpty(param['type'])}">
+        <div th:with="type='&type=' + ${param.type}">
+            <div th:with="search='&search=' + ${param.search}">
 
                 <ul class="page">
-                    <li th:if ="${pg.prev }">
-                        <a href="/board/freeBoard?page=${pg.begin - 1}${type}${search}">
+                    <li th:if="${pg.prev}">
+                        <a th:href="@{/board/freeBoard(page=${pg.begin - 1} + ${type} + ${search})}">
                             이전
                         </a>
                     </li>
 
                     <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-                        <a href="/board/freeBoard?page=${i }${type}${search}">
-                            ${i }
+                        <a th:href="@{/board/freeBoard(page=${i} + ${type} + ${search})}">
+                            <span th:text="${i}"></span>
                         </a>
                     </li>
 
-                    <li th:if ="${pg.next }">
-                        <a href="/board/freeBoard?page=${pg.end + 1}${type}${search}">
+                    <li th:if="${pg.next}">
+                        <a th:href="@{/board/freeBoard(page=${pg.end + 1} + ${type} + ${search})}">
                             다음
                         </a>
                     </li>
                 </ul>
-
-
-                <br>
-
-                <form>
-                    <select name="type">
-                        <option value="title">제목</option>
-                        <option value="nick">작성자</option>
-                        <option value="contents">내용</option>
-                    </select>
-
-                    <input name="search">
-
-                    <button>검색</button>
-                </form>
-
-
-
-
             </div>
         </div>
-
-        <br>
-
-        <a href="/board/QnAadd">
-            <button>글 작성</button>
-        </a>
     </div>
 
+    <br>
+
+    <form>
+        <select name="type">
+            <option value="title">제목</option>
+            <option value="nick">작성자</option>
+            <option value="contents">내용</option>
+        </select>
+
+        <input name="search">
+
+        <button type="submit">검색</button>
+    </form>
+
+    <br>
+
+
+    <a th:href="@{/board/QnAadd}">
+        <button type="button">글 작성</button>
+    </a>
+
+    <div th:replace="~{piece :: footer}"></div>
 </main>
 
 </body>

@@ -26,7 +26,7 @@
             th:action="${row != null} ? @{'/board/updatefB/' + ${row.id}} : @{'/board/fBadd'}"
             method="POST">
         <p>제목 : <input th:name="title" th:value="${row?.title}" th:required></p>
-        <p>내용 : <textarea th:name="contents" th:value="${row?.contents}"></textarea></p>
+        <p>내용 : <textarea th:name="contents" th:value="${row?.contents}" th:required></textarea></p>
 
         <p><input th:name="member_id" th:value="${session.user.id}" type="hidden" required></p>
 

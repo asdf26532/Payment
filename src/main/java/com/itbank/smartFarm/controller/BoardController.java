@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
+
 import com.itbank.smartFarm.vo.BoardVO;
 import com.itbank.smartFarm.vo.MemberVO;
 
@@ -21,14 +22,14 @@ public class BoardController {
     @Autowired
     private BoardService bs;
 
-    // 현재 세션에 있는 유저 정보 (중복 제거를 위한 별도 메소드 할당)
+    // 현재 세션에 있는 유저 정보 요청 (중복 제거를 위한 별도 메소드 할당)
     private MemberVO getUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return (MemberVO) session.getAttribute("user");
     }
 
     // -----------------------------------공지사항-----------------------------------
-    
+
     // 전체 공지 게시글 리스트화
     @GetMapping("/notice")
     public String notices(Model model) {
@@ -95,7 +96,7 @@ public class BoardController {
         model.addAttribute("freemarkets", bs.getMarkets(category, soldout));
         return "board/freemarket";
     }
-    
+
     // 지정된 글 번호(id)의 상세 글 내용 조회
     @GetMapping("/freemarket_view/{id}")
     public String freemarket(@PathVariable("id") int id, Model model, HttpServletRequest request) {
@@ -159,7 +160,7 @@ public class BoardController {
 
         return mav;
     }
-    
+
     @GetMapping("/fBadd")
     public String add() {
         return "board/fBadd";
@@ -224,26 +225,27 @@ public class BoardController {
 
 
     // -----------------------------------질문게시판-----------------------------------
-    
-    
+
+
     @GetMapping("/QnA")
     public ModelAndView qna(@RequestParam Map<String, Object> param) {
 
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("map", bs.getQna(param));
-        mav.setViewName("/board/QnA");
+        mav.setViewName("board/QnA");
 
         return mav;
     }
 
     @GetMapping("/QnA_view/{id}")
-    public ModelAndView QnA_view(@PathVariable int id) {
-
+    public ModelAndView QnA_view(@PathVariable int id, HttpServletRequest request) {
+        MemberVO user = getUser(request);
         ModelAndView mav = new ModelAndView();
 
         bs.updateViewCount(id);
         mav.addObject("row", bs.getSelectQna(id));
+        mav.addObject("user", user);
         mav.setViewName("board/QnA_view");
 
         return mav;
@@ -251,11 +253,11 @@ public class BoardController {
 
     @PostMapping("/QnA_view")
     public ModelAndView QnA_view(BoardVO input, HttpSession session) {
-
+        MemberVO user = (MemberVO) session.getAttribute("user");
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("row", bs);
-
+        mav.addObject("row", bs.getSelectQna(input.getId()));
+        mav.addObject("user", user);
 ////        if (session.user != null) {
 //            mav.addObject("comment", bs.addCom(input));
 //        }
@@ -267,17 +269,14 @@ public class BoardController {
 
     @GetMapping("/QnAadd")
     public String addQna() {
-        return "/board/QnAadd";
+        return "board/QnAadd";
     }
 
     @PostMapping("/QnAadd")
     public ModelAndView addQna(BoardVO input) {
-
         ModelAndView mav = new ModelAndView();
-
-        mav.addObject("row", bs.addQnA(input));
-        mav.setViewName("/board/QnA");
-
+        bs.addQnA(input);
+        mav.setViewName("redirect:/board/QnA");
         return mav;
     }
 
@@ -290,6 +289,20 @@ public class BoardController {
         mav.setViewName("board/QnAadd");
 
         return mav;
+    }
+
+    @PostMapping("/updateQnA/{id}")
+    public String updateQnA(@PathVariable int id, BoardVO boardVO) {
+        boardVO.setId(id);
+        bs.updateQnA(boardVO);
+        return "redirect:/board/QnA";
+    }
+
+    @PostMapping("/deleteQnA/{id}")
+    public String deleteQnA(@PathVariable int id) {
+        bs.deleteBoard(id);
+        return "redirect:/board/QnA";
+
     }
 
 }

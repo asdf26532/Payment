@@ -73,8 +73,7 @@ public interface BoardDAO {
     @Select("select * from board where type = 105 and id = #{id}")
     BoardVO selectQnaOne(int id);
 
-    @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
-            "where type = 105")
+    @Insert("insert into board(title, contents, member_id, type) values(#{title}, #{contents}, #{member_id}, 105)")
     int insertQna(BoardVO input);
 
 }

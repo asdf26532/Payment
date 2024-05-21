@@ -130,4 +130,8 @@ public class BoardService {
 
     }
 
+    public int updateQnA(BoardVO input) {
+        return bd.updateBoard(input);
+    }
+
 }

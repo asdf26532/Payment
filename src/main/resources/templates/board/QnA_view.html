@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QnA_View</title>
+</head>
+<body>
+
+
+<table th:with="row = ${row}">
+
+    <tr>
+        <th th:text="제목"></th>
+        <td th:text="${row.title}"></td>
+    </tr>
+    <tr>
+        <th th:text="작성자"></th>
+        <td th:text="${row.nick}"></td>
+    </tr>
+    <tr>
+        <th th:text="조회수"></th>
+        <td th:text="${row.v_count }"></td>
+        <th th:text="작성일"></th>
+        <td th:text="${row.w_date}"></td>
+    </tr>
+    <tr>
+        <th th:text="내용"></th>
+        <td th:text="${row.contents}"></td>
+    </tr>
+
+</table>
+
+<div th:if="${row.nick == user.nick }">
+    <a href="$/board/updateQnA/${row.idx }">
+        <button>수정</button>
+    </a>
+
+    <a href="/board/delete/${row.idx }">
+        <button>삭제</button>
+    </a>
+</div>
+
+
+
+</body>
+</html>

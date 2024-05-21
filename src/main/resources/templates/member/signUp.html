@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,14 +54,15 @@
 <body>
 <div class="container">
     <h1>회원가입</h1>
-    <form action="/member/signUp" method="post">
+    <form method="post">
         <div class="form-group">
             <label for="name">이름:</label>
             <input type="text" id="name" name="name" required>
         </div>
         <div class="form-group">
             <label for="userid">아이디:</label>
-            <input type="text" id="userid" name="userid" required>
+            <input type="text" id="userid" name="userid" required onblur="checkUserId()">
+            <span id="userid-check" style="color: red;"></span>
         </div>
         <div class="form-group">
             <label for="userpw">비밀번호:</label>
@@ -81,10 +82,34 @@
         </div>
         <div class="form-group">
             <label for="phone">전화번호:</label>
-            <input type="tel" id="phone" name="phone" required>
         </div>
         <button type="submit">가입하기</button>
+        <input type="hidden" id="checkUserIdUrl" th:value="@{/member/checkUserId}" />
     </form>
 </div>
+<script type="text/javascript" th:inline="javascript">
+    function checkUserId() {
+        var userid = document.getElementById('userid').value;
+        var url = document.getElementById('checkUserIdUrl').value;
+        if (userid.length > 0) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.exists) {
+                        document.getElementById('userid-check').textContent = '이미 사용 중인 아이디입니다.';
+                    } else {
+                        document.getElementById('userid-check').textContent = '사용 가능한 아이디입니다.';
+                    }
+                } else if (xhr.readyState === 4) {
+                    document.getElementById('userid-check').textContent = '아이디 중복 체크 중 오류가 발생했습니다.';
+                }
+            };
+            xhr.send(JSON.stringify({ userid: userid }));
+        }
+        }
+</script>
 </body>
 </html>

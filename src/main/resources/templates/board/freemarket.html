@@ -49,6 +49,7 @@
         <th>내용</th>
         <th>조회수</th>
         <th>작성자</th>
+        <th>작성일</th>
     </tr>
     <tr th:each="freemarket : ${freemarkets}">
         <td>
@@ -64,6 +65,7 @@
         </td>
         <td th:text="${freemarket.v_count}"></td>
         <td th:text="${freemarket.nick}"></td>
+        <td th:text="${freemarket.w_date}"></td>
     </tr>
 </table>
 

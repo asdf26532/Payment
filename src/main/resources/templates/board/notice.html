@@ -24,6 +24,7 @@
 			<th>내용</th>
 			<th>조회수</th>
 			<th>작성자</th>
+			<th>작성일</th>
 		</tr>
 		<tr th:each="notice : ${notices}">
 			<td th:text="${notice.title}"></td>
@@ -33,6 +34,7 @@
                 #strings.substring(notice.contents, 0, 10) : notice.contents}"></a></td>
 			<td th:text="${notice.v_count}"></td>
 			<td th:text="${notice.nick}"></td>
+			<td th:text="${notice.w_date}"></td>
 		</tr>
 	</table>
 

@@ -1,5 +1,6 @@
 package com.itbank.smartFarm.interceptor;
 
+import com.itbank.smartFarm.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,8 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/member/myPage", "/member/update", "/board/freemarket_write");
-        
+                .addPathPatterns("/member/myPage", "/member/update", "/board/freemarket_write", "/board/fBadd");
+
         registry.addInterceptor(noticeInterceptor)
                 .addPathPatterns("/board/notice_write");
     }

@@ -4,10 +4,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.itbank.smartFarm.payDAO.OrderDAO;
-import com.itbank.smartFarm.model.vo.CartVO;
-import com.itbank.smartFarm.model.vo.OrderItemVo;
-import com.itbank.smartFarm.model.vo.OrdersVO;
-import com.itbank.smartFarm.model.vo.ShipmentsVO;
+import com.itbank.smartFarm.vo.CartVO;
+import com.itbank.smartFarm.vo.OrderItemVo;
+import com.itbank.smartFarm.vo.OrdersVO;
+import com.itbank.smartFarm.vo.ShipmentsVO;
 
 @Service
 public class OrderService {
@@ -48,10 +48,10 @@ public class OrderService {
 		
 	}
 
-	public order getdetail(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public order getdetail(int id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
 }

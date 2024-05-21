@@ -20,6 +20,8 @@
 				});
 	</script>
 
+	<div th:replace="~{piece :: header}"></div>
+
 	<form
 		th:action="${notice != null} ? @{'/board/notice_update/' + ${notice.id}} : @{'/board/notice_write'}"
 		method="POST">
@@ -41,5 +43,7 @@
 
 		<button th:text="${notice != null} ? '수정' : '작성'"></button>
 	</form>
+
+	<div th:replace="~{piece :: footer}"></div>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.itbank.smartFarm.aop;
 
-import com.itbank.smartFarm.model.vo.MemberVO;
-import org.aspectj.lang.annotation.AfterReturning;
+import com.itbank.smartFarm.vo.MemberVO;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;

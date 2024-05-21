@@ -1,6 +1,5 @@
 package com.itbank.smartFarm.model;
 
-import com.itbank.smartFarm.vo.BoardVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.*;
 
-import com.itbank.smartFarm.model.vo.BoardVO;
+import com.itbank.smartFarm.vo.BoardVO;
 
 @Mapper
 public interface BoardDAO {
@@ -20,27 +19,31 @@ public interface BoardDAO {
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
     public BoardVO getOneNotice(int id);
+
     List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Update("UPDATE board SET v_count = v_count + 1 WHERE id = #{id}")
     public int updateViewCount(int id);
-    @Select("select * from board where type_number = 102 and id_number = #{idx}")
-    BoardVO selectFreeOne(int idx);
+
+    @Select("select * from member_board_view where type = 102 and id = #{id}")
+    BoardVO selectFreeOne(int id);
 
     @Insert("INSERT INTO BOARD(title, member_id, type, contents) values(#{title}, 1001, 101, #{contents})")
     public int addNotice(BoardVO input);
-    @Insert("insert into Board(title, contents) values(#{title}, #{contents}) where type_number = 103")
-    void inComment(BoardVO input);
+
+//    @Insert("insert into Board(title, contents) values(#{title}, #{contents}) where type_number = 103")
+//    void inComment(BoardVO input);
 
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
-    @Select("select count(*) from freeBoard_view")
+
+    @Select("select count(*) from member_board_view where type = 102")
     int totalBoard();
 
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
-    public int updateNotice(BoardVO input);
-    @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
-            "where type_number = 102")
+    public int updateBoard(BoardVO input);
+
+    @Insert("insert into board(title, contents, member_id, type) values(#{title}, #{contents}, #{member_id}, 102)")
     int insertFb(BoardVO input);
 
     @Select("<script>" +
@@ -54,8 +57,6 @@ public interface BoardDAO {
             " ORDER BY id DESC" +
             "</script>")
     public List<BoardVO> getAllFreemarkets(@Param("category") String category, @Param("soldout") Integer soldout);
-    @Delete("delete from board where id_number = #{idx}")
-    int delete(int idx);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 104")
 	public BoardVO getOneFreeMarket(int id);
@@ -66,13 +67,14 @@ public interface BoardDAO {
 
     @Update("UPDATE board SET title = #{title}, contents = #{contents}, category = #{category}, soldout = #{soldout} WHERE id = #{id}")
     public int updateFreeMarket(BoardVO input);
+
     List<BoardVO> selectQnaAll(Map<String, Object> param);
 
-    @Select("select * from board where type_number = 105 and id_number = #{idx}")
-    BoardVO selectQnaOne(int idx);
+    @Select("select * from board where type = 105 and id = #{id}")
+    BoardVO selectQnaOne(int id);
 
     @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
-            "where type_number = 105")
+            "where type = 105")
     int insertQna(BoardVO input);
 
 }

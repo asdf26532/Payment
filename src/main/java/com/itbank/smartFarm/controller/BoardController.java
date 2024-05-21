@@ -13,4 +13,7 @@ public class BoardController {
 
     @GetMapping("/market")
     public void market(){}
+
+    @GetMapping("/write")
+    public void write(){}
 }

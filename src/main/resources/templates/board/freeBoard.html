@@ -18,7 +18,7 @@
 <h1>자유게시판</h1>
 <hr>
 
-        <main th:with="list=${map['list']}, pg=${map['pg']}">
+    <th:block th:with="list=${map['list']}, pg=${map['pg']}">
             <table>
                 <tr>
                     <th>제목</th>
@@ -40,43 +40,64 @@
         </main>
 
         <br>
-    <div th:if="${param.type != null}">
-        <div th:with="type='&type=' + ${param.type}">
-            <div th:with="search='&search=' + ${param.search}">
-                <ul class="page">
-                    <li th:if="${pg.prev}">
-                        <a th:href="@{|/board/freeBoard?page=${pg.begin - 1}${type != null ? '&type=' + type : ''}${search != null ? '&search=' + search : ''}|}">이전</a>
-                    </li>
-                    <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-                        <a th:href="@{|/board/freeBoard?page=${i}${type != null ? '&type=' + type : ''}${search != null ? '&search=' + search : ''}|}" th:text="${i}"></a>
-                    </li>
-                    <li th:if="${pg.next}">
-                        <a th:href="@{|/board/freeBoard?page=${pg.end + 1}${type != null ? '&type=' + type : ''}${search != null ? '&search=' + search : ''}|}">다음</a>
-                    </li>
-                </ul>
-            </div>
+        <div th:if="${param.group}">
+            <input type="hidden" th:attr="group=${param.group}" />
+            <input type="hidden" th:attr="search=${param.search}" />
         </div>
-    </div>
 
-    <br>
+        <ul class="page">
+            <li th:if="${pg.prev}">
+                <a th:href="@{${cpath}/board/fB_view(page=${pg.begin - 1})${param.group ? '&group=' + param.group : ''}${param.search ? '&search=' + param.search : ''}" >
+                    이전
+                </a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                <a th:href="@{${cpath}/board/fB_view(page=${i})${param.group ? '&group=' + param.group : ''}${param.search ? '&search=' + param.search : ''}" th:text="${i}"></a>
+            </li>
+            <li th:if="${pg.next}">
+                <a th:href="@{${cpath}/board/fB_view(page=${pg.end + 1})${param.group ? '&group=' + param.group : ''}${param.search ? '&search=' + param.search : ''}">
+                    다음
+                </a>
+            </li>
+        </ul>
 
-    <form method="get" action="/board/freeBoard">
-        <select name="type">
-            <option value="title">제목</option>
-            <option value="nick">작성자</option>
-            <option value="contents">내용</option>
-        </select>
-        <input type="text" name="search">
-        <button type="submit">검색</button>
-    </form>
+        <br>
 
-    <br>
+        <form method="get" action="/board/freeBoard">
+            <select name="group">
+                <option value="title">제목</option>
+                <option value="nick">작성자</option>
+                <option value="contents">내용</option>
+            </select>
+            <input type="text" name="search" th:value="${param.search}">
+            <button type="submit">검색</button>
+        </form>
 
-    <a th:href="@{/board/fBadd}">
-        <button>글 작성</button>
-    </a>
+        <br>
 
-    <div th:replace="~{piece :: footer}"></div>
-</main>
+        <a th:href="@{/board/fBadd}">
+            <button>글 작성</button>
+        </a>
+
+        <div th:replace="~{piece :: footer}"></div>
+    </th:block>
 </body>
 </html>
+
+<!--    </div>-->
+<!--        <div th:with="type='&group=' + ${param.group}">-->
+<!--            <div th:with="search='&search=' + ${param.search}">-->
+<!--                <ul class="page">-->
+<!--                    <li th:if="${pg.prev}">-->
+<!--                        <a th:href="@{|/board/freeBoard?page=${pg.begin - 1}${type != null ? '&type=' + type : ''}${search != null ? '&search=' + search : ''}|}">이전</a>-->
+<!--                    </li>-->
+<!--                    <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">-->
+<!--                        <a th:href="@{|/board/freeBoard?page=${i}${type != null ? '&type=' + type : ''}${search != null ? '&search=' + search : ''}|}" th:text="${i}"></a>-->
+<!--                    </li>-->
+<!--                    <li th:if="${pg.next}">-->
+<!--                        <a th:href="@{|/board/freeBoard?page=${pg.end + 1}${type != null ? '&type=' + type : ''}${search != null ? '&search=' + search : ''}|}">다음</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->

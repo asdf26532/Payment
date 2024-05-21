@@ -6,11 +6,11 @@
             parameterType="map"
             resultType="com.itbank.smartFarm.vo.BoardVO">
         select * from member_board_view
-        <if test="type != null">
-            where ${type} like '%${search}%'
+        <if test="group != null">
+            where ${group} like '%${search}%'
             and type = 102
         </if>
-        <if test="type == null">
+        <if test="group == null">
             where type = 102
         </if>
         order by id desc

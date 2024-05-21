@@ -2,16 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itbank.smartFarm.model.BoardDAO">
 
-
     <select id="selectFreeAll"
             parameterType="map"
             resultType="com.itbank.smartFarm.vo.BoardVO">
         select * from member_board_view
-        <if test="group != null">
-            where ${group} like '%${search}%'
+        <if test="type != null">
+            where ${type} like '%${search}%'
             and type = 102
         </if>
-        <if test="group == null">
+        <if test="type == null">
             where type = 102
         </if>
         order by id desc
@@ -32,8 +31,6 @@
         order by id desc
         offset #{offset} rows
         fetch first #{boardCount} rows only
-        where type_number = 105
-
     </select>
 
     <update id="viewUp"

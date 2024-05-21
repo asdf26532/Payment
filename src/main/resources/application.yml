@@ -5,7 +5,10 @@ spring:
     view:
       suffix: .html
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/test
-    username: sa
-    password:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.1.100:1521:xe
+    username: c##sf_project
+    password: 1
+server:
+  port: 8080
+

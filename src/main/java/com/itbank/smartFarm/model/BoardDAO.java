@@ -79,11 +79,11 @@ public interface BoardDAO {
     int insertQna(BoardVO input);
 
 
-    @Select("select * from reply_view order by id desc")
-    List<ReplyVO> selectReplyAll();
-
-    List<ReplyVO> selectReplys(int b_idx);
-
-    int insertReply(ReplyVO input);
+//    @Select("select * from reply_view order by id desc")
+//    List<ReplyVO> selectReplyAll();
+//
+//    List<ReplyVO> selectReplys(int b_idx);
+//
+//    int insertReply(ReplyVO input);
 
 }

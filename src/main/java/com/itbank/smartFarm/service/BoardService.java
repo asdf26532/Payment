@@ -132,16 +132,16 @@ public class BoardService {
     }
 
 
-    public List<ReplyVO> getReplys() {
-        return bd.selectReplyAll();
-    }
-
-    public List<ReplyVO> getReplys(int board_id) {
-        return bd.selectReplys(board_id);
-    }
-
-    public int addReply(ReplyVO input) {
-        return bd.insertReply(input);
-    }
+//    public List<ReplyVO> getReplys() {
+//        return bd.selectReplyAll();
+//    }
+//
+//    public List<ReplyVO> getReplys(int board_id) {
+//        return bd.selectReplys(board_id);
+//    }
+//
+//    public int addReply(ReplyVO input) {
+//        return bd.insertReply(input);
+//    }
 
 }

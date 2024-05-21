@@ -33,28 +33,28 @@
         fetch first #{boardCount} rows only
     </select>
 
-    <update id="viewUp"
-            parameterType="int">
+<!--    <update id="viewUp"-->
+<!--            parameterType="int">-->
 
-        update board set v_count = v_count + 1
-        where id = #{id}
-    </update>
+<!--        update board set v_count = v_count + 1-->
+<!--        where id = #{id}-->
+<!--    </update>-->
 
-    <select id="selectReplys"
-            parameterType="int"
-            resultType="com.itbank.model.vo.ReplyVO">
+<!--    <select id="selectReplys"-->
+<!--            parameterType="int"-->
+<!--            resultType="com.itbank.model.vo.ReplyVO">-->
 
-        select * from reply_view
-        where board_id = #{board_id}
-        order by id desc
-    </select>
+<!--        select * from reply_view-->
+<!--        where board_id = #{board_id}-->
+<!--        order by id desc-->
+<!--    </select>-->
 
-    <insert id="insertReply"
-            parameterType="com.itbank.model.vo.ReplyVO">
+<!--    <insert id="insertReply"-->
+<!--            parameterType="com.itbank.model.vo.ReplyVO">-->
 
-        insert into
-            reply(board_id, member_id, contents)
-        values(#{board_id}, #{member_id}, #{contents})
-    </insert>
+<!--        insert into-->
+<!--            reply(board_id, member_id, contents)-->
+<!--        values(#{board_id}, #{member_id}, #{contents})-->
+<!--    </insert>-->
 
 </mapper>

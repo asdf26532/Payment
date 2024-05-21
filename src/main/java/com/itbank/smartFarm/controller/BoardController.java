@@ -199,18 +199,18 @@ public class BoardController {
         return mav;
     }
 
-    // 댓글 기능 만들다가 정지중
-    @PostMapping("/fB_view/{board_id}")
-    public String writeReplyFB(ReplyVO input, HttpSession session) {
-
-        MemberVO user = (MemberVO)session.getAttribute("user");
-
-        input.setBoard_id(102);
-        input.setMember_id(user.getId());
-        bs.addReply(input);
-
-        return "redirect:/board/freeBoard" + input.getBoard_id();
-    }
+//    // 댓글 기능 만들다가 정지중
+//    @PostMapping("/fB_view/{board_id}")
+//    public String writeReplyFB(ReplyVO input, HttpSession session) {
+//
+//        MemberVO user = (MemberVO)session.getAttribute("user");
+//
+//        input.setBoard_id(102);
+//        input.setMember_id(user.getId());
+//        bs.addReply(input);
+//
+//        return "redirect:/board/freeBoard" + input.getBoard_id();
+//    }
 
 
     @PostMapping("/deletefB/{id}")
@@ -264,18 +264,18 @@ public class BoardController {
         return mav;
     }
 
-    // QnA 댓글 구현 중
-    @PostMapping("/QnA_view/{board_id}")
-    public String writeReplyQNA(ReplyVO input, HttpSession session) {
-
-        MemberVO user = (MemberVO)session.getAttribute("user");
-
-        input.setBoard_id(105);
-        input.setMember_id(user.getId());
-        bs.addReply(input);
-
-        return "redirect:/board/QnA" + input.getBoard_id();
-    }
+//    // QnA 댓글 구현 중
+//    @PostMapping("/QnA_view/{board_id}")
+//    public String writeReplyQNA(ReplyVO input, HttpSession session) {
+//
+//        MemberVO user = (MemberVO)session.getAttribute("user");
+//
+//        input.setBoard_id(105);
+//        input.setMember_id(user.getId());
+//        bs.addReply(input);
+//
+//        return "redirect:/board/QnA" + input.getBoard_id();
+//    }
 
     @GetMapping("/QnAadd")
     public String addQna() {
@@ -305,14 +305,14 @@ public class BoardController {
     }
 
 
-    // 댓글
-    @GetMapping("/replys")
-    public ModelAndView replys() {
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("replys", bs.getReplys());
-
-        return mav;
+//    // 댓글
+//    @GetMapping("/replys")
+//    public ModelAndView replys() {
+//        ModelAndView mav = new ModelAndView();
+//
+//        mav.addObject("replys", bs.getReplys());
+//
+//        return mav;
     }
 
 }

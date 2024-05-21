@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th th:text="댓글번호"></th>
+        <th th:text="게시글번호"></th>
+        <th th:text="계정번호"></th>
+        <th th:text="ID">ID</th>
+        <th th:text="작성자"></th>
+        <th th:text="내용"></th>
+        <th th:text="작성일"></th>
+    </tr>
+    <tr th:each="row : ${replys }">
+        <td th:text="${row.id }"></td>
+        <td th:text="${row.board_id }"></td>
+        <td th:text="${row.member_id }"></td>
+        <td th:text="${row.userid}"></td>
+        <td th:text="${row.nick}"></td>
+        <td th:text="${row.contents}"></td>
+        <td th:text="${row.w_date}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

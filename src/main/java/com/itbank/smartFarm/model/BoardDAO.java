@@ -1,5 +1,6 @@
 package com.itbank.smartFarm.model;
 
+import com.itbank.smartFarm.vo.BoardVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.*;
 
-import com.itbank.smartFarm.vo.BoardVO;
+import com.itbank.smartFarm.model.vo.BoardVO;
 
 @Mapper
 public interface BoardDAO {
@@ -19,7 +20,6 @@ public interface BoardDAO {
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
     public BoardVO getOneNotice(int id);
-
     List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Update("UPDATE board SET v_count = v_count + 1 WHERE id = #{id}")
@@ -36,8 +36,7 @@ public interface BoardDAO {
 
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
-
-    @Select("select count(*) from member_board_view where type = 102")
+    @Select("select count(*) from freeBoard_view")
     int totalBoard();
 
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
@@ -57,6 +56,8 @@ public interface BoardDAO {
             " ORDER BY id DESC" +
             "</script>")
     public List<BoardVO> getAllFreemarkets(@Param("category") String category, @Param("soldout") Integer soldout);
+    @Delete("delete from board where id_number = #{idx}")
+    int delete(int idx);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 104")
 	public BoardVO getOneFreeMarket(int id);
@@ -76,5 +77,15 @@ public interface BoardDAO {
     @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
             "where type = 105")
     int insertQna(BoardVO input);
+
+    int viewUp(int idx);
+
+    @Select("select * from reply_view order by id desc")
+    List<ReplyVO> selectReplyAll();
+
+    List<ReplyVO> selectReplys(int b_idx);
+
+    int insertReply(ReplyVO input);
+
 
 }

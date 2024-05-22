@@ -37,6 +37,7 @@ public class BoardService {
 
 
         Map<String, Object> result = new HashMap<>();
+
         result.put("pg", page);
         result.put("list", bd.selectFreeAll(param));
 

@@ -10,6 +10,15 @@
             text-decoration: none; /* 링크 밑줄 제거 */
             color: black; /* 링크 색상 설정 */
         }
+        .page {
+            display: flex;
+            width: 70%;
+            list-style: none;
+        }
+        .page li {
+            padding: 0 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -21,6 +30,7 @@
 <main th:with="list=${map['list']}, pg=${map['pg']}">
     <table>
         <tr>
+            <th>글번호</th>
             <th>제목</th>
             <th>내용</th>
             <th>조회수</th>
@@ -28,6 +38,7 @@
             <th>작성일</th>
         </tr>
         <tr th:each="row : ${list}">
+            <td th:text="${row.id}"></td>
             <td th:text="${row.title != null ? row.title : ''}"></td>
             <td><a class="content"
                    th:href="@{/board/fB_view/{id}(id=${row.id})}"
@@ -38,22 +49,23 @@
         </tr>
     </table>
 
-<br>
-    <ul class="page">
+    <br>
+
+    <ul class="page" th:with="groupParam=${param.group != null ? 'group=' + param.group : ''}, searchParam=${param.search != null ? 'search=' + param.search : ''}">
         <li th:if="${pg.prev}">
-            <a th:href="@{/board/freeBoard?page={page}(page=${pg.begin - 1})${param.group != null ? '&group=' + param.group : ''}${param.search != null ? '&search=' + param.search : ''}}">
+            <a th:href="@{|/board/freeBoard?page=${pg.begin - 1}&${groupParam}&${searchParam}|}">
                 이전
             </a>
         </li>
 
         <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-            <a th:href="@{/board/freeBoard?page={page}(page=${i})${param.group != null ? '&group=' + param.group : ''}${param.search != null ? '&search=' + param.search : ''}}">
+            <a th:href="@{|/board/freeBoard?page=${i}&${groupParam}&${searchParam}|}">
                 <span th:text="${i}"></span>
             </a>
         </li>
 
         <li th:if="${pg.next}">
-            <a th:href="@{/board/freeBoard?page={page}(page=${pg.end + 1})${param.group != null ? '&group=' + param.group : ''}${param.search != null ? '&search=' + param.search : ''}}">
+            <a th:href="@{|/board/freeBoard?page=${pg.end + 1}&${groupParam}&${searchParam}|}">
                 다음
             </a>
         </li>
@@ -66,12 +78,10 @@
             <option value="contents">내용</option>
         </select>
 
-        <input name="search" group="text">
+        <input name="search" type="text">
 
-        <button group="submit">검색</button>
+        <button type="submit">검색</button>
     </form>
-
-</body>
 
 
 <br>
@@ -84,21 +94,3 @@
 </main>
 </body>
 </html>
-
-<!--    </div>-->
-<!--        <div th:with="group='&group=' + ${param.group}">-->
-<!--            <div th:with="search='&search=' + ${param.search}">-->
-<!--                <ul class="page">-->
-<!--                    <li th:if="${pg.prev}">-->
-<!--                        <a th:href="@{|/board/freeBoard?page=${pg.begin - 1}${group != null ? '&group=' + group : ''}${search != null ? '&search=' + search : ''}|}">이전</a>-->
-<!--                    </li>-->
-<!--                    <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">-->
-<!--                        <a th:href="@{|/board/freeBoard?page=${i}${group != null ? '&group=' + group : ''}${search != null ? '&search=' + search : ''}|}" th:text="${i}"></a>-->
-<!--                    </li>-->
-<!--                    <li th:if="${pg.next}">-->
-<!--                        <a th:href="@{|/board/freeBoard?page=${pg.end + 1}${group != null ? '&group=' + group : ''}${search != null ? '&search=' + search : ''}|}">다음</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->

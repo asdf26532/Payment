@@ -150,9 +150,19 @@ public class BoardController {
 
     // -----------------------------------자유게시판-----------------------------------
 
+//    @GetMapping("/freemarket")
+//    public String freemarkets(
+//            @RequestParam(required = false) String category,
+//            @RequestParam(required = false) Integer soldout,
+//            Model model) {
+//        model.addAttribute("freemarkets", bs.getMarkets(category, soldout));
+//        return "board/freemarket";
+//    }
+
 
     @GetMapping("/freeBoard")
-    public ModelAndView freeBoard(@RequestParam Map<String, Object> param) {
+    public ModelAndView freeBoard(
+            @RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("map", bs.getfreeBds(param));
@@ -247,7 +257,7 @@ public class BoardController {
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("map", bs.getQna(param));
-        mav.setViewName("/board/QnA");
+        mav.setViewName("board/QnA");
 
         return mav;
     }

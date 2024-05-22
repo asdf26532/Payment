@@ -21,17 +21,15 @@ public interface BoardDAO {
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
     public BoardVO getOneNotice(int id);
 
-    @Select(" select * from member_board_view " +
-            "        <if test=\"group != null\"> " +
-            "    where ${group} like '%${search}%' " +
-            "    and type = 102\n" +
-            "            </if>\n" +
-            "        <if test=\"group == null\"> " +
-            "    where type = 102 " +
-            "            </if> " +
-            "    order by id desc " +
-            "    offset #{offset} rows " +
-            "    fetch first #{boardCount} rows only")
+    @Select("<script>" +
+        "SELECT * FROM member_board_view where type = 102 " +
+        "<if test='group != null and search != null'> " +
+        "and  ${group} LIKE '%${search}%' " +
+        "</if> " +
+        "ORDER BY id DESC " +
+        "OFFSET #{offset} ROWS " +
+        "FETCH FIRST #{boardCount} ROWS ONLY" +
+        "</script>")
     List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Update("UPDATE board SET v_count = v_count + 1 WHERE id = #{id}")
@@ -81,16 +79,15 @@ public interface BoardDAO {
     public int updateFreeMarket(BoardVO input);
 
 
-    @Select("select * from member_board_view " +
-            "        <if test=\"group != null\"> " +
-            "            where ${group} like '%${search}%' " +
-            "        </if> " +
-            "        <if test=\"group == null\"> " +
-            "            where type = 105\n" +
-            "        </if> " +
-            "        order by id desc " +
-            "        offset #{offset} rows " +
-            "        fetch first #{boardCount} rows only")
+    @Select("<script>" +
+            "SELECT * FROM member_board_view where type = 105 " +
+            "<if test='group != null and search != null'> " +
+            "and  ${group} LIKE '%${search}%' " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
+            "</script>")
     List<BoardVO> selectQnaAll(Map<String, Object> param);
 
     @Select("select * from board where type = 105 and id = #{id}")

@@ -21,6 +21,17 @@ public interface BoardDAO {
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
     public BoardVO getOneNotice(int id);
 
+    @Select(" select * from member_board_view " +
+            "        <if test=\"group != null\"> " +
+            "    where ${group} like '%${search}%' " +
+            "    and type = 102\n" +
+            "            </if>\n" +
+            "        <if test=\"group == null\"> " +
+            "    where type = 102 " +
+            "            </if> " +
+            "    order by id desc " +
+            "    offset #{offset} rows " +
+            "    fetch first #{boardCount} rows only")
     List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Update("UPDATE board SET v_count = v_count + 1 WHERE id = #{id}")
@@ -69,6 +80,17 @@ public interface BoardDAO {
     @Update("UPDATE board SET title = #{title}, contents = #{contents}, category = #{category}, soldout = #{soldout} WHERE id = #{id}")
     public int updateFreeMarket(BoardVO input);
 
+
+    @Select("select * from member_board_view " +
+            "        <if test=\"group != null\"> " +
+            "            where ${group} like '%${search}%' " +
+            "        </if> " +
+            "        <if test=\"group == null\"> " +
+            "            where type = 105\n" +
+            "        </if> " +
+            "        order by id desc " +
+            "        offset #{offset} rows " +
+            "        fetch first #{boardCount} rows only")
     List<BoardVO> selectQnaAll(Map<String, Object> param);
 
     @Select("select * from board where type = 105 and id = #{id}")

@@ -156,7 +156,7 @@ public class BoardController {
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("map", bs.getfreeBds(param));
-        mav.setViewName("/board/freeBoard");
+        mav.setViewName("board/freeBoard");
 
         return mav;
     }
@@ -312,7 +312,5 @@ public class BoardController {
 //
 //        mav.addObject("replys", bs.getReplys());
 //
-//        return mav;
-    }
-
+//        return mav; }
 }

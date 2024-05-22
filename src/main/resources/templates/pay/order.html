@@ -3,107 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
-
 <style>
-table {
-	border-collapse: collapse;
-}
-
-th, td {
-	border: 1px solid black;
-	padding: 5px 10px;
-	text-align: center;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #343a40;
+        margin: 0;
+        padding: 20px;
+    }
+    h3 {
+        text-align: center;
+        color: #007bff;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+        border: 1px solid #dee2e6;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .payment-options {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .payment-options label {
+        margin-right: 15px;
+        font-size: 16px;
+    }
+    .payment-options input {
+        margin-right: 5px;
+    }
+    button {
+        display: block;
+        width: 200px;
+        margin: 20px auto;
+        padding: 10px;
+        font-size: 16px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .total-price {
+        text-align: right;
+        margin-top: 20px;
+        padding-right: 20px;
+    }
+    .total-price b {
+        font-size: 18px;
+        color: #007bff;
+    }
 </style>
-
 </head>
 <body>
-	<h3>장바구니 목록</h3>
+    <h3>주문 목록</h3>
 
-	<table>
-		<tr>
-			<th>고객 이름</th>
-			<th>주문 번호</th>
-			<th>배송 주소</th>
-			<th>고객 전화번호</th>
-			<th>상품명</th>
-			<th>배송 현황</th>
-			<th>상품 개수</th>
-			<th>총 가격</th>
-			<th>주문수정</th>
-			<th>주문삭제</th>
-		</tr>
+    <table>
+        <tr>
+            <th>고객 이름</th>
+            <th>주문 번호</th>
+            <th>배송 주소</th>
+            <th>고객 전화번호</th>
+            <th>상품명</th>
+            <th>상품 개수</th>
+            <th>단위 가격</th>
+            <th>총 가격</th>
+            <th>배송 현황</th>
+            <th>주문수정</th>
+            <th>주문삭제</th>
+        </tr>
 
-		<tr th:each="row : ${orderlist}">
-			<td th:text="${row.member_name}"></td>
-			<td th:text="${row.order_id}"></td>
-			<td th:text="${row.address}"></td>
-			<td th:text="${row.phone}"></td>
-			<td th:text="${row.product_name}"></td>
-			<td th:text="${row.count}"></td>
-			<td th:text="${row.unit_price}"></td>
-			<td th:text="${row.delivery_status}"></td>
-			<td><a th:href="@{'/pay/update/' + ${row.order_id}}">주문 수정</a></td>
-			<td><a th:href="@{'/pay/delete/' + ${row.order_id}}">주문 삭제</a></td>
+        <tr th:each="row : ${orderlist}">
+            <td th:text="${row.member_name}"></td>
+            <td th:text="${row.order_id}"></td>
+            <td th:text="${row.address}"></td>
+            <td th:text="${row.member_phone}"></td>
+            <td th:text="${row.product_name}"></td>
+            <td th:text="${row.count}"></td>
+            <td th:text="${row.unit_price}"></td>
+            <td th:text="${row.total_price}"></td>
+            <td th:text="${row.delivery_status}"></td>
+            <td><a th:href="@{'/pay/update/' + ${row.order_id}}">주문 수정</a></td>
+            <td><a th:href="@{'/pay/delete/' + ${row.order_id}}">주문 삭제</a></td>
 
-		</tr>
-	</table>
+        </tr>
+    </table>
 
-	<!-- jQuery -->
-	<script type="text/javascript"
-		src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<!-- iamport.payment.js -->
-	<script type="text/javascript"
-		src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-	<script>
-		var IMP = window.IMP;
-		IMP.init("imp01786831");
+    <!-- 총 주문 가격을 계산하여 표시하는 스크립트 추가 -->
+    <div class="total-price">
+        <b>총 주문 가격:</b>
+        <span id="totalPrice"></span>
+    </div>
 
-		function requestPay() {
-			// 선택된 결제 방법 가져오기
-			var selectedPayMethod = document
-					.querySelector('input[name="pay_method"]:checked').value;
-			// 상품가격 가져오기
-			var totalOrderPrice = parseFloat(document
-					.querySelector('td:nth-child(7)').innerText);
-			// 상품번호 가져오기
-			var orderItem = document.querySelector('td:nth-child(2)').innerText;
-			// 상품명 가져오기
-			var productName = document.querySelector('td:nth-child(5)').innerText;
+    <!-- 결제 옵션 및 버튼 -->
+    <div class="payment-options">
+        <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
+        <label><input type="radio" name="pay_method" value="trans">실시간 계좌이체</label>
+        <label><input type="radio" name="pay_method" value="vbank">가상계좌</label>
+        <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
+    </div>
+    <button onclick="requestPay()">결제하기</button>
 
-			console.log(productName);
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+        var IMP = window.IMP;
+        IMP.init("imp01786831");
 
-			IMP.request_pay({
-				pg : "html5_inicis", // KG이니시스 pg파라미터 값
-				pay_method : selectedPayMethod, // 결제 방법
-				merchant_uid : orderItem, // 주문번호
-				goodsname : productName, // 상품 명
-				name : productName, // 상품 명
-				amount : totalOrderPrice, // 금액
-				buyer_email : "gildong@gmail.com",
-				buyer_name : "홍길동",
-				buyer_tel : "010-4242-4242",
-				buyer_addr : "서울특별시 강남구 신사동",
-				buyer_postcode : "01181"
-			}, function(rsp) {
-				// rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-				if (rsp.success) {
-					// 서버 검증 요청 부분
-				} else {
-					alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-				}
-			});
-		}
-	</script>
+        function requestPay() {
+            var selectedPayMethod = document.querySelector('input[name="pay_method"]:checked').value;
+            var totalOrderPrice = parseFloat(document.getElementById('totalPrice').innerText);
+            var orderItem = document.querySelector('td:nth-child(2)').innerText;
+            var productName = document.querySelector('td:nth-child(5)').innerText;
+            var Name = document.querySelector('td:nth-child(1)').innerText;
+            var Phone = document.querySelector('td:nth-child(4)').innerText;
+            var Address = document.querySelector('td:nth-child(3)').innerText;
 
-	<label><input type="radio" name="pay_method" value="card"
-		checked>신용카드</label>
-	<label><input type="radio" name="pay_method" value="trans">실시간
-		계좌이체</label>
-	<label><input type="radio" name="pay_method" value="vbank">가상계좌</label>
-	<label><input type="radio" name="pay_method" value="phone">휴대폰
-		소액결제</label>
-	<button onclick="requestPay()">결제하기</button>
-	<!-- 결제하기 버튼 생성 -->
+            IMP.request_pay({
+                pg : "html5_inicis",
+                pay_method : selectedPayMethod,
+                merchant_uid : orderItem,
+                goodsname : productName,
+                name : productName,
+                amount : totalOrderPrice,
+                buyer_name : Name,
+                buyer_tel : Phone,
+                buyer_addr : Address,
+            }, function(rsp) {
+                if (rsp.success) {
+                    alert("결제 완료");
+                } else {
+                    alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                }
+            });
+        }
+    </script>
+
+    <!-- 총 주문 가격 계산 스크립트 -->
+    <script>
+        var totalOrderPrice = 0;
+        document.querySelectorAll('td:nth-child(8)').forEach(function(element) {
+            totalOrderPrice += parseFloat(element.innerText);
+        });
+        document.getElementById('totalPrice').innerText = totalOrderPrice;
+    </script>
 </body>
 </html>

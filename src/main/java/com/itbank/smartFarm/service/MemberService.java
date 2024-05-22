@@ -1,6 +1,6 @@
-package com.itbank.smartFarm.service;
+package com.itbank.smartFarm.Service;
 
-import com.itbank.smartFarm.model.MemberDAO;
+import com.itbank.smartFarm.Model.*;
 import com.itbank.smartFarm.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

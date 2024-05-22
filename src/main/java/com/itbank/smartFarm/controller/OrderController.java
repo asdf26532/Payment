@@ -90,5 +90,8 @@ public class OrderController {
 
 		return mav;
 	}
+
+	@GetMapping("/details")
+	public void details() {}
 	
 }

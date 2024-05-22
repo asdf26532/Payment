@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<main class="flex-grow flex flex-col justify-center items-center p-4">
+<div class="bg-[#f0f8f0] text-gray-900">
+    <section class="w-full py-24 md:py-32 lg:py-40">
+        <div class="container px-4 md:px-6 flex flex-col items-center">
+            <div class="grid items-center gap-6 lg:grid-cols-2 lg:gap-12 text-center">
+                <div class="space-y-4">
+                    <h1 class="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                        스마트 농업의 혁신
+                    </h1>
+                    <p class="max-w-[600px] text-lg text-gray-600">
+                        스마트팜에서는 농부들이 최첨단 기술과 지속 가능한
+                        운영과 수확량을 최적화할 수 있도록 지원합니다.
+                    </p>
+                    <div class="flex flex-col gap-2 min-[400px]:flex-row justify-center">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full min-[400px]:w-auto bg-[#4CAF50] hover:bg-[#45a049]">
+                            자세히 보기
+                        </button>
+                    </div>
+                </div>
+                <img
+                        src="/img/company.jpeg"
+                        width="550"
+                        height="550"
+                        alt="Hero"
+                        class="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+                />
+            </div>
+        </div>
+    </section>
+    <section class="w-full py-12 md:py-24 lg:py-32">
+        <div class="container px-4 md:px-6 flex flex-col items-center">
+            <div class="grid items-center gap-6 lg:grid-cols-2 lg:gap-12 text-center">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-1 text-sm">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="h-5 w-5"
+                        >
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" x2="12" y1="19" y2="22"></line>
+                        </svg>
+                        Arduino Devices
+                    </div>
+                    <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                        아두이노를 이용한 정밀 농업
+                    </h2>
+                    <p class="max-w-[600px] text-gray-600">
+                        스마트팜은 아두이노 기반 센서와 컨트롤러 네트워크를 활용해 농작물의 다양한 측면을 모니터링하고
+                        농사 과정의 다양한 측면을 모니터링하고 자동화하여 작물을 위한 최적의 조건을 보장합니다.
+                    </p>
+                </div>
+                <img
+                        src="/img/mainImg.jpg"
+                        width="550"
+                        height="310"
+                        alt="Arduino Devices"
+                        class="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+                />
+            </div>
+        </div>
+    </section>
+    <section class="w-full py-12 md:py-24 lg:py-32">
+        <div class="container px-4 md:px-6 flex flex-col items-center">
+            <div class="grid items-center gap-6 lg:grid-cols-2 lg:gap-12 text-center">
+                <img
+                        src="/img/mainImg.jpg"
+                        width="550"
+                        height="310"
+                        alt="Mobile App"
+                        class="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full"
+                />
+                <div class="space-y-4">
+                    <div class="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-1 text-sm">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="h-5 w-5"
+                        >
+                            <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
+                            <path d="M12 18h.01"></path>
+                        </svg>
+                        Mobile App
+                    </div>
+                    <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">이동 중에도 농장 모니터링</h2>
+                    <p class="max-w-[600px] text-gray-600">
+                        직관적인 모바일 앱을 사용하면 농장의 실시간 데이터를 추적하고, 알림을 받고, 운영을 조정할 수 있습니다.
+                        손 안에서 모든 작업을 조정할 수 있습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="w-full py-12 md:py-24 lg:py-32">
+        <div class="container px-4 md:px-6 flex flex-col items-center">
+            <div class="grid items-center gap-6 lg:grid-cols-2 lg:gap-12 text-center">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-1 text-sm">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="h-5 w-5"
+                        >
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Community
+                    </div>
+                    <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                        커뮤니티와 연결하고 성장하기
+                    </h2>
+                    <p class="max-w-[600px] text-gray-600">
+                        활기찬 스마트 농부 커뮤니티에 가입하고, 경험을 공유하고, 혁신적인 제품과
+                        혁신적인 제품과 서비스로 구성된 마켓플레이스에 액세스하세요.
+                    </p>
+                    <div class="flex flex-col gap-2 min-[400px]:flex-row justify-center">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full min-[400px]:w-auto bg-[#4CAF50] hover:bg-[#45a049]">
+                            Board
+                        </button>
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full min-[400px]:w-auto bg-[#4CAF50] hover:bg-[#45a049]">
+                            Marketplace
+                        </button>
+                    </div>
+                </div>
+                <img
+                        src="/img/mainImg.jpg"
+                        width="550"
+                        height="310"
+                        alt="Community"
+                        class="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+                />
+            </div>
+        </div>
+    </section>
+</div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

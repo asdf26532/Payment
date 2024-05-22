@@ -6,166 +6,65 @@
     <title>Smart Farm</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<!--
-// v0 by Vercel.
-// https://v0.dev/t/WiV0sDK6uUT
--->
-
-<div class="flex flex-col bg-[#f0f8f0]">
-    <nav class="bg-white shadow my-12 mx-6 sm:mx-12">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="#">
-                        <img
-                                alt="Workflow"
-                                class="block lg:hidden h-8 w-auto"
-                                height="32"
-                                src="/img/logo.png"
-                                width="32"
-                                style="aspect-ratio: 32 / 32; object-fit: cover;"
-                        />
-                        <img
-                                alt="Workflow"
-                                class="hidden lg:block h-40 w-auto"
-                                height="160"
-                                src="/img/logo.png"
-                                width="160"
-                                style="aspect-ratio: 160 / 160; object-fit: cover;"
-                        />
-                    </a>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<div th:replace="~{header :: header}"></div>
+<main class="flex-grow flex flex-col justify-center items-center p-4">
+    <div class="max-w-[1100px] w-full mx-auto flex flex-col bg-[#f0f8f0]">
+        <div class="flex flex-col items-center justify-center bg-[#f0f8f0] py-12 sm:py-24">
+            <div class="flex flex-col sm:flex-row items-center justify-between max-w-2xl w-full">
+                <div class="space-y-4 text-center sm:text-left">
+                    <h1 class="text-3xl font-bold sm:text-4xl text-green-500">Smart Farm Solutions</h1>
+                    <p class="text-gray-500">
+                        기술로 농업을 혁신합니다. 첨단 IoT 솔루션으로 농장을 모니터링하고 관리하세요.
+                    </p>
                 </div>
-                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a
-                            class="border-transparent text-gray-500 hover:border-green-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                            href="#"
-                    >
-                        Company
-                    </a>
-                    <a
-                            class="border-transparent text-gray-500 hover:border-green-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                            href="#"
-                    >
-                        Message Board
-                    </a>
-                    <a
-                            class="border-transparent text-gray-500 hover:border-green-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                            href="#"
-                    >
-                        Marketplace
-                    </a>
-                    <a
-                            class="border-transparent text-gray-500 hover:border-green-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                            href="#"
-                    >
-                        Downloads
-                    </a>
-                    <a
-                            class="border-transparent text-gray-500 hover:border-green-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                            href="#"
-                    >
-                        Support
+                <div class="mt-6 sm:mt-0">
+                    <a href="/pay/details">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
+                            자세히 보기
+                        </button>
                     </a>
                 </div>
             </div>
-            <div class="hidden sm:ml-6 sm:flex sm:items-center">
-                <th:block th:if="${session.user == null}">
-                    <a href="/member/login">
-                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-background h-10 px-4 py-2 mr-4 border-green-500 text-green-500 hover:bg-green-500 hover:text-white">
-                            Login
-                        </button>
-                    </a>
-                    <a href="/member/signUp">
+            <img
+                    alt="Smart Farm"
+                    class="mt-6 w-full max-w-4xl rounded-lg shadow-lg"
+                    src="/img/mainImg.jpg"
+                    style="aspect-ratio: 16 / 9; object-fit: contain;"
+            />
+        </div>
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between">
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-green-500">다른 사람들과 정보를 공유하세요!</h3>
+                    <p class="text-gray-500">
+                        다른 분들과 교류하고 게시판에서 지식과 경험을 공유하세요.
+                    </p>
+                </div>
+                <div class="mt-4 sm:mt-0">
+                    <a href="/board/list">
                         <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
-                            Sign Up
+                            Board
                         </button>
                     </a>
-                </th:block>
-                <th:block th:if="${session.user != null}">
-                    <a href="/member/logout">
-                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-background h-10 px-4 py-2 mr-4 border-green-500 text-green-500 hover:bg-green-500 hover:text-white">
-                            Logout
-                        </button>
-                    </a>
-                    <a href="/member/myPage">
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between">
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-green-500">직접 재배한 농산물을 거래하세요!</h3>
+                    <p class="text-gray-500">현지에서 재배한 신선한 농산물을 온라인 마켓플레이스에서 구매하고 판매하세요.</p>
+                </div>
+                <div class="mt-4 sm:mt-0">
+                    <a href="/board/market">
                         <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
-                            My Page
+                            Marketplace
                         </button>
                     </a>
-                </th:block>
-            </div>
-        </div>
-    </nav>
-    <div class="flex flex-col items-center justify-center bg-[#f0f8f0] py-12 sm:py-24">
-        <div class="flex flex-col sm:flex-row items-center justify-between max-w-2xl w-full">
-            <div class="space-y-4 text-center sm:text-left">
-                <h1 class="text-3xl font-bold sm:text-4xl text-green-500">Smart Farm Solutions</h1>
-                <p class="text-gray-500">
-                    Revolutionizing agriculture with technology. Monitor and manage your farm with our advanced IoT solutions.
-                </p>
-            </div>
-            <div class="mt-6 sm:mt-0">
-                <a href="#">
-                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
-                        Learn More
-                    </button>
-                </a>
-            </div>
-        </div>
-        <img
-                alt="Smart Farm"
-                class="mt-6 w-full max-w-4xl rounded-lg shadow-lg"
-                src="/img/mainImg.jpg"
-                style="aspect-ratio: 16 / 9; object-fit: contain;"
-        />
-    </div>
-    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between">
-            <div class="space-y-2">
-                <h3 class="text-lg font-bold text-green-500">Share information with others!</h3>
-                <p class="text-gray-500">
-                    Connect with other farmers and share your knowledge and experiences on our message board.
-                </p>
-            </div>
-            <div class="mt-4 sm:mt-0">
-                <a href="#">
-                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
-                        Message Board
-                    </button>
-                </a>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between">
-            <div class="space-y-2">
-                <h3 class="text-lg font-bold text-green-500">Trade your homegrown produce!</h3>
-                <p class="text-gray-500">Buy and sell your fresh, locally-grown produce on our online marketplace.</p>
-            </div>
-            <div class="mt-4 sm:mt-0">
-                <a href="#">
-                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
-                        Marketplace
-                    </button>
-                </a>
+                </div>
             </div>
         </div>
     </div>
-    <footer class="mt-12 bg-green-500 text-white py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <p>© 2024 Smart Farm Solutions. All rights reserved.</p>
-            <nav class="flex space-x-4">
-                <a class="hover:underline" href="#">
-                    Terms of Service
-                </a>
-                <a class="hover:underline" href="#">
-                    Privacy Policy
-                </a>
-                <a class="hover:underline" href="#">
-                    Contact Us
-                </a>
-            </nav>
-        </div>
-    </footer>
-</div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
 </body>
 </html>

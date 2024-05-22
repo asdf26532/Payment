@@ -15,8 +15,17 @@ import com.itbank.smartFarm.vo.BoardVO;
 
 @Mapper
 public interface BoardDAO {
-    @Select("SELECT * FROM member_board_view WHERE type = 101 ORDER BY id DESC")
-    public List<BoardVO> getAllNotices();
+
+    @Select("<script>" +
+            "SELECT * FROM member_board_view where type = 101 " +
+            "<if test='group != null and search != null'> " +
+            "and  ${group} LIKE '%${search}%' " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
+            "</script>")
+    List<BoardVO> getAllNotices(Map<String, Object> param);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
     public BoardVO getOneNotice(int id);
@@ -64,9 +73,14 @@ public interface BoardDAO {
             "<if test='soldout != null'>" +
             " AND soldout = #{soldout}" +
             "</if>" +
-            " ORDER BY id DESC" +
+            "<if test='group != null and search != null'> " +
+            "and  ${group} LIKE '%${search}%' " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
             "</script>")
-    public List<BoardVO> getAllFreemarkets(@Param("category") String category, @Param("soldout") Integer soldout);
+    public List<BoardVO> getAllFreemarkets(Map<String, Object> param);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 104")
     public BoardVO getOneFreeMarket(int id);

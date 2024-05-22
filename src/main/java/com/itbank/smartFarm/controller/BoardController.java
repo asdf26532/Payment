@@ -32,9 +32,12 @@ public class BoardController {
 
     // 전체 공지 게시글 리스트화
     @GetMapping("/notice")
-    public String notices(Model model) {
-        model.addAttribute("notices", bs.getNotices());
-        return "board/notice";
+    public ModelAndView notices(@RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("map", bs.getNotices(param));
+        mav.setViewName("board/notice");
+        return mav;
     }
 
     // 지정된 글 번호(id)의 상세 글 내용 조회
@@ -89,12 +92,15 @@ public class BoardController {
     // 전체 장터 게시글 리스트화
     // 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
     @GetMapping("/freemarket")
-    public String freemarkets(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) Integer soldout,
-            Model model) {
-        model.addAttribute("freemarkets", bs.getMarkets(category, soldout));
-        return "board/freemarket";
+    public ModelAndView freemarkets(
+            @RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("map", bs.getMarkets(param));
+
+        mav.setViewName("board/freemarket");
+
+        return mav;
     }
 
     // 지정된 글 번호(id)의 상세 글 내용 조회
@@ -149,16 +155,6 @@ public class BoardController {
 
 
     // -----------------------------------자유게시판-----------------------------------
-
-//    @GetMapping("/freemarket")
-//    public String freemarkets(
-//            @RequestParam(required = false) String category,
-//            @RequestParam(required = false) Integer soldout,
-//            Model model) {
-//        model.addAttribute("freemarkets", bs.getMarkets(category, soldout));
-//        return "board/freemarket";
-//    }
-
 
     @GetMapping("/freeBoard")
     public ModelAndView freeBoard(
@@ -263,12 +259,13 @@ public class BoardController {
     }
 
     @GetMapping("/QnA_view/{id}")
-    public ModelAndView QnA_view(@PathVariable int id) {
-
+    public ModelAndView QnA_view(@PathVariable int id, HttpSession session) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
         ModelAndView mav = new ModelAndView();
 
         bs.updateViewCount(id);
         mav.addObject("row", bs.getSelectQna(id));
+        mav.addObject("user", user);
         mav.setViewName("board/QnA_view");
 
         return mav;

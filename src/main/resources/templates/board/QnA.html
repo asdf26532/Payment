@@ -3,6 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>QnA</title>
+    <style>
+        .content {
+            font-family: 'Arial', sans-serif; /* 기본 글꼴 설정 */
+            font-size: 14px; /* 기본 폰트 크기 설정 */
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: black; /* 링크 색상 설정 */
+        }
+        .page {
+            display: flex;
+            width: 70%;
+            list-style: none;
+        }
+        .page li {
+            padding: 0 5px;
+        }
+
+    </style>
+
 </head>
 <body>
 
@@ -55,7 +73,7 @@
         </li>
     </ul>
 
-    <form th:action="@{/board/freeBoard}" method="get">
+    <form th:action="@{/board/QnA}" method="get">
         <select name="group">
             <option value="title">제목</option>
             <option value="nick">작성자</option>

@@ -19,9 +19,28 @@ public class BoardService {
     @Autowired
     private BoardDAO bd;
 
-    public List<BoardVO> getNotices() {
-        return bd.getAllNotices();
+    public Map<String, Object> getNotices(Map<String, Object> param) {
+
+        String sint = (String) param.get("page");
+        sint = (sint == null) ? "1" : sint;
+
+        int reqPage = Integer.parseInt(sint);
+        int total = 101;
+
+        Paging page = new Paging(reqPage, bd.totalBoard(total));
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("pg", page);
+        result.put("list", bd.getAllNotices(param));
+
+        return result;
     }
+
 
     public Map<String, Object> getfreeBds(Map<String, Object> param) {
 
@@ -82,9 +101,28 @@ public class BoardService {
     }
 
 
-    public List<BoardVO> getMarkets(String category, Integer soldout) {
-        return bd.getAllFreemarkets(category, soldout);
+    public Map<String, Object> getMarkets(Map<String, Object> param) {
+
+        String sint = (String) param.get("page");
+        sint = (sint == null) ? "1" : sint;
+
+        int reqPage = Integer.parseInt(sint);
+        int total = 104;
+
+        Paging page = new Paging(reqPage, bd.totalBoard(total));
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("pg", page);
+        result.put("list", bd.getAllFreemarkets(param));
+
+        return result;
     }
+
 
     public BoardVO getMarket(int id) {
         return bd.getOneFreeMarket(id);

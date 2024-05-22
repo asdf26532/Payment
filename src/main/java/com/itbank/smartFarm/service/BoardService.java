@@ -29,8 +29,9 @@ public class BoardService {
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
+        int total = 102;
 
-        Paging page = new Paging(reqPage, bd.totalBoard());
+        Paging page = new Paging(reqPage, bd.totalBoard(total));
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
@@ -103,8 +104,9 @@ public class BoardService {
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
+        int total = 105;
 
-        Paging page = new Paging(reqPage, bd.totalBoard());
+        Paging page = new Paging(reqPage, bd.totalBoard(total));
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());

@@ -47,8 +47,8 @@ public interface BoardDAO {
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
 
-    @Select("select count(*) from member_board_view where type = 102")
-    int totalBoard();
+    @Select("select count(*) from member_board_view where type = #{num}")
+    int totalBoard(int num);
 
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
     public int updateBoard(BoardVO input);

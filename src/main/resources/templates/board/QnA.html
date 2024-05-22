@@ -11,21 +11,25 @@
 <h1>QnA</h1>
 <hr>
 
-<main th:with="list = ${map['list']} , pg = ${map['pg'] } ">
+<main th:with="list=${map['list']}, pg=${map['pg']}">
     <table>
         <tr>
-            <th th:text="글번호"></th>
-            <th th:text="제목"></th>
-            <th th:text="작성자"></th>
-            <th th:text="조회수"></th>
-            <th th:text="작성일"></th>
+            <th>글번호</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>조회수</th>
+            <th>작성자</th>
+            <th>작성일</th>
         </tr>
         <tr th:each="row : ${list}">
-            <td th:text="${row.id_number}"></td>
-            <td><a href="/board/fB_view/${row.id_number}" th:text="${row.title}"></a></td>
-            <td th:text="${row.nick}"></td>
-            <td th:text="${row.v_count}"></td>
-            <td th:text="${row.w_date}"></td>
+            <td th:text="${row.id}"></td>
+            <td th:text="${row.title != null ? row.title : ''}"></td>
+            <td><a class="content"
+                   th:href="@{/board/QnA_view/{id}(id=${row.id})}"
+                   th:utext="${#strings.length(row.contents) > 10 ? #strings.substring(row.contents, 0, 10) : row.contents}"></a></td>
+            <td th:text="${row.v_count != null ? row.v_count : ''}"></td>
+            <td th:text="${row.nick != null ? row.nick : ''}"></td>
+            <td th:text="${row.w_date != null ? row.w_date : ''}"></td>
         </tr>
     </table>
 

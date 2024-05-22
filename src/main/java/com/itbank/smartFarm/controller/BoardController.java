@@ -314,6 +314,11 @@ public class BoardController {
         return mav;
     }
 
+    @PostMapping("/deleteQnA/{id}")
+    public String deleteQnA(@PathVariable int id) {
+        bs.deleteBoard(id);
+        return "redirect:/board/QnA";
+    }
 
 //    // 댓글
 //    @GetMapping("/replys")

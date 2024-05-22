@@ -1,69 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Farm</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Farm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<header class="flex items-center justify-between bg-[#f0f8f0] px-6 py-4">
-  <br>
-  <a class="flex items-center gap-2" href="/">
-    <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 text-green-600"
-    >
-      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-    </svg>
-    <span class="text-lg font-semibold">Smart Farm</span>
-  </a>
-  <nav class="hidden md:flex items-center gap-6">
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/company">
-      Company
+<header class="bg-[#f0f8f0] my-7">
+  <div class="max-w-[1100px] mx-auto flex items-center justify-between px-6 py-4">
+    <a class="flex items-center gap-2" href="/">
+      <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-6 w-6 text-green-600"
+      >
+        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+      </svg>
+      <span class="text-lg font-semibold">Smart Farm</span>
     </a>
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/board/list">
-      Board
-    </a>
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/board/market">
-      Marketplace
-    </a>
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/download">
-      Downloads
-    </a>
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/support">
-      Support
-    </a>
-  </nav>
-  <div class="flex items-center gap-4">
-    <th:block th:if="${session.user == null}">
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/login">
-      Login
-    </a>
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/signUp">
-      Sign Up
-    </a>
-    </th:block>
-    <th:block th:if="${session.user != null}">
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/logout">
-      Logout
-    </a>
-    <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/myPage">
-      My Page
-    </a>
-    </th:block>
+    <nav class="hidden md:flex items-center gap-6">
+      <a class="text-gray-700 hover:text-green-600 transition-colors" href="/company">
+        Company
+      </a>
+      <a class="text-gray-700 hover:text-green-600 transition-colors" href="/board/list">
+        Board
+      </a>
+      <a class="text-gray-700 hover:text-green-600 transition-colors" href="/board/market">
+        Marketplace
+      </a>
+      <a class="text-gray-700 hover:text-green-600 transition-colors" href="/download">
+        Downloads
+      </a>
+      <a class="text-gray-700 hover:text-green-600 transition-colors" href="/support">
+        Support
+      </a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <th:block th:if="${session.user == null}">
+        <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/login">
+          Login
+        </a>
+        <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/signUp">
+          Sign Up
+        </a>
+      </th:block>
+      <th:block th:if="${session.user != null}">
+        <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/logout">
+          Logout
+        </a>
+        <a class="text-gray-700 hover:text-green-600 transition-colors" href="/member/myPage">
+          My Page
+        </a>
+      </th:block>
+    </div>
   </div>
-  <br>
-  <hr>
 </header>
 </body>
 </html>

@@ -16,4 +16,7 @@ public class BoardController {
 
     @GetMapping("/write")
     public void write(){}
+
+    @GetMapping("/view")
+    public void view(){}
 }

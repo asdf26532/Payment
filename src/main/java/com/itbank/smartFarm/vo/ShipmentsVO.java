@@ -1,4 +1,4 @@
-package com.itbank.smartFarm.model.vo;
+package com.itbank.smartFarm.vo;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.itbank.smartFarm.controller;
 
 import com.itbank.smartFarm.aop.PasswordEncoder;
-import com.itbank.smartFarm.model.vo.MemberVO;
+import com.itbank.smartFarm.vo.MemberVO;
 import com.itbank.smartFarm.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

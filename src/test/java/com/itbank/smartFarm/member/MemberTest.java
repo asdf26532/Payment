@@ -1,12 +1,10 @@
 package com.itbank.smartFarm.member;
 
 import com.itbank.smartFarm.model.MemberDAO;
-import com.itbank.smartFarm.model.vo.MemberVO;
+import com.itbank.smartFarm.vo.MemberVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 
 @SpringBootTest
 public class MemberTest {

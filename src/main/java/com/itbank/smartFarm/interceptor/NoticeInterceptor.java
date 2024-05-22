@@ -2,7 +2,7 @@ package com.itbank.smartFarm.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import com.itbank.smartFarm.model.vo.MemberVO;
+import com.itbank.smartFarm.vo.MemberVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

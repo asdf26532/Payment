@@ -1,6 +1,5 @@
 package com.itbank.smartFarm.model;
 
-
 import com.itbank.smartFarm.vo.ReplyVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -11,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.*;
-import com.itbank.smartFarm.model.vo.BoardVO;
+
+import com.itbank.smartFarm.vo.BoardVO;
 
 @Mapper
 public interface BoardDAO {
@@ -19,30 +19,41 @@ public interface BoardDAO {
     public List<BoardVO> getAllNotices();
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
-    public BoardVO  getOneNotice(int id);
+    public BoardVO getOneNotice(int id);
 
+    @Select("<script>" +
+        "SELECT * FROM member_board_view where type = 102 " +
+        "<if test='group != null and search != null'> " +
+        "and  ${group} LIKE '%${search}%' " +
+        "</if> " +
+        "ORDER BY id DESC " +
+        "OFFSET #{offset} ROWS " +
+        "FETCH FIRST #{boardCount} ROWS ONLY" +
+        "</script>")
     List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Update("UPDATE board SET v_count = v_count + 1 WHERE id = #{id}")
     public int updateViewCount(int id);
-    @Select("select * from board where type_number = 102 and id_number = #{idx}")
-    BoardVO selectFreeOne(int idx);
+
+    @Select("select * from member_board_view where type = 102 and id = #{id}")
+    BoardVO selectFreeOne(int id);
 
     @Insert("INSERT INTO BOARD(title, member_id, type, contents) values(#{title}, 1001, 101, #{contents})")
     public int addNotice(BoardVO input);
-    @Insert("insert into Board(title, contents) values(#{title}, #{contents}) where type_number = 103")
-    void inComment(BoardVO input);
+
+//    @Insert("insert into Board(title, contents) values(#{title}, #{contents}) where type_number = 103")
+//    void inComment(BoardVO input);
 
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
 
-    @Select("select count(*) from freeBoard_view")
+    @Select("select count(*) from member_board_view where type = 102")
     int totalBoard();
 
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
-    public int updateNotice(BoardVO input);
-    @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
-            "where type_number = 102")
+    public int updateBoard(BoardVO input);
+
+    @Insert("insert into board(title, contents, member_id, type) values(#{title}, #{contents}, #{member_id}, 102)")
     int insertFb(BoardVO input);
 
     @Select("<script>" +
@@ -57,11 +68,8 @@ public interface BoardDAO {
             "</script>")
     public List<BoardVO> getAllFreemarkets(@Param("category") String category, @Param("soldout") Integer soldout);
 
-    @Delete("delete from board where id = #{id}")
-    int delete(int id);
-
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 104")
-	public BoardVO getOneFreeMarket(int id);
+    public BoardVO getOneFreeMarket(int id);
 
     @Insert("INSERT INTO BOARD(category, soldout, title, member_id, type, contents) " +
             "VALUES(#{category}, #{soldout}, #{title}, #{member_id}, 104, #{contents})")
@@ -69,6 +77,17 @@ public interface BoardDAO {
 
     @Update("UPDATE board SET title = #{title}, contents = #{contents}, category = #{category}, soldout = #{soldout} WHERE id = #{id}")
     public int updateFreeMarket(BoardVO input);
+
+
+    @Select("<script>" +
+            "SELECT * FROM member_board_view where type = 105 " +
+            "<if test='group != null and search != null'> " +
+            "and  ${group} LIKE '%${search}%' " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
+            "</script>")
     List<BoardVO> selectQnaAll(Map<String, Object> param);
 
     @Select("select * from board where type = 105 and id = #{id}")
@@ -78,14 +97,12 @@ public interface BoardDAO {
             "where type = 105")
     int insertQna(BoardVO input);
 
-    int viewUp(int idx);
 
-    @Select("select * from reply_view order by id desc")
-    List<ReplyVO> selectReplyAll();
-
-    List<ReplyVO> selectReplys(int b_idx);
-
-    int insertReply(ReplyVO input);
-
+//    @Select("select * from reply_view order by id desc")
+//    List<ReplyVO> selectReplyAll();
+//
+//    List<ReplyVO> selectReplys(int b_idx);
+//
+//    int insertReply(ReplyVO input);
 
 }

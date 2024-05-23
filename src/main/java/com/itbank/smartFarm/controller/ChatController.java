@@ -24,6 +24,6 @@ public class ChatController {
         List<MemberVO> senders = chatService.getSendersByReceiverId(user.getId());
         model.addAttribute("senders", senders);
         model.addAttribute("sender_id", user.getId());
-        return "/chat/chat";
+        return "chat/chat";
     }
 }

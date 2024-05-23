@@ -67,7 +67,7 @@
 		<tbody>
 			<tr th:each="row : ${list}">
 				<td><a th:href="'detailPage/' + ${row.id}" th:text="${row.id}"></a></td>
-				<td th:text="${row.order_id }"></td>
+				<td th:text="${row.product_name }"></td>
 				<td th:text="${row.price }"></td>
 				<td th:text="${row.count }"></td>
 			</tr>	

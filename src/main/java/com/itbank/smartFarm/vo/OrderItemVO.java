@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public class OrderItemVO {
 	private int id, order_id, price, count;
+	private String product_name;
 
 }

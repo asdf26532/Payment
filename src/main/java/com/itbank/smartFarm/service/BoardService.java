@@ -21,9 +21,37 @@ public class BoardService {
     @Autowired
     private BoardDAO bd;
 
-    public List<BoardVO> getNotices() {
-        return bd.getAllNotices();
+
+    public Map<String, Object> getNotices(Map<String, Object> param) {
+
+        String sint = (String) param.get("page");
+        sint = (sint == null) ? "1" : sint;
+
+        int reqPage = Integer.parseInt(sint);
+        int boardnum = 101;
+
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("pg", page);
+        result.put("list", bd.getAllNotices(param));
+
+        return result;
     }
+
 
     public Map<String, Object> getfreeBds(Map<String, Object> param) {
 
@@ -31,14 +59,24 @@ public class BoardService {
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
+        int boardnum = 102;
 
-        Paging page = new Paging(reqPage, bd.totalBoard());
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
 
 
         Map<String, Object> result = new HashMap<>();
+
         result.put("pg", page);
         result.put("list", bd.selectFreeAll(param));
 
@@ -83,8 +121,38 @@ public class BoardService {
     }
 
 
-    public List<BoardVO> getMarkets(String category, Integer soldout) {
-        return bd.getAllFreemarkets(category, soldout);
+    public Map<String, Object> getMarkets(Map<String, Object> param) {
+        String sint = (String) param.get("page");
+        sint = (sint == null) ? "1" : sint;
+
+        int reqPage = Integer.parseInt(sint);
+        int boardnum = 104;
+
+        if (param.containsKey("category") && "".equals(param.get("category"))) {
+            param.put("category", null);
+        }
+        if (param.containsKey("soldout") && "".equals(param.get("soldout"))) {
+            param.put("soldout", null);
+        }
+
+        int totalcount;
+        if (param.containsKey("category") || param.containsKey("soldout") || param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("pg", page);
+        result.put("list", bd.getAllFreemarkets(param));
+
+        return result;
     }
 
     public BoardVO getMarket(int id) {
@@ -105,8 +173,17 @@ public class BoardService {
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
+        int boardnum = 105;
 
-        Paging page = new Paging(reqPage, bd.totalBoard());
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());

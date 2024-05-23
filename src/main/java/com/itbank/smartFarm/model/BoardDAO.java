@@ -15,12 +15,30 @@ import com.itbank.smartFarm.vo.BoardVO;
 
 @Mapper
 public interface BoardDAO {
-    @Select("SELECT * FROM member_board_view WHERE type = 101 ORDER BY id DESC")
-    public List<BoardVO> getAllNotices();
+
+    @Select("<script>" +
+            "SELECT * FROM member_board_view where type = 101 " +
+            "<if test='group != null and search != null'> " +
+            "and  ${group} LIKE '%${search}%' " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
+            "</script>")
+    List<BoardVO> getAllNotices(Map<String, Object> param);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
     public BoardVO getOneNotice(int id);
 
+    @Select("<script>" +
+        "SELECT * FROM member_board_view where type = 102 " +
+        "<if test='group != null and search != null'> " +
+        "and  ${group} LIKE '%${search}%' " +
+        "</if> " +
+        "ORDER BY id DESC " +
+        "OFFSET #{offset} ROWS " +
+        "FETCH FIRST #{boardCount} ROWS ONLY" +
+        "</script>")
     List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Update("UPDATE board SET v_count = v_count + 1 WHERE id = #{id}")
@@ -38,9 +56,6 @@ public interface BoardDAO {
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
 
-    @Select("select count(*) from member_board_view where type = 102")
-    int totalBoard();
-
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
     public int updateBoard(BoardVO input);
 
@@ -55,12 +70,17 @@ public interface BoardDAO {
             "<if test='soldout != null'>" +
             " AND soldout = #{soldout}" +
             "</if>" +
-            " ORDER BY id DESC" +
+            "<if test='group != null and search != null'> " +
+            "and  ${group} LIKE '%${search}%' " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
             "</script>")
-    public List<BoardVO> getAllFreemarkets(@Param("category") String category, @Param("soldout") Integer soldout);
+    public List<BoardVO> getAllFreemarkets(Map<String, Object> param);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 104")
-	public BoardVO getOneFreeMarket(int id);
+    public BoardVO getOneFreeMarket(int id);
 
     @Insert("INSERT INTO BOARD(category, soldout, title, member_id, type, contents) " +
             "VALUES(#{category}, #{soldout}, #{title}, #{member_id}, 104, #{contents})")
@@ -69,6 +89,16 @@ public interface BoardDAO {
     @Update("UPDATE board SET title = #{title}, contents = #{contents}, category = #{category}, soldout = #{soldout} WHERE id = #{id}")
     public int updateFreeMarket(BoardVO input);
 
+
+    @Select("<script>" +
+            "SELECT * FROM member_board_view where type = 105 " +
+            "<if test='group != null and search != null'> " +
+            "and  ${group} LIKE '%${search}%' " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
+            "</script>")
     List<BoardVO> selectQnaAll(Map<String, Object> param);
 
     @Select("select * from board where type = 105 and id = #{id}")
@@ -77,6 +107,26 @@ public interface BoardDAO {
     @Insert("insert into board(title, contents, member_id, type) values(#{title}, #{contents}, #{member_id}, 105)")
     int insertQna(BoardVO input);
 
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM member_board_view WHERE type = #{num} " +
+            "<if test='category != null '> " +
+            "AND category = #{category} " +
+            "</if> " +
+            "<if test='soldout != null '> " +
+            "AND soldout = #{soldout} " +
+            "</if> " +
+            "<if test='group != null and search != null '> " +
+            "AND ${group} LIKE '%${search}%' " +  // 여기서 ${group}을 검토
+            "</if>" +
+            "</script>")
+    int searchboard(Map<String, Object> param);
+
+    @Select("select count(*) from member_board_view where type = #{num}")
+    int totalboard(int num);
+
+
+
+
     // 댓글 조회
     @Select("SELECT * FROM reply_view WHERE board_id = #{board_id} ORDER BY id DESC")
     List<ReplyVO> getReplies(int board_id);
@@ -84,7 +134,6 @@ public interface BoardDAO {
     // 댓글 추가
     @Insert("INSERT INTO reply (board_id, member_id, contents) VALUES (#{board_id}, #{member_id}, #{contents})")
     int addReply(ReplyVO reply);
-
     // 댓글 삭제
     @Delete("DELETE FROM reply WHERE id = #{id}")
     int deleteReply(int id);

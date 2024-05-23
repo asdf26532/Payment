@@ -31,12 +31,15 @@ public class BoardController {
     }
 
     // -----------------------------------공지사항-----------------------------------
-    
+
     // 전체 공지 게시글 리스트화
     @GetMapping("/notice")
-    public String notices(Model model) {
-        model.addAttribute("notices", bs.getNotices());
-        return "board/notice";
+    public ModelAndView notices(@RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("map", bs.getNotices(param));
+        mav.setViewName("board/notice");
+        return mav;
     }
 
     // 지정된 글 번호(id)의 상세 글 내용 조회
@@ -91,14 +94,17 @@ public class BoardController {
     // 전체 장터 게시글 리스트화
     // 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
     @GetMapping("/freemarket")
-    public String freemarkets(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) Integer soldout,
-            Model model) {
-        model.addAttribute("freemarkets", bs.getMarkets(category, soldout));
-        return "board/freemarket";
+    public ModelAndView freemarkets(
+            @RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("map", bs.getMarkets(param));
+
+        mav.setViewName("board/freemarket");
+
+        return mav;
     }
-    
+
     // 지정된 글 번호(id)의 상세 글 내용 조회
     @GetMapping("/freemarket_view/{id}")
     public String freemarket(@PathVariable("id") int id, Model model, HttpServletRequest request) {
@@ -152,17 +158,17 @@ public class BoardController {
 
     // -----------------------------------자유게시판-----------------------------------
 
-
     @GetMapping("/freeBoard")
-    public ModelAndView freeBoard(@RequestParam Map<String, Object> param) {
+    public ModelAndView freeBoard(
+            @RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("map", bs.getfreeBds(param));
-        mav.setViewName("/board/freeBoard");
+        mav.setViewName("board/freeBoard");
 
         return mav;
     }
-    
+
     @GetMapping("/fBadd")
     public String add() {
         return "board/fBadd";
@@ -201,6 +207,7 @@ public class BoardController {
         return mav;
     }
 
+
     @PostMapping("/deletefB/{id}")
     public String delete(@PathVariable int id) {
         bs.deleteBoard(id);
@@ -227,43 +234,28 @@ public class BoardController {
 
 
     // -----------------------------------질문게시판-----------------------------------
-    
-    
+
+
     @GetMapping("/QnA")
     public ModelAndView qna(@RequestParam Map<String, Object> param) {
 
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("map", bs.getQna(param));
-        mav.setViewName("/board/QnA");
+        mav.setViewName("board/QnA");
 
         return mav;
     }
 
     @GetMapping("/QnA_view/{id}")
-    public ModelAndView QnA_view(@PathVariable int id) {
-
+    public ModelAndView QnA_view(@PathVariable int id, HttpSession session) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
         ModelAndView mav = new ModelAndView();
 
         bs.updateViewCount(id);
         mav.addObject("row", bs.getSelectQna(id));
+        mav.addObject("user", user);
         mav.setViewName("board/QnA_view");
-
-        return mav;
-    }
-
-    @PostMapping("/QnA_view")
-    public ModelAndView QnA_view(BoardVO input, HttpSession session) {
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("row", bs);
-
-////        if (session.user != null) {
-//            mav.addObject("comment", bs.addCom(input));
-//        }
-
-        mav.setViewName("/board/QnA_view");
 
         return mav;
     }
@@ -357,4 +349,10 @@ public class BoardController {
         return "redirect:/board/QnA_view/" + boardId;
     }
 }
+
+
+
+
+}
+
 

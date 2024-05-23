@@ -83,6 +83,12 @@
         <textarea name="contents"></textarea>
         <input type="submit" value="작성">
     </form>
+
+    <fieldset class="reply" th:each="row : ${replys }">
+        <p>${row.nick } | ${row.w_date }</p>
+
+        <pre>${row.contents }</pre>
+    </fieldset>
 </div>
 
 <div th:replace="~{piece :: footer}"></div>

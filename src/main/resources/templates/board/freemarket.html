@@ -10,6 +10,15 @@
             text-decoration: none; /* 링크 밑줄 제거 */
             color: black; /* 링크 색상 설정 */
         }
+        .page {
+            display: flex;
+            width: 70%;
+            list-style: none;
+        }
+        .page li {
+            padding: 0 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -17,62 +26,98 @@
 
 <h1>장터</h1>
 <hr>
-<form action="/board/freemarket" method="get">
-    <label for="category">카테고리:</label>
-    <select id="category" name="category">
-        <option value="">전체</option>
-        <option value="곡물">곡물</option>
-        <option value="과일">과일</option>
-        <option value="채소">채소</option>
-        <option value="사료 작물">사료 작물</option>
-        <option value="비료 작물">비료 작물</option>
-        <option value="원예 작물">원예 작물</option>
-        <option value="공예 작물">공예 작물</option>
-    </select>
+<main th:with="list=${map['list']}, pg=${map['pg']}">
+    <form action="/board/freemarket" method="get">
+        <label for="category">카테고리:</label>
+        <select id="category" name="category">
+            <option value="">전체</option>
+            <option value="곡물">곡물</option>
+            <option value="과일">과일</option>
+            <option value="채소">채소</option>
+            <option value="사료 작물">사료 작물</option>
+            <option value="비료 작물">비료 작물</option>
+            <option value="원예 작물">원예 작물</option>
+            <option value="공예 작물">공예 작물</option>
+        </select>
 
-    <label for="soldout">판매 상태:</label>
-    <select id="soldout" name="soldout">
-        <option value="">전체</option>
-        <option value="1">판매중</option>
-        <option value="0">판매 완료</option>
-    </select>
+        <label for="soldout">판매 상태:</label>
+        <select id="soldout" name="soldout">
+            <option value="">전체</option>
+            <option value="1">판매중</option>
+            <option value="0">판매 완료</option>
+        </select>
 
-    <button type="submit">필터 적용</button>
-</form>
-<hr>
+        <select name="group">
+            <option value="title">제목</option>
+            <option value="nick">작성자</option>
+            <option value="contents">내용</option>
+        </select>
 
-<table>
-    <tr>
-        <th>카테고리</th>
-        <th>판매상태</th>
-        <th>제목</th>
-        <th>내용</th>
-        <th>조회수</th>
-        <th>작성자</th>
-        <th>작성일</th>
-    </tr>
-    <tr th:each="freemarket : ${freemarkets}">
-        <td>
-            <span th:text="${freemarket.category}"></span>
-        </td>
-        <td th:text="${freemarket.soldout == 1 ? '판매중' : '판매완료'}"></td>
-        <td th:text="${freemarket.title}"></td>
-        <td>
-            <a class="content"
-               th:href="@{/board/freemarket_view/{id}(id=${freemarket.id})}"
-               th:utext="${#strings.length(freemarket.contents) > 10 ?
-                    #strings.substring(freemarket.contents, 0, 10) : freemarket.contents}"></a>
-        </td>
-        <td th:text="${freemarket.v_count}"></td>
-        <td th:text="${freemarket.nick}"></td>
-        <td th:text="${freemarket.w_date}"></td>
-    </tr>
-</table>
+        <input name="search" type="text">
 
-<a href="/board/freemarket_write">
-    <button>글 작성</button>
-</a>
+        <button type="submit">검색</button>
 
+    </form>
+        <hr>
+
+    <table>
+        <tr>
+            <th>카테고리</th>
+            <th>판매상태</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>조회수</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+        <tr th:each="freemarket : ${list}">
+            <td>
+                <span th:text="${freemarket.category}"></span>
+            </td>
+            <td th:text="${freemarket.soldout == 1 ? '판매중' : '판매완료'}"></td>
+            <td th:text="${freemarket.title}"></td>
+            <td>
+                <a class="content"
+                   th:href="@{/board/freemarket_view/{id}(id=${freemarket.id})}"
+                   th:utext="${#strings.length(freemarket.contents) > 10 ?
+                        #strings.substring(freemarket.contents, 0, 10) : freemarket.contents}"></a>
+            </td>
+            <td th:text="${freemarket.v_count}"></td>
+            <td th:text="${freemarket.nick}"></td>
+            <td th:text="${freemarket.w_date}"></td>
+        </tr>
+    </table>
+
+    <br>
+
+    <ul class="page" th:with="groupParam=${param.group != null ? 'group=' + param.group : null}, searchParam=${param.search != null ? 'search=' + param.search : null}
+                               , categoryParam=${param.category != null ? 'category=' + param.category : null}, soldoutParam=${param.soldout != null ? 'soldout=' + param.soldout : null}">
+        <li th:if="${pg.prev}">
+            <a th:href="@{|/board/freemarket?page=${pg.begin - 1}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                이전
+            </a>
+        </li>
+
+        <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+            <a th:href="@{|/board/freemarket?page=${i}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                <span th:text="${i}"></span>
+            </a>
+        </li>
+
+        <li th:if="${pg.next}">
+            <a th:href="@{|/board/freemarket?page=${pg.end + 1}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                다음
+            </a>
+        </li>
+    </ul>
+
+
+    <br>
+
+    <a href="/board/freemarket_write">
+        <button>글 작성</button>
+    </a>
+</main>
 <div th:replace="~{piece :: footer}"></div>
 </body>
 </html>

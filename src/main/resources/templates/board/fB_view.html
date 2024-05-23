@@ -12,6 +12,11 @@
 
 <table th:with="row = ${row}">
 
+
+    <tr>
+        <th>글번호</th>
+        <td th:text="${row.id}"></td>
+    </tr>
     <tr>
         <th>제목</th>
         <td th:text="${row.title}"></td>

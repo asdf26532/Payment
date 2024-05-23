@@ -63,6 +63,7 @@ public class BoardService {
 
     @Transactional
     public int deleteBoard(int id) {
+        bd.deleteReplyByBoardId(id);
         return bd.deleteBoard(id);
     }
 

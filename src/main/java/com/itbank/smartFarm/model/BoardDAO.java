@@ -85,6 +85,10 @@ public interface BoardDAO {
     // 댓글 삭제
     @Delete("DELETE FROM reply WHERE id = #{id}")
     int deleteReply(int id);
+
+    // 글 삭제 시 참조중인 모든 댓글 삭제
+    @Delete("DELETE FROM reply WHERE board_id = #{board_id}")
+    int deleteReplyByBoardId(int board_id);
     }
 
 

@@ -215,13 +215,30 @@ public class BoardService {
         return bd.updateBoard(input);
     }
 
+
+
+
     // 댓글 조회
-    public List<ReplyVO> getReplies(int board_id) {
-        List<ReplyVO> replies = bd.getReplies(board_id);
-        if (replies == null) {
-            return new ArrayList<>();
-        }
-        return replies;
+    public Map<String, Object> getReplylist(Map<String, Object> param) {
+
+        String sint = (String) param.get("page");
+        sint = (sint == null) ? "1" : sint;
+
+        int reqPage = Integer.parseInt(sint);
+
+        Paging page = new Paging(reqPage, bd.totalreply((Integer)param.get("board_id")));
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("pg", page);
+        result.put("replies", bd.getReplies((Integer)param.get("board_id")));
+
+        return result;
+
     }
 
     // 댓글 추가
@@ -234,5 +251,10 @@ public class BoardService {
     @Transactional
     public int deleteReply(int id) {
         return bd.deleteReply(id);
+    }
+
+    public List<ReplyVO> getReplies(int id) {
+
+       return bd.getReplies(id);
     }
 }

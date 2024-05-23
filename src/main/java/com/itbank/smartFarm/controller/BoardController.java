@@ -10,9 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.Map;
-import com.itbank.smartFarm.vo.BoardVO;
+
 import com.itbank.smartFarm.vo.MemberVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -189,6 +188,7 @@ public class BoardController {
 
         bs.updateViewCount(id);
         mav.addObject("row", bs.getfB(id));
+        mav.addObject("replies", bs.getReplies(id));
         mav.addObject("user", user);
         mav.setViewName("board/fB_view");
 
@@ -247,13 +247,20 @@ public class BoardController {
         return mav;
     }
 
+
+
+
     @GetMapping("/QnA_view/{id}")
     public ModelAndView QnA_view(@PathVariable int id, HttpSession session) {
         MemberVO user = (MemberVO) session.getAttribute("user");
         ModelAndView mav = new ModelAndView();
 
         bs.updateViewCount(id);
+
+        String b_id = Integer.toString(id);
+
         mav.addObject("row", bs.getSelectQna(id));
+        mav.addObject("replies", bs.getReplies(id));
         mav.addObject("user", user);
         mav.setViewName("board/QnA_view");
 
@@ -304,17 +311,22 @@ public class BoardController {
     // -----------------------------------댓글-----------------------------------
 
     @GetMapping("/replies/{board_id}")
-    public String getReplies(@PathVariable int board_id, Model model, HttpServletRequest request) {
+    public ModelAndView getReplies(@PathVariable int board_id, HttpServletRequest request,
+                                   @RequestParam Map<String, Object> param) {
         String type = request.getHeader("Referer");
-        List<ReplyVO> replies = bs.getReplies(board_id);
-        model.addAttribute("replies", replies);
-        model.addAttribute("board_id", board_id);
+
+        ModelAndView mav = new ModelAndView();
+
+        param.put("board_id", board_id);
+
+        mav.addObject("map", bs.getReplylist(param));
+
         if (type.contains("QnA_view")) {
-            return "board/QnA_view";
+            mav.setViewName("board/QnA_view");
         } else if (type.contains("fB_view")) {
-            return "board/fB_view";
+            mav.setViewName("board/fB_view");
         }
-        return "board/QnA_view";
+        return mav;
     }
 
     // 댓글 추가
@@ -353,6 +365,5 @@ public class BoardController {
 
 
 
-}
 
 

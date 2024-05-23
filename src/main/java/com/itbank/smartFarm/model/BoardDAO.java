@@ -128,7 +128,12 @@ public interface BoardDAO {
 
 
     // 댓글 조회
-    @Select("SELECT * FROM reply_view WHERE board_id = #{board_id} ORDER BY id DESC")
+    @Select("<script>" +
+            "SELECT * FROM reply_view where board_id = #{board_id} " +
+            "ORDER BY id DESC " +
+            "OFFSET #{offset} ROWS " +
+            "FETCH FIRST #{boardCount} ROWS ONLY" +
+            "</script>")
     List<ReplyVO> getReplies(int board_id);
 
     // 댓글 추가
@@ -141,4 +146,8 @@ public interface BoardDAO {
     // 글 삭제 시 참조중인 모든 댓글 삭제
     @Delete("DELETE FROM reply WHERE board_id = #{board_id}")
     int deleteReplyByBoardId(int board_id);
-    }
+
+    // 해당 글 댓글 총 수
+    @Select("select count(*) from reply_view where board_id = #{board_id}")
+    int totalreply(int board_id);
+}

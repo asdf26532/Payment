@@ -1,5 +1,6 @@
 package com.itbank.smartFarm.model;
 
+import com.itbank.smartFarm.vo.MemberVO;
 import com.itbank.smartFarm.vo.MessageVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,5 +26,7 @@ public interface ChatDAO {
     @Select("SELECT m.*, u.nick FROM message m JOIN member u ON m.sender_id = u.id WHERE m.id = LAST_INSERT_ID()")
     MessageVO findLastMessage();
 
+    @Select("SELECT DISTINCT u.* FROM message m JOIN member u ON m.sender_id = u.id WHERE m.receiver_id = #{receiverId}")
+    List<MemberVO> findSendersByReceiverId(int receiverId);
 
 }

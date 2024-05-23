@@ -1,37 +1,45 @@
 package com.itbank.smartFarm.controller;
 
 import com.itbank.smartFarm.service.ChatService;
-import com.itbank.smartFarm.vo.MessageVO;
+import com.itbank.smartFarm.vo.MemberVO;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/chat")
 public class ChatController {
 
     @Autowired
-    private ChatService cs;
+    private ChatService chatService;
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-
-    @GetMapping("/{senderId}/{receiverId}")
-    public List<MessageVO> getMessages(@PathVariable int senderId, @PathVariable int receiverId) {
-        return cs.getMessagesBySenderAndReceiver(senderId, receiverId);
+    @GetMapping("/chatScreen/{senderId}/{receiverId}")
+    public String chat(Model model, @PathVariable String senderId, @PathVariable String receiverId) {
+        model.addAttribute("sender_id", senderId);
+        model.addAttribute("receiver_id", receiverId);
+        return "/chat/chatScreen";
     }
 
-    @MessageMapping("/sendMessage")
-    public void sendMessage(MessageVO message) {
-        cs.saveMessage(message);
-        MessageVO savedMessage = cs.getLastMessage();
-        messagingTemplate.convertAndSend("/topic/messages/" + message.getReceiverId(), savedMessage);
-        messagingTemplate.convertAndSend("/topic/messages/" + message.getSenderId(), savedMessage);
+    @GetMapping("/chatList")
+    public String chatList(Model model, HttpSession session) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        List<MemberVO> senders = chatService.getSendersByReceiverId(user.getId());
+        model.addAttribute("senders", senders);
+        return "chat/chatList";
+    }
+
+    @GetMapping("/chatScreen")
+    public String chatScreen(Model model, @RequestParam int receiverId, HttpSession session) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        model.addAttribute("sender_id", user.getId());
+        model.addAttribute("receiver_id", receiverId);
+        return "chat/chatScreen";
     }
 }

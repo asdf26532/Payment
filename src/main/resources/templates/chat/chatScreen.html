@@ -15,8 +15,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script th:inline="javascript">
     let stompClient = null;
-    const senderId = [[${sender_id}]]; // 예시용 발신자 ID
-    const receiverId = [[${receiver_id}]]; // 예시용 수신자 ID
+    const receiverId = [[${receiver_id}]];
+    const senderId = [[${sender_id}]]; // 세션에서 발신자 ID 가져오기
 
     function connect() {
         const socket = new SockJS('/ws');

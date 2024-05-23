@@ -1,6 +1,7 @@
 package com.itbank.smartFarm.service;
 
 import com.itbank.smartFarm.model.ChatDAO;
+import com.itbank.smartFarm.vo.MemberVO;
 import com.itbank.smartFarm.vo.MessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,9 @@ public class ChatService {
 
     public MessageVO getLastMessage() {
         return dao.findLastMessage();
+    }
+
+    public List<MemberVO> getSendersByReceiverId(int receiverId) {
+        return dao.findSendersByReceiverId(receiverId);
     }
 }

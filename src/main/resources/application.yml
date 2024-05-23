@@ -13,9 +13,7 @@ spring:
     password: 1
     
 server:
-  port: 8080
-
-mybatis :
+  port: 8081
 
 
 #server:

@@ -1,5 +1,6 @@
 package com.itbank.smartFarm.model;
 
+import com.itbank.smartFarm.vo.ReplyVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

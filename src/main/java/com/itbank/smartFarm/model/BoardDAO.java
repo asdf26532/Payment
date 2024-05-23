@@ -1,6 +1,5 @@
 package com.itbank.smartFarm.model;
 
-import com.itbank.smartFarm.vo.BoardVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.*;
 
-import com.itbank.smartFarm.model.vo.BoardVO;
+import com.itbank.smartFarm.vo.BoardVO;
 
 @Mapper
 public interface BoardDAO {
@@ -20,6 +19,7 @@ public interface BoardDAO {
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 101")
     public BoardVO getOneNotice(int id);
+
     List<BoardVO>selectFreeAll(Map<String, Object> param);
 
     @Update("UPDATE board SET v_count = v_count + 1 WHERE id = #{id}")
@@ -36,7 +36,8 @@ public interface BoardDAO {
 
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
-    @Select("select count(*) from freeBoard_view")
+
+    @Select("select count(*) from member_board_view where type = 102")
     int totalBoard();
 
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
@@ -56,8 +57,6 @@ public interface BoardDAO {
             " ORDER BY id DESC" +
             "</script>")
     public List<BoardVO> getAllFreemarkets(@Param("category") String category, @Param("soldout") Integer soldout);
-    @Delete("delete from board where id_number = #{idx}")
-    int delete(int idx);
 
     @Select("SELECT * FROM member_board_view WHERE id = #{id} AND type = 104")
 	public BoardVO getOneFreeMarket(int id);
@@ -74,18 +73,22 @@ public interface BoardDAO {
     @Select("select * from board where type = 105 and id = #{id}")
     BoardVO selectQnaOne(int id);
 
-    @Insert("insert into board(title, contents, member_id) values(#{title}, #{contents}, #{member_id}) " +
-            "where type = 105")
+    @Insert("insert into board(title, contents, member_id, type) values(#{title}, #{contents}, #{member_id}, 105)")
     int insertQna(BoardVO input);
 
-    int viewUp(int idx);
+    // 댓글 조회
+    @Select("SELECT * FROM reply_view WHERE board_id = #{board_id} ORDER BY id DESC")
+    List<ReplyVO> getReplies(int board_id);
 
-    @Select("select * from reply_view order by id desc")
-    List<ReplyVO> selectReplyAll();
+    // 댓글 추가
+    @Insert("INSERT INTO reply (board_id, member_id, contents) VALUES (#{board_id}, #{member_id}, #{contents})")
+    int addReply(ReplyVO reply);
 
-    List<ReplyVO> selectReplys(int b_idx);
+    // 댓글 삭제
+    @Delete("DELETE FROM reply WHERE id = #{id}")
+    int deleteReply(int id);
 
-    int insertReply(ReplyVO input);
-
-
-}
+    // 글 삭제 시 참조중인 모든 댓글 삭제
+    @Delete("DELETE FROM reply WHERE board_id = #{board_id}")
+    int deleteReplyByBoardId(int board_id);
+    }

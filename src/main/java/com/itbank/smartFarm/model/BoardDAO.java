@@ -127,11 +127,5 @@ public interface BoardDAO {
     @Select("select count(*) from member_board_view where type = #{num}")
     int totalboard(int num);
 
-//    @Select("select * from reply_view order by id desc")
-//    List<ReplyVO> selectReplyAll();
-//
-//    List<ReplyVO> selectReplys(int b_idx);
-//
-//    int insertReply(ReplyVO input);
 
 }

@@ -111,13 +111,13 @@ public interface BoardDAO {
 
     @Select("<script>" +
             "SELECT COUNT(*) FROM member_board_view WHERE type = #{num} " +
-            "<if test='category != null and !category.isEmpty()'> " +
+            "<if test='category != null '> " +
             "AND category = #{category} " +
             "</if> " +
-            "<if test='soldout != null'> " +
+            "<if test='soldout != null '> " +
             "AND soldout = #{soldout} " +
             "</if> " +
-            "<if test='group != null and search != null'> " +
+            "<if test='group != null and search != null '> " +
             "AND ${group} LIKE '%${search}%' " +  // 여기서 ${group}을 검토
             "</if>" +
             "</script>")

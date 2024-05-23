@@ -125,6 +125,13 @@ public class BoardService {
         int reqPage = Integer.parseInt(sint);
         int boardnum = 104;
 
+        if (param.containsKey("category") && "".equals(param.get("category"))) {
+            param.put("category", null);
+        }
+        if (param.containsKey("soldout") && "".equals(param.get("soldout"))) {
+            param.put("soldout", null);
+        }
+
         int totalcount;
         if (param.containsKey("category") || param.containsKey("soldout") || param.containsKey("group") || param.containsKey("search")) {
             param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가

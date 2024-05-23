@@ -90,21 +90,22 @@
 
     <br>
 
-    <ul class="page" th:with="groupParam=${param.group != null ? 'group=' + param.group : ''}, searchParam=${param.search != null ? 'search=' + param.search : ''}">
+    <ul class="page" th:with="groupParam=${param.group != null ? 'group=' + param.group : null}, searchParam=${param.search != null ? 'search=' + param.search : null}
+                               , categoryParam=${param.category != null ? 'category=' + param.category : null}, soldoutParam=${param.soldout != null ? 'soldout=' + param.soldout : null}">
         <li th:if="${pg.prev}">
-            <a th:href="@{|/board/freemarket?page=${pg.begin - 1}&${groupParam}&${searchParam}|}">
+            <a th:href="@{|/board/freemarket?page=${pg.begin - 1}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
                 이전
             </a>
         </li>
 
         <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-            <a th:href="@{|/board/freemarket?page=${i}&${groupParam}&${searchParam}|}">
+            <a th:href="@{|/board/freemarket?page=${i}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
                 <span th:text="${i}"></span>
             </a>
         </li>
 
         <li th:if="${pg.next}">
-            <a th:href="@{|/board/freemarket?page=${pg.end + 1}&${groupParam}&${searchParam}|}">
+            <a th:href="@{|/board/freemarket?page=${pg.end + 1}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
                 다음
             </a>
         </li>

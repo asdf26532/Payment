@@ -56,9 +56,6 @@ public interface BoardDAO {
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
 
-    @Select("select count(*) from member_board_view where type = #{num}")
-    int totalBoard(int num);
-
     @Update("UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}")
     public int updateBoard(BoardVO input);
 
@@ -111,6 +108,24 @@ public interface BoardDAO {
             "where type = 105")
     int insertQna(BoardVO input);
 
+
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM member_board_view WHERE type = #{num} " +
+            "<if test='category != null and !category.isEmpty()'> " +
+            "AND category = #{category} " +
+            "</if> " +
+            "<if test='soldout != null'> " +
+            "AND soldout = #{soldout} " +
+            "</if> " +
+            "<if test='group != null and search != null'> " +
+            "AND ${group} LIKE '%${search}%' " +  // 여기서 ${group}을 검토
+            "</if>" +
+            "</script>")
+    int searchboard(Map<String, Object> param);
+
+
+    @Select("select count(*) from member_board_view where type = #{num}")
+    int totalboard(int num);
 
 //    @Select("select * from reply_view order by id desc")
 //    List<ReplyVO> selectReplyAll();

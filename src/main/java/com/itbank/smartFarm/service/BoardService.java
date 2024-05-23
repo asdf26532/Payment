@@ -19,15 +19,24 @@ public class BoardService {
     @Autowired
     private BoardDAO bd;
 
+
     public Map<String, Object> getNotices(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
-        int total = 101;
+        int boardnum = 101;
 
-        Paging page = new Paging(reqPage, bd.totalBoard(total));
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
@@ -48,9 +57,17 @@ public class BoardService {
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
-        int total = 102;
+        int boardnum = 102;
 
-        Paging page = new Paging(reqPage, bd.totalBoard(total));
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
@@ -102,21 +119,26 @@ public class BoardService {
 
 
     public Map<String, Object> getMarkets(Map<String, Object> param) {
-
         String sint = (String) param.get("page");
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
-        int total = 104;
+        int boardnum = 104;
 
-        Paging page = new Paging(reqPage, bd.totalBoard(total));
+        int totalcount;
+        if (param.containsKey("category") || param.containsKey("soldout") || param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
 
-
         Map<String, Object> result = new HashMap<>();
-
         result.put("pg", page);
         result.put("list", bd.getAllFreemarkets(param));
 
@@ -142,9 +164,17 @@ public class BoardService {
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
-        int total = 105;
+        int boardnum = 105;
 
-        Paging page = new Paging(reqPage, bd.totalBoard(total));
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());

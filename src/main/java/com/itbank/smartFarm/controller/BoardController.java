@@ -1,6 +1,7 @@
 package com.itbank.smartFarm.controller;
 
 import com.itbank.smartFarm.service.BoardService;
+import com.itbank.smartFarm.vo.ReplyVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 import com.itbank.smartFarm.vo.BoardVO;
@@ -181,6 +183,7 @@ public class BoardController {
 
         bs.updateViewCount(id);
         mav.addObject("row", bs.getfB(id));
+        mav.addObject("replies", bs.getReplies(id));
         mav.addObject("user", user);
         mav.setViewName("board/fB_view");
 
@@ -245,6 +248,7 @@ public class BoardController {
 
         bs.updateViewCount(id);
         mav.addObject("row", bs.getSelectQna(id));
+        mav.addObject("replies", bs.getReplies(id));
         mav.addObject("user", user);
         mav.setViewName("board/QnA_view");
 
@@ -258,9 +262,6 @@ public class BoardController {
 
         mav.addObject("row", bs.getSelectQna(input.getId()));
         mav.addObject("user", user);
-////        if (session.user != null) {
-//            mav.addObject("comment", bs.addCom(input));
-//        }
 
         mav.setViewName("/board/QnA_view");
 
@@ -305,5 +306,52 @@ public class BoardController {
 
     }
 
+    // -----------------------------------댓글-----------------------------------
+
+    @GetMapping("/replies/{board_id}")
+    public String getReplies(@PathVariable int board_id, Model model, HttpServletRequest request) {
+        String type = request.getHeader("Referer");
+        List<ReplyVO> replies = bs.getReplies(board_id);
+        model.addAttribute("replies", replies);
+        model.addAttribute("board_id", board_id);
+        if (type.contains("QnA_view")) {
+            return "board/QnA_view";
+        } else if (type.contains("fB_view")) {
+            return "board/fB_view";
+        }
+        return "board/QnA_view";
+    }
+
+    // 댓글 추가
+    @PostMapping("/replies")
+    public String addReply(ReplyVO reply, HttpSession session, HttpServletRequest request) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        if (user != null) {
+            reply.setMember_id(user.getId());
+            int board_id = reply.getBoard_id();
+            reply.setBoard_id(board_id);
+            bs.addReply(reply);
+        }
+        String type = request.getHeader("Referer");
+        if (type.contains("QnA_view")) {
+            return "redirect:/board/QnA_view/" + reply.getBoard_id();
+        } else if (type.contains("fB_view")) {
+            return "redirect:/board/fB_view/" + reply.getBoard_id();
+        }
+        return "redirect:/board/QnA_view/" + reply.getBoard_id();
+    }
+
+    // 댓글 삭제
+    @PostMapping("/deleteReply/{id}")
+    public String deleteReply(@PathVariable int id, @RequestParam("board_id") int boardId, HttpServletRequest request) {
+        bs.deleteReply(id);
+        String type = request.getHeader("Referer");
+        if (type.contains("QnA_view")) {
+            return "redirect:/board/QnA_view/" + boardId;
+        } else if (type.contains("fB_view")) {
+            return "redirect:/board/fB_view/" + boardId;
+        }
+        return "redirect:/board/QnA_view/" + boardId;
+    }
 }
 

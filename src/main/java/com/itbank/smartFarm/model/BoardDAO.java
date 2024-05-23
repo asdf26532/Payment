@@ -1,5 +1,6 @@
 package com.itbank.smartFarm.model;
 
+import com.itbank.smartFarm.vo.ReplyVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -30,9 +31,6 @@ public interface BoardDAO {
 
     @Insert("INSERT INTO BOARD(title, member_id, type, contents) values(#{title}, 1001, 101, #{contents})")
     public int addNotice(BoardVO input);
-
-//    @Insert("insert into Board(title, contents) values(#{title}, #{contents}) where type_number = 103")
-//    void inComment(BoardVO input);
 
     @Delete("DELETE FROM BOARD WHERE id = #{id}")
     public int deleteBoard(int id);
@@ -76,4 +74,18 @@ public interface BoardDAO {
     @Insert("insert into board(title, contents, member_id, type) values(#{title}, #{contents}, #{member_id}, 105)")
     int insertQna(BoardVO input);
 
-}
+    // 댓글 조회
+    @Select("SELECT * FROM reply_view WHERE board_id = #{board_id} ORDER BY id DESC")
+    List<ReplyVO> getReplies(int board_id);
+
+    // 댓글 추가
+    @Insert("INSERT INTO reply (board_id, member_id, contents) VALUES (#{board_id}, #{member_id}, #{contents})")
+    int addReply(ReplyVO reply);
+
+    // 댓글 삭제
+    @Delete("DELETE FROM reply WHERE id = #{id}")
+    int deleteReply(int id);
+    }
+
+
+

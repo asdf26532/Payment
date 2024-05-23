@@ -1,15 +1,16 @@
 package com.itbank.smartFarm.service;
 
-import java.util.List;
-
 import com.itbank.smartFarm.components.Paging;
 import com.itbank.smartFarm.model.BoardDAO;
 import com.itbank.smartFarm.vo.BoardVO;
+import com.itbank.smartFarm.vo.ReplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -134,4 +135,24 @@ public class BoardService {
         return bd.updateBoard(input);
     }
 
+    // 댓글 조회
+    public List<ReplyVO> getReplies(int board_id) {
+        List<ReplyVO> replies = bd.getReplies(board_id);
+        if (replies == null) {
+            return new ArrayList<>();
+        }
+        return replies;
+    }
+
+    // 댓글 추가
+    @Transactional
+    public int addReply(ReplyVO reply) {
+        return bd.addReply(reply);
+    }
+
+    // 댓글 삭제
+    @Transactional
+    public int deleteReply(int id) {
+        return bd.deleteReply(id);
+    }
 }

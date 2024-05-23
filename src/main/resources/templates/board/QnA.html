@@ -16,7 +16,7 @@
 
 <header th:replace="~{piece :: header}"></header>
 
-<main th:with="list=${map['list']}, pg=${map['pg']}">
+<main th:with="list=${map['list']}">
     <table>
         <tr>
             <th>제목</th>
@@ -37,36 +37,6 @@
             <td th:text="${row.w_date != null ? row.w_date : ''}"></td>
         </tr>
     </table>
-
-    <br>
-    <div th:if="${param != null and param['type'] != null and #strings.isNotEmpty(param['type'])}">
-        <div th:with="type='&type=' + ${param.type}">
-            <div th:with="search='&search=' + ${param.search}">
-
-                <ul class="page">
-                    <li th:if="${pg.prev}">
-                        <a th:href="@{/board/freeBoard(page=${pg.begin - 1} + ${type} + ${search})}">
-                            이전
-                        </a>
-                    </li>
-
-                    <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-                        <a th:href="@{/board/freeBoard(page=${i} + ${type} + ${search})}">
-                            <span th:text="${i}"></span>
-                        </a>
-                    </li>
-
-                    <li th:if="${pg.next}">
-                        <a th:href="@{/board/freeBoard(page=${pg.end + 1} + ${type} + ${search})}">
-                            다음
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <br>
 
     <form>
         <select name="type">

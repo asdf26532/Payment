@@ -48,6 +48,34 @@
     }
 </script>
 
+<h2>댓글</h2>
+<hr>
+<table th:if="${replies != null}">
+    <tr th:each="reply : ${replies}">
+        <td th:text="${reply.nick}"></td>
+        <td th:text="${reply.contents}"></td>
+        <td>작성일: <span th:text="${reply.w_date}"></span></td>
+        <td th:if="${user != null and reply.member_id == user.id}">
+            <form th:action="'/board/deleteReply/' + ${reply.id}" method="post">
+                <input type="hidden" name="board_id" th:value="${row.id}">
+                <input type="submit" value="삭제">
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${replies == null or #lists.isEmpty(replies)}">
+        <td>댓글이 없습니다.</td>
+    </tr>
+</table>
+
+<div th:if="${user != null}">
+    <h3>댓글 작성</h3>
+    <form th:action="@{/board/replies}" method="post">
+        <input type="hidden" name="board_id" th:value="${row.id}">
+        <textarea name="contents"></textarea>
+        <input type="submit" value="작성">
+    </form>
+</div>
+
 <div th:replace="~{piece :: footer}"></div>
 </body>
 </html>

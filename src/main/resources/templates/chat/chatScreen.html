@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Screen</title>
+</head>
+<body>
+<div id="messages" th:text="${messages}"></div> <!-- 메시지를 표시할 영역입니다. -->
+<input type="text" id="messageInput"> <!-- 사용자가 메시지를 입력할 입력 필드입니다. -->
+<button id="sendButton">Send</button> <!-- 메시지를 전송하는 버튼입니다. -->
+
+<!-- SockJS와 STOMP 라이브러리를 로드합니다. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:inline="javascript">
+    let stompClient = null;
+    const senderId = [[${sender_id}]]; // 예시용 발신자 ID
+    const receiverId = [[${receiver_id}]]; // 예시용 수신자 ID
+
+    function connect() {
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnected, onError);
+    }
+
+    function onConnected() {
+        stompClient.subscribe('/topic/messages/' + senderId, onMessageReceived);
+    }
+
+
+    function onError(error) {
+        console.error('Could not connect to WebSocket server. Please refresh this page to try again!');
+    }
+
+    function sendMessage() {
+        const messageContent = document.getElementById('messageInput').value.trim();
+        if (messageContent && stompClient) {
+            const chatMessage = {
+                senderId: senderId,
+                receiverId: receiverId,
+                content: messageContent
+            };
+            stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
+            document.getElementById('messageInput').value = '';
+        }
+    }
+
+    function onMessageReceived(payload) {
+        const message = JSON.parse(payload.body);
+        displayMessage(message);
+    }
+
+    function displayMessage(messageData) {
+        const messagesContainer = document.getElementById('messages');
+        messagesContainer.innerHTML += messageData.nick + ': ' + messageData.content + ' (' + messageData.timestamp + ')<br>';
+    }
+
+    // 페이지 로드 시 실행되는 함수
+    window.onload = function() {
+        connect();
+        fetchMessages();
+    };
+
+    function fetchMessages() {
+        fetch('/chat/' + senderId + '/' + receiverId)
+            .then(response => response.json())
+            .then(data => {
+                const messagesContainer = document.getElementById('messages');
+                messagesContainer.innerHTML = ''; // 기존 메시지를 클리어
+                data.forEach(message => {
+                    displayMessage(message); // 메시지 추가
+                });
+            })
+            .catch(error => console.error('Error loading messages:', error));
+    }
+
+    // sendMessage 함수는 버튼 클릭 이벤트 핸들러에 직접 연결
+    document.getElementById('sendButton').addEventListener('click', sendMessage);
+</script>
+</body>
+</html>

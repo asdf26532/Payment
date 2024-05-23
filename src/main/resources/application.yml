@@ -17,3 +17,6 @@ spring:
     url: jdbc:mysql://3.36.207.45:3306/smartfarm?serverTimezone=UTC&characterEncoding=utf8
     username: root
     password: 12345678
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html

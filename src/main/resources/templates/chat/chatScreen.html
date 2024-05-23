@@ -6,17 +6,25 @@
     <title>Chat Screen</title>
 </head>
 <body>
-<div id="messages" th:text="${messages}"></div> <!-- 메시지를 표시할 영역입니다. -->
-<input type="text" id="messageInput"> <!-- 사용자가 메시지를 입력할 입력 필드입니다. -->
-<button id="sendButton">Send</button> <!-- 메시지를 전송하는 버튼입니다. -->
+<div id="chatList">
+    <ul>
+        <li th:each="sender : ${senders}">
+            <a href="#" th:text="${sender.nick}" th:onclick="'loadChat(' + ${sender.id} + ')'"></a>
+        </li>
+    </ul>
+</div>
+<div id="chatContent">
+    <div id="messages"></div>
+    <input type="text" id="messageInput">
+    <button id="sendButton">Send</button>
+</div>
 
-<!-- SockJS와 STOMP 라이브러리를 로드합니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script th:inline="javascript">
     let stompClient = null;
-    const receiverId = [[${receiver_id}]];
-    const senderId = [[${sender_id}]]; // 세션에서 발신자 ID 가져오기
+    const senderId = [[${session.user.id}]];
+    let receiverId = null;
 
     function connect() {
         const socket = new SockJS('/ws');
@@ -25,12 +33,11 @@
     }
 
     function onConnected() {
-        // 발신자의 메시지 토픽 구독
         stompClient.subscribe('/topic/messages/' + senderId, onMessageReceived);
     }
 
     function onError(error) {
-        console.error('WebSocket 서버에 연결할 수 없습니다. 이 페이지를 새로 고침하여 다시 시도하세요!');
+        console.error('WebSocket 연결 실패:', error);
     }
 
     function sendMessage() {
@@ -42,7 +49,7 @@
                 content: messageContent
             };
             stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
-            document.getElementById('messageInput').value = ''; // 입력 필드 비우기
+            document.getElementById('messageInput').value = '';
         }
     }
 
@@ -53,45 +60,27 @@
 
     function displayMessage(messageData) {
         const messagesContainer = document.getElementById('messages');
-
-        // 타임스탬프를 KST로 변환하고 포맷팅
         const date = new Date(messageData.timestamp);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-        const day = String(date.getDate()).padStart(2, '0');
-        let hours = date.getHours();
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // 0시를 12시로 변환
-
-        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
-
-        // 포맷팅된 날짜와 함께 메시지 표시
+        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
         messagesContainer.innerHTML += messageData.nick + ': ' + messageData.content + ' (' + formattedDate + ')<br>';
     }
 
-    // 페이지 로드 시 실행되는 함수
-    window.onload = function() {
-        connect();
-        fetchMessages();
-    };
-
-    function fetchMessages() {
+    function loadChat(selectedReceiverId) {
+        receiverId = selectedReceiverId;
         fetch('/chat/' + senderId + '/' + receiverId)
             .then(response => response.json())
             .then(data => {
                 const messagesContainer = document.getElementById('messages');
-                messagesContainer.innerHTML = ''; // 기존 메시지를 클리어
+                messagesContainer.innerHTML = '';
                 data.forEach(message => {
-                    displayMessage(message); // 메시지 추가
+                    displayMessage(message);
                 });
             })
             .catch(error => console.error('메시지 로딩 중 오류 발생:', error));
     }
 
-    // sendMessage 함수는 버튼 클릭 이벤트 핸들러에 직접 연결
     document.getElementById('sendButton').addEventListener('click', sendMessage);
+    window.onload = connect;
 </script>
 </body>
 </html>

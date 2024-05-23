@@ -36,10 +36,11 @@ public class ChatController {
     }
 
     @GetMapping("/chatScreen")
-    public String chatScreen(Model model, @RequestParam int receiverId, HttpSession session) {
+    public String chatScreen(Model model, HttpSession session) {
         MemberVO user = (MemberVO) session.getAttribute("user");
+        List<MemberVO> senders = chatService.getSendersByReceiverId(user.getId());
+        model.addAttribute("senders", senders);
         model.addAttribute("sender_id", user.getId());
-        model.addAttribute("receiver_id", receiverId);
         return "chat/chatScreen";
     }
 }

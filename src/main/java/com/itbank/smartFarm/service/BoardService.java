@@ -168,7 +168,6 @@ public class BoardService {
     }
 
     public Map<String, Object> getQna(Map<String, Object> param) {
-
         String sint = (String) param.get("page");
         sint = (sint == null) ? "1" : sint;
 
@@ -188,14 +187,13 @@ public class BoardService {
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
 
-
         Map<String, Object> result = new HashMap<>();
-
         result.put("pg", page);
         result.put("list", bd.selectQnaAll(param));
 
         return result;
     }
+
 
     @Transactional
     public void updateMarket(BoardVO input) {

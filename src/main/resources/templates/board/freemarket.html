@@ -75,7 +75,8 @@
                 <span th:text="${freemarket.category}"></span>
             </td>
             <td th:text="${freemarket.soldout == 1 ? '판매중' : '판매완료'}"></td>
-            <td th:text="${freemarket.title}"></td>
+            <td th:text="${#strings.length(freemarket.title) > 10 ?
+            #strings.substring(freemarket.title, 0, 10) : freemarket.title}"></td>
             <td>
                 <a class="content"
                    th:href="@{/board/freemarket_view/{id}(id=${freemarket.id})}"

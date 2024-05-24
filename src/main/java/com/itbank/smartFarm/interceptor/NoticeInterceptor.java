@@ -18,8 +18,9 @@ public class NoticeInterceptor implements HandlerInterceptor {
         MemberVO user = (MemberVO) session.getAttribute("user");
 
         if (user == null || user.getId() != 1001) {
-            request.getSession();
-            response.sendRedirect("/member/login");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().println("<script>alert('관리자 계정 외 접근 제한'); window.location='/member/login';</script>");
             return false;
         }
         return true;

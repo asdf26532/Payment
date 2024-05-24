@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <th th:text="조회수"></th>
-        <td th:text="${row.v_count }"></td>
+        <td th:text="${row.v_count}"></td>
         <th th:text="작성일"></th>
         <td th:text="${row.w_date}"></td>
     </tr>
@@ -30,6 +30,8 @@
         <th th:text="내용"></th>
         <td th:utext="${row.contents}"></td>
     </tr>
+
+
 
 </table>
 
@@ -66,15 +68,6 @@
         <td>댓글이 없습니다.</td>
     </tr>
 </table>
-
-<div th:if="${row.nick == user.nick }">
-    <a href="$/board/updateQnA/${row.idx }">
-        <button>수정</button>
-    </a>
-    <a href="/board/delete/${row.idx }">
-        <button>삭제</button>
-    </a>
-</div>
 
 <div th:if="${user != null}">
     <h3>댓글 작성</h3>

@@ -39,7 +39,8 @@
 			<th>작성일</th>
 		</tr>
 		<tr th:each="notice : ${list}">
-			<td th:text="${notice.title}"></td>
+			<td th:text="${#strings.length(notice.title) > 10 ?
+            #strings.substring(notice.title, 0, 10) : notice.title}"></td>
 			<td><a class="content"
 				th:href="@{/board/notice_view/{id}(id=${notice.id})}"
 				th:utext="${#strings.length(notice.contents) > 10 ? 

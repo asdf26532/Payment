@@ -6,31 +6,27 @@
 </head>
 <body>
 
-<script
-        src="https://cdn.tiny.cloud/1/bmpz83s4yqa4fgfuozripnlgp9hjdztmwwmpnqkfnjhs8r39/tinymce/7/tinymce.min.js"
+<script src="https://cdn.tiny.cloud/1/bmpz83s4yqa4fgfuozripnlgp9hjdztmwwmpnqkfnjhs8r39/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
-
 <script>
-    tinymce
-        .init({
-            selector: 'textarea',
-            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        });
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    });
 </script>
 
 <header th:replace="~{piece :: header}"></header>
 
 <main>
-    <form th:action="${row != null} ? @{'/board/updateQnA/' + ${row.id}} : @{'/board/QnAadd'}"
-          method="POST">
-        <p>제목 : <input th:name="title" th:value="${row?.title}" th:required></p>
-        <p>내용 : <textarea th:name="contents" th:value="${row?.contents}" th:required></textarea></p>
-
+    <form th:action="@{${row != null} ? '/board/updateQnA/' + ${row.id} : '/board/QnAadd'}" method="POST">
+        <p>제목 : <input type="text" th:name="title" th:value="${row?.title}" required></p>
+        <p>내용 : <textarea th:name="contents"></textarea></p>
+        <p>비밀글 : <input type="checkbox" th:name="secret" th:checked="${row != null && row.secret}"></p>
         <p><input th:name="member_id" th:value="${session.user.id}" type="hidden" required></p>
-
-        <button th:text="${row != null} ? '수정' : '작성'"></button>
+        <button type="submit" th:text="${row != null} ? '수정' : '작성'"></button>
     </form>
 </main>
+
 </body>
 </html>

@@ -189,6 +189,7 @@ public class BoardController {
 
         bs.updateViewCount(id);
         mav.addObject("row", bs.getfB(id));
+        mav.addObject("replies", bs.getReplies(id));
         mav.addObject("user", user);
         mav.setViewName("board/fB_view");
 
@@ -237,23 +238,48 @@ public class BoardController {
 
 
     @GetMapping("/QnA")
-    public ModelAndView qna(@RequestParam Map<String, Object> param) {
-
+    public ModelAndView qna(@RequestParam Map<String, Object> param, HttpSession session) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getQna(param));
+        Map<String, Object> result = bs.getQna(param);
+
+        @SuppressWarnings("unchecked")
+        List<BoardVO> qnaList = (List<BoardVO>) result.get("list");
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        for (BoardVO board : qnaList) {
+            if (board.isSecret() && (user == null || (board.getMember_id() != user.getId() && user.getId() != 1001))) {
+                board.setTitle("🔒비밀글입니다");
+                board.setContents("🔒비밀글입니다");
+            }
+        }
+
+        result.put("list", qnaList);
+
+        mav.addObject("map", result);
         mav.setViewName("board/QnA");
 
         return mav;
     }
 
+
+
     @GetMapping("/QnA_view/{id}")
     public ModelAndView QnA_view(@PathVariable int id, HttpSession session) {
         MemberVO user = (MemberVO) session.getAttribute("user");
+        BoardVO board = bs.getSelectQna(id);
         ModelAndView mav = new ModelAndView();
 
-        bs.updateViewCount(id);
-        mav.addObject("row", bs.getSelectQna(id));
+        if (board.isSecret() && (user == null || (board.getMember_id() != user.getId() && user.getId() != 1001))) {
+            board.setContents("작성자, 관리자만 내용을 확인할 수 있습니다.");
+            board.setTitle("\uD83D\uDD12비밀글입니다");
+        } else {
+            bs.updateViewCount(id);
+        }
+
+        mav.addObject("row", board);
+        mav.addObject("replies", bs.getReplies(id));
         mav.addObject("user", user);
         mav.setViewName("board/QnA_view");
 
@@ -266,24 +292,20 @@ public class BoardController {
     }
 
     @PostMapping("/QnAadd")
-    public ModelAndView addQna(BoardVO input) {
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("row", bs.addQnA(input));
-        mav.setViewName("/board/QnA");
-
-        return mav;
+    public String addQna(BoardVO input, HttpSession session) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        if (user != null) {
+            input.setMember_id(user.getId());
+        }
+        bs.addQnA(input);
+        return "redirect:/board/QnA";
     }
 
     @GetMapping("/updateQnA/{id}")
     public ModelAndView update(@PathVariable int id) {
-
         ModelAndView mav = new ModelAndView();
-
         mav.addObject("row", bs.getSelectQna(id));
         mav.setViewName("board/QnAadd");
-
         return mav;
     }
 
@@ -293,6 +315,7 @@ public class BoardController {
         bs.updateQnA(boardVO);
         return "redirect:/board/QnA";
     }
+
 
     @PostMapping("/deleteQnA/{id}")
     public String deleteQnA(@PathVariable int id) {
@@ -353,6 +376,5 @@ public class BoardController {
 
 
 
-}
 
 

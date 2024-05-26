@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<main class="flex h-screen w-full justify-center">
+    <div class="w-full max-w-[1500px] flex">
+        <div class="bg-[#f0f8f0] border-r border-gray-200 w-80 p-4 flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold">Chats</h2>
+                <button class="inline-flex items-center justify-center h-10 w-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5v14"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-2">
+                <a class="flex items-center gap-3 rounded-md bg-white p-3 hover:bg-gray-100 transition-colors" href="#" th:each="sender : ${senders}" th:onclick="'loadChat(' + ${sender.id} + ')'">
+                    <span class="relative flex shrink-0 overflow-hidden rounded-full h-10 w-10">
+                        <span class="flex h-full w-full items-center justify-center rounded-full bg-muted" th:text="${sender.nick}"></span>
+                    </span>
+                    <div class="flex-1 space-y-1">
+                        <h4 class="font-medium" th:text="${sender.nick}"></h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="flex-1 bg-[#f0f8f0] p-6 flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <span class="relative flex shrink-0 overflow-hidden rounded-full h-10 w-10">
+                        <span class="flex h-full w-full items-center justify-center rounded-full bg-muted">JD</span>
+                    </span>
+                    <h3 class="font-semibold" id="printnick">
+                        <!-- 닉네임 출력 영역 -->
+                    </h3>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="inline-flex items-center justify-center h-10 w-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M4.93 4.93l14.14 14.14"></path>
+                        </svg>
+                    </button>
+                    <button class="inline-flex items-center justify-center h-10 w-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5v14"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-4" id="messages">
+                <!-- 메시지 표시 영역 -->
+            </div>
+            <div class="flex items-center border-t border-gray-200 pt-4">
+                <input type="text" onfocus="this.value = this.value;" class="flex-1 bg-white rounded-lg p-3 shadow-sm" id="messageInput" placeholder="Type your message...">
+                <button class="ml-2 inline-flex items-center justify-center h-10 w-10" id="sendButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:inline="javascript">
+    let stompClient = null;
+    const senderId = /*[[${session.user.id}]]*/ '[[${session.user.id}]]'; // Fix the Thymeleaf syntax
+    let receiverId = null;
+
+    function connect() {
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnected, onError);
+    }
+
+    function onConnected() {
+        stompClient.subscribe('/topic/messages/' + senderId, onMessageReceived);
+    }
+
+    function onError(error) {
+        console.error('WebSocket 연결 실패:', error);
+    }
+
+    function sendMessage() {
+        const messageContent = document.getElementById('messageInput').value.trim();
+        if (messageContent && stompClient) {
+            const chatMessage = {
+                senderId: senderId,
+                receiverId: receiverId,
+                content: messageContent
+            };
+            stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
+            document.getElementById('messageInput').value = ''; // 입력 필드 초기화
+        }
+    }
+
+    function onMessageReceived(payload) {
+        const message = JSON.parse(payload.body);
+        displayMessage(message);
+    }
+
+    function displayMessage(messageData) {
+        const messagesContainer = document.getElementById('messages');
+        const printnick = document.getElementById('printnick');
+        const date = new Date(messageData.timestamp);
+        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+
+        test = messageData;
+
+        let messageElement;
+        console.log('DEBUG : ' + senderId + messageData.senderId)
+        console.log('TEST : ' + messageData)
+        if (messageData.senderId === senderId) {
+            // 메시지를 보낸 사람이 세션 사용자와 같으면
+            // 오른쪽 정렬로 메시지 표시
+            messageElement = `
+        <div class="flex items-start gap-3 justify-end">
+            <div class="space-y-1 text-right">
+                <div class="bg-[#1a3c1a] text-white p-4 rounded-lg shadow-sm">
+                    <p>${messageData.content}</p>
+                </div>
+                <span class="text-xs text-gray-500">${formattedDate}</span>
+            </div>
+        </div>
+    `;
+        } else {
+            // 메시지를 보낸 사람이 세션 사용자와 다르면
+            // 왼쪽 정렬로 메시지 표시
+            messageElement = `
+        <div class="flex items-start gap-3">
+            <span class="relative flex shrink-0 overflow-hidden rounded-full h-10 w-10">
+                <span class="flex h-full w-full items-center justify-center rounded-full bg-muted">JD</span>
+            </span>
+            <div class="space-y-1">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <p>${messageData.content}</p>
+                </div>
+                <span class="text-xs text-gray-500">${formattedDate}</span>
+            </div>
+        </div>
+    `;
+        }
+
+        messagesContainer.innerHTML += messageElement;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight; // 스크롤을 제일 밑으로 이동
+        if(messageData.senderId !== [[${session.user.id}]]){
+            printnick.innerHTML = messageData.nick;
+        }
+    }
+
+    function loadChat(selectedReceiverId) {
+        receiverId = selectedReceiverId;
+        fetch('/chat/' + senderId + '/' + receiverId)
+            .then(response => response.json())
+            .then(data => {
+                const messagesContainer = document.getElementById('messages');
+                messagesContainer.innerHTML = '';
+
+                data.forEach(message => {
+                    displayMessage(message);
+                });
+
+            })
+            .catch(error => console.error('메시지 로딩 중 오류 발생:', error));
+    }
+
+    document.getElementById('sendButton').addEventListener('click', sendMessage);
+
+    document.getElementById('messageInput').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 Enter 동작 방지
+            event.co
+            sendMessage(); // 메시지 전송
+        }
+    });
+    window.onload = connect;
+</script>
+</body>
+</html>

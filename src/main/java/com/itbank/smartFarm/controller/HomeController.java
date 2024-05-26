@@ -10,7 +10,6 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
     	model.addAttribute("msg", "Project Start");
-    	
         return "home";
     }
 
@@ -22,5 +21,6 @@ public class HomeController {
 
     @GetMapping("/support")
     public void support(Model model) {}
-    
+
+
 }

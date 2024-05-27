@@ -1,4 +1,4 @@
-package com.itbank.smartFarm.Model;
+package com.itbank.smartFarm.model;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;

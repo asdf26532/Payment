@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f0f8f0]">
+<div th:replace="~{header :: header}"></div>
+<div class="flex min-h-screen w-full items-center justify-center bg-[#f0f8f0]">
+    <div class="mx-4 my-20 w-full max-w-md rounded-lg bg-white p-8 shadow-lg ">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-[#1a3c1a]">Smart Farm Sign Up</h1>
+        </div>
+        <form class="space-y-6" method="post">
+            <div>
+                <label for="userid" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
+                    Username
+                </label>
+                <input
+                        id="userid"
+                        name="userid"
+                        placeholder="Enter your username"
+                        class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
+                        type="text"
+                        required
+                        onblur="checkUserId()"
+                />
+                <span id="userid-check" style="color: red;"></span>
+            </div>
+            <div>
+                <label for="userpw" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
+                    Password
+                </label>
+                <input
+                        id="userpw"
+                        name="userpw"
+                        placeholder="Enter your password"
+                        class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
+                        type="password"
+                />
+            </div>
+            <div>
+                <label for="name" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
+                    Name
+                </label>
+                <input
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
+                        type="text"
+                />
+            </div>
+            <div>
+                <label for="nick" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
+                    Nickname
+                </label>
+                <input
+                        id="nick"
+                        name="nick"
+                        placeholder="Enter your nickname"
+                        class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
+                        type="text"
+                />
+            </div>
+            <div>
+                <label for="email" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
+                    Email
+                </label>
+                <input
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
+                        type="email"
+                />
+            </div>
+            <div>
+                <label for="address" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
+                    Address
+                </label>
+                <input
+                        id="address"
+                        name="address"
+                        placeholder="Enter your address"
+                        class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
+                        type="text"
+                />
+            </div>
+            <div>
+                <label for="phone" class="mb-2 block text-sm font-medium text-[#1a3c1a]">
+                    Phone Number
+                </label>
+                <input
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        class="block w-full rounded-lg border border-[#1a3c1a] bg-[#f0f8f0] p-2.5 text-[#1a3c1a] placeholder-[#1a3c1a]/50 focus:border-[#1a3c1a] focus:ring-[#1a3c1a]"
+                        type="text"
+                />
+            </div>
+            <button
+                    class="w-full rounded-lg bg-[#1a3c1a] px-5 py-2.5 text-center text-sm font-medium text-[#f0f8f0] hover:bg-[#2a4e2a] focus:outline-none focus:ring-4 focus:ring-[#1a3c1a]/50"
+            >
+                Sign Up
+            </button>
+            <input type="hidden" id="checkUserIdUrl" th:value="@{/member/checkUserId}" />
+        </form>
+    </div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    function checkUserId() {
+        var userid = document.getElementById('userid').value;
+        var url = document.getElementById('checkUserIdUrl').value;
+        if (userid.length > 0) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.exists) {
+                        document.getElementById('userid-check').textContent = '이미 사용 중인 아이디입니다.';
+                    } else {
+                        document.getElementById('userid-check').textContent = '사용 가능한 아이디입니다.';
+                    }
+                } else if (xhr.readyState === 4) {
+                    document.getElementById('userid-check').textContent = '아이디 중복 체크 중 오류가 발생했습니다.';
+                }
+            };
+            xhr.send(JSON.stringify({ userid: userid }));
+        }
+        }
+</script>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<main class="flex min-h-screen w-full items-center justify-center bg-[#f0f8f0] p-4">
+    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+        <div class="space-y-4">
+            <h1 class="text-2xl font-bold">Update Your Profile</h1>
+            <form class="space-y-4" method="post" action="/member/update">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div class="space-y-2">
+                        <label
+                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                for="userpw"
+                        >
+                            현재 비밀번호
+                        </label>
+                        <input
+                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                id="userpw"
+                                name="userpw"
+                                type="password"
+                                required
+                        />
+                    </div>
+                    <div class="space-y-2">
+                        <label
+                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                for="newpw"
+                        >
+                            변경할 비밀번호
+                        </label>
+                        <input
+                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                id="newpw"
+                                name="newpw"
+                                type="password"
+                                required
+                        />
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="email"
+                    >
+                        이메일
+                    </label>
+                    <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="email"
+                            name="email"
+                            type="email"
+                            th:value="${session.user.email}"
+                            required
+                    />
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="address"
+                    >
+                        주소
+                    </label>
+                    <textarea
+                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="address"
+                            name="address"
+                            rows="3"
+                            th:text="${session.user.address}"
+                            required
+                    ></textarea>
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="phone"
+                    >
+                        전화번호
+                    </label>
+                    <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="phone"
+                            name="phone"
+                            th:value="${session.user.phone}"
+                            required
+                    />
+                </div>
+                <!-- 버튼을 폼 안에 넣어서 POST 요청을 보내도록 수정 -->
+                <div class="mt-6 flex justify-end">
+                    <button
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#48bb78] text-white hover:bg-[#2f855a] h-10 px-4 py-2"
+                            type="submit"
+                    >
+                        변경하기
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

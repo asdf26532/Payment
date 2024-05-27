@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm Find_Pw</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<div class="flex min-h-[100dvh] items-center justify-center bg-[#f0f8f0]">
+    <div class="mx-4 w-full max-w-md space-y-6 rounded-lg bg-white p-6 shadow-lg">
+        <div class="space-y-2 text-center">
+            <h1 class="text-3xl font-bold">Smart Farm Find_Pw</h1>
+            <p class="text-gray-500">회원가입시 사용했던 아이디와 전화번호를 입력해주세요.</p>
+        </div>
+        <form class="space-y-4" method="post">
+            <div class="space-y-2">
+                <label
+                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        for="userid"
+                >
+                    Username
+                </label>
+                <input
+                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        id="userid"
+                        name="userid"
+                        placeholder="Enter your Username"
+                        required
+                />
+            </div>
+            <div class="space-y-2">
+                <label
+                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        for="phone"
+                >
+                    PhoneNumber
+                </label>
+                <input
+                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        id="phone"
+                        name="phone"
+                        placeholder="ex) 01000000000"
+                        required
+                />
+            </div>
+            <button
+                    type="submit"
+                    class="w-full rounded-lg bg-[#1a3c1a] px-5 py-2.5 text-center text-sm font-medium text-[#f0f8f0] hover:bg-[#2a4e2a] focus:outline-none focus:ring-4 focus:ring-[#1a3c1a]/50"
+            >
+                비밀번호 찾기
+            </button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+    var newPw = '[[${newPw}]]';
+    if (newPw != 'null') {
+        alert('회원님의 새 비밀번호는 ' + newPw + '입니다.');
+        location.href = '/';
+    }
+</script>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

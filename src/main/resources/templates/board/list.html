@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .main-container {
+            max-width: 1400px;
+            width: 100%;
+        }
+        .sidebar {
+            flex-basis: 25%;
+            margin-left: 0;
+            margin-right: 1rem;
+            height: 50%;
+        }
+        .content {
+            flex-basis: 75%;
+        }
+        th.w-10 { width: 10%; }
+        th.w-50 { width: 50%; }
+        th.w-15 { width: 15%; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<br><br>
+<main class="main-container flex-grow flex flex-col justify-center items-center p-4 mx-auto">
+    <div class="flex min-h-screen w-full flex-col bg-[#f0f8f0]">
+        <div class="flex flex-1">
+            <!-- 사이드바 -->
+            <aside class="sidebar relative ml-4 z-10 rounded-lg border bg-white p-4 shadow-lg lg:rounded-none lg:border-0 lg:shadow-none">
+                <div class="mx auto">
+                    <nav class="grid gap-2">
+                        <a
+                                class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                href="#"
+                        >
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4"
+                            >
+                                <path d="m3 11 18-5v12L3 14v-3z"></path>
+                                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
+                            </svg>
+                            공지사항
+                        </a>
+                        <a
+                                class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                href="#"
+                        >
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4"
+                            >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                            </svg>
+                            정보공유 게시판
+                        </a>
+                        <a
+                                class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                href="#"
+                        >
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4"
+                            >
+                                <circle cx="8" cy="21" r="1"></circle>
+                                <circle cx="19" cy="21" r="1"></circle>
+                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                            </svg>
+                            ** 장터
+                        </a>
+                    </nav>
+                </div>
+            </aside>
+            <section class="content p-4 md:p-6" th:with="list=${map['list']}, pg=${map['pg']}">
+                <div class="mx-auto max-w-4xl">
+                    <div class="mb-6 flex items-center justify-between">
+                        <h1 class="text-2xl font-bold">Community</h1>
+                        <div class="flex items-center gap-2">
+                            <a href="/board/write">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="h-4 w-4 mr-2"
+                                >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                </svg>
+                                글 쓰기
+                            </button>
+                            </a>
+                            <button
+                                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                                    type="button"
+                                    id="radix-:r61:"
+                                    aria-haspopup="menu"
+                                    aria-expanded="false"
+                                    data-state="closed"
+                            >
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="h-4 w-4 mr-2"
+                                >
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                                </svg>
+                                필터
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-hidden rounded-lg border bg-white shadow-sm">
+                        <div class="relative w-full overflow-auto">
+                            <table class="w-full caption-bottom text-sm">
+                                <thead class="[&amp;_tr]:border-b">
+                                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-10">
+                                        #
+                                    </th>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-50">
+                                        제목
+                                    </th>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell w-15">
+                                        작성자
+                                    </th>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell w-10">
+                                        조회수
+                                    </th>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 hidden md:table-cell w-15">
+                                        작성일
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody class="[&amp;_tr:last-child]:border-0">
+                                <tr th:each="row : ${list}">
+                                    <td class="h-12 px-4 text-left align-middle" th:text="${row.id}">1</td>
+                                    <td class="h-12 px-4 text-left align-middle">
+                                        <a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                           th:text="${#strings.length(row.title) > 10 ? #strings.substring(row.title, 0, 10) : row.title}"
+                                           th:href="@{/board/fB_view/{id}(id=${row.id})}"
+                                        >Smart Farming Techniques</a></td>
+                                    <td class="h-12 px-4 text-left align-middle hidden md:table-cell"
+                                        th:text="${row.nick != null ? row.nick : ''}">Alice</td>
+                                    <td class="h-12 px-4 text-left align-middle hidden md:table-cell"
+                                        th:text="${row.v_count != null ? row.v_count : ''}">120</td>
+                                    <td class="h-12 px-4 text-left align-middle hidden md:table-cell"
+                                        th:text="${row.w_date != null ? row.w_date : ''}">2024-05-01</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <div class="mt-6 flex justify-center">
+                    <nav aria-label="pagination" class="mx-auto flex w-full justify-center" role="navigation">
+                        <ul class="flex flex-row items-center gap-1"
+                            th:with="groupParam=${param.group != null ? 'group=' + param.group : ''}, searchParam=${param.search != null ? 'search=' + param.search : ''}">
+                            <li class="">
+                            <li class=""  th:if="${pg.prev}">
+                                <a
+                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pl-2.5"
+                                        aria-label="Go to previous page"
+                                        th:href="@{|/board/freeBoard?page=${pg.begin - 1}&${groupParam}&${searchParam}|}"
+                                >
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="h-4 w-4"
+                                    >
+                                        <path d="m15 18-6-6 6-6"></path>
+                                    </svg>
+                                    <span>Previous</span>
+                                </a>
+                            </li>
+                            </li>
+                            <li class="">
+                            <li class="" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                                <a
+                                        aria-current="page"
+                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                                        th:href="@{|/board/freeBoard?page=${i}&${groupParam}&${searchParam}|}"
+                                >
+                                    <span th:text="${i}"></span>
+                                </a>
+                            </li>
+                            </li>
+                            <li class="">
+                            <li class="" th:if="${pg.next}">
+                                <a
+                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pr-2.5"
+                                        aria-label="Go to next page"
+                                        th:href="@{|/board/freeBoard?page=${pg.end + 1}&${groupParam}&${searchParam}|}"
+                                >
+                                    <span>Next</span>
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="h-4 w-4"
+                                    >
+                                        <path d="m9 18 6-6-6-6"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

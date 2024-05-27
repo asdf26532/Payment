@@ -6,9 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.itbank.smartFarm.Model.OrderDAO;
-import com.itbank.smartFarm.vo.CartVO;
-
 @SpringBootTest
 public class OrderDaoTest {
 	

@@ -241,25 +241,42 @@ public class BoardController {
 
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getQna(param));
+        Map<String, Object> result = bs.getQna(param);
+
+        @SuppressWarnings("unchecked")
+        List<BoardVO> qnaList = (List<BoardVO>) result.get("list");
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        for (BoardVO board : qnaList) {
+            if (board.isSecret() && (user == null || (board.getMember_id() != user.getId() && user.getId() != 1001))) {
+                board.setTitle("🔒비밀글입니다");
+                board.setContents("🔒비밀글입니다");
+            }
+        }
+
+        result.put("list", qnaList);
+
+        mav.addObject("map", result);
         mav.setViewName("board/QnA");
 
         return mav;
     }
 
-
-
-
     @GetMapping("/QnA_view/{id}")
     public ModelAndView QnA_view(@PathVariable int id, HttpSession session) {
         MemberVO user = (MemberVO) session.getAttribute("user");
+        BoardVO board = bs.getSelectQna(id);
         ModelAndView mav = new ModelAndView();
 
-        bs.updateViewCount(id);
+        if (board.isSecret() && (user == null || (board.getMember_id() != user.getId() && user.getId() != 1001))) {
+            board.setContents("작성자, 관리자만 내용을 확인할 수 있습니다.");
+            board.setTitle("\uD83D\uDD12비밀글입니다");
+        } else {
+            bs.updateViewCount(id);
+        }
 
-        String b_id = Integer.toString(id);
-
-        mav.addObject("row", bs.getSelectQna(id));
+        mav.addObject("row", board);
         mav.addObject("replies", bs.getReplies(id));
         mav.addObject("user", user);
         mav.setViewName("board/QnA_view");
@@ -273,14 +290,13 @@ public class BoardController {
     }
 
     @PostMapping("/QnAadd")
-    public ModelAndView addQna(BoardVO input) {
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("row", bs.addQnA(input));
-        mav.setViewName("/board/QnA");
-
-        return mav;
+    public String addQna(BoardVO input, HttpSession session) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        if (user != null) {
+            input.setMember_id(user.getId());
+        }
+        bs.addQnA(input);
+        return "redirect:/board/QnA";
     }
 
     @GetMapping("/updateQnA/{id}")
@@ -311,22 +327,17 @@ public class BoardController {
     // -----------------------------------댓글-----------------------------------
 
     @GetMapping("/replies/{board_id}")
-    public ModelAndView getReplies(@PathVariable int board_id, HttpServletRequest request,
-                                   @RequestParam Map<String, Object> param) {
+    public String getReplies(@PathVariable int board_id, Model model, HttpServletRequest request) {
         String type = request.getHeader("Referer");
-
-        ModelAndView mav = new ModelAndView();
-
-        param.put("board_id", board_id);
-
-        mav.addObject("map", bs.getReplylist(param));
-
+        List<ReplyVO> replies = bs.getReplies(board_id);
+        model.addAttribute("replies", replies);
+        model.addAttribute("board_id", board_id);
         if (type.contains("QnA_view")) {
-            mav.setViewName("board/QnA_view");
+            return "board/QnA_view";
         } else if (type.contains("fB_view")) {
-            mav.setViewName("board/fB_view");
+            return "board/fB_view";
         }
-        return mav;
+        return "board/QnA_view";
     }
 
     // 댓글 추가
@@ -365,5 +376,6 @@ public class BoardController {
 
 
 
+}
 
 

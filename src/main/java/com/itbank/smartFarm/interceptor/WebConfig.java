@@ -15,6 +15,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private NoticeInterceptor noticeInterceptor;
 
+    @Autowired
+    private SecretInterceptor secretInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
@@ -23,5 +26,8 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(noticeInterceptor)
                 .addPathPatterns("/board/notice_write");
+
+        registry.addInterceptor(secretInterceptor)
+                .addPathPatterns("/board/QnA_view/**");
     }
 }

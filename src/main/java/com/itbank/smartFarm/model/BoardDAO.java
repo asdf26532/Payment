@@ -101,10 +101,10 @@ public interface BoardDAO {
             "</script>")
     List<BoardVO> selectQnaAll(Map<String, Object> param);
 
-    @Select("select * from board where type = 105 and id = #{id}")
+    @Select("select * from member_board_view where type = 105 and id = #{id}")
     BoardVO selectQnaOne(int id);
 
-    @Insert("insert into board(title, contents, member_id, type) values(#{title}, #{contents}, #{member_id}, 105)")
+    @Insert("insert into board(title, contents, member_id, type, secret) values(#{title}, #{contents}, #{member_id}, 105, #{secret})")
     int insertQna(BoardVO input);
 
     @Select("<script>" +

@@ -3,74 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartFarm</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 30px;
-        }
-
-        .buttons button {
-            margin: 0 10px;
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .buttons button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body>
-	<div th:replace="~{piece :: header}"></div>
-
-	<h2>SmartFarm 홈페이지에 오신 것을 환영합니다!!!</h2>
-
-	<div class="container">
-		<h1>SmartFarm</h1>
-		<div class="buttons">
-			<th:block th:if="${session.user == null}">
-				<div class="buttons">
-					<a href="/member/login"><button>로그인</button></a> <a
-						href="/member/signUp"><button>회원가입</button></a>
-				</div>
-			</th:block>
-			<th:block th:if="${session.user != null}">
-				<div class="buttons">
-					<a href="/member/logout"><button>로그아웃</button></a> <a
-						href="/member/myPage"><button>나의정보</button></a>
-				</div>
-			</th:block>
-		</div>
-	</div>
-
-<h1 th:text="${msg}"></h1>
-<p>테스트요</p>
-
-<a href="pay/pay">pay</a>
-<a href="pay/order">장바구니</a>
-
-	<div th:replace="~{piece :: footer}"></div>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<div th:replace="~{header :: header}"></div>
+<main class="flex-grow flex flex-col justify-center items-center p-4">
+    <div class="max-w-[1100px] w-full mx-auto flex flex-col bg-[#f0f8f0]">
+        <div class="flex flex-col items-center justify-center bg-[#f0f8f0] py-12 sm:py-24">
+            <div class="flex flex-col sm:flex-row items-center justify-between max-w-2xl w-full">
+                <div class="space-y-4 text-center sm:text-left">
+                    <h1 class="text-3xl font-bold sm:text-4xl text-green-500">Smart Farm Solutions</h1>
+                    <p class="text-gray-500">
+                        기술로 농업을 혁신합니다. 첨단 IoT 솔루션으로 농장을 모니터링하고 관리하세요.
+                    </p>
+                </div>
+                <div class="mt-6 sm:mt-0">
+                    <a href="/pay/details">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
+                            자세히 보기
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <img
+                    alt="Smart Farm"
+                    class="mt-6 w-full max-w-4xl rounded-lg shadow-lg"
+                    src="/img/mainImg.jpg"
+                    style="aspect-ratio: 16 / 9; object-fit: contain;"
+            />
+        </div>
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between">
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-green-500">다른 사람들과 정보를 공유하세요!</h3>
+                    <p class="text-gray-500">
+                        다른 분들과 교류하고 게시판에서 지식과 경험을 공유하세요.
+                    </p>
+                </div>
+                <div class="mt-4 sm:mt-0">
+                    <a href="/board/list">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
+                            Board
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center justify-between">
+                <div class="space-y-2">
+                    <h3 class="text-lg font-bold text-green-500">직접 재배한 농산물을 거래하세요!</h3>
+                    <p class="text-gray-500">현지에서 재배한 신선한 농산물을 온라인 마켓플레이스에서 구매하고 판매하세요.</p>
+                </div>
+                <div class="mt-4 sm:mt-0">
+                    <a href="/board/market">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-green-500 text-white hover:bg-green-600">
+                            Marketplace
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
 </body>
 </html>

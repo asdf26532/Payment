@@ -78,7 +78,7 @@ public class OrderService {
 
 	public int deliveryid(int delivery_id) {
 		return od.deliveryid(delivery_id);
-		
+
 	}
 	
 	// 주문 정보

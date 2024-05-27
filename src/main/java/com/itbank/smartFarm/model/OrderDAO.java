@@ -87,7 +87,6 @@ public interface OrderDAO {
 	@Select("SELECT * FROM cart WHERE member_id=#{id} AND delivery_status!='결제 전'")
 	List<CartVO> afterPay(int memberid);
 
-
 	//특정 회원 및 주문 항목에 대한 기존 주문 ID를 검색합니다.
 	@Select("SELECT o.id "
 			+ "FROM orders o "

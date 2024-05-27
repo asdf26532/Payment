@@ -78,8 +78,7 @@ public class OrderService {
 
 	public int deliveryid(int delivery_id) {
 		return od.deliveryid(delivery_id);
-
-<<<<<<< HEAD
+		
 	}
 	
 	// 주문 정보
@@ -92,18 +91,6 @@ public class OrderService {
 		return od.afterPay(memberid);
 	}
 
-=======
-	}
-
-	public List<CartVO> getOrders(int i) {
-		return od.getOrders(i);
-	}
-
-	public List<CartVO> afterPay(int memberid) {
-		return od.afterPay(memberid);
-	}
-
->>>>>>> d956093ff0ef0f571f3b319d8315128f1b024914
 	public int getExistingOrderId(int memberId, int orderItemId) {
 		Integer existingOrderId = od.getExistingOrderId(memberId, orderItemId);
 		return existingOrderId != null ? existingOrderId.intValue() : -1;

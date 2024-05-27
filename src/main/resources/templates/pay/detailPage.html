@@ -69,7 +69,7 @@
             <strong>ID:</strong> <span th:text="${product.order_id}"></span>
         </div>
         <div>
-            <strong>상품명:</strong> 아두이노
+            <strong>상품명:</strong> <span th:text="${product.product_name}"></span>
         </div>
         <div>
             <strong>가격:</strong> <span th:text="${product.price}"></span>
@@ -99,6 +99,10 @@
             var quantity = document.getElementById('quantity').value;
             document.getElementById('formQuantity').value = quantity;
         });
+        
+        
+
     </script>
+
 </body>
 </html>

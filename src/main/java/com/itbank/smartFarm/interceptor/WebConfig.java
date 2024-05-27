@@ -28,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/board/QnAadd",
                         "/chat/**",
                         "/pay/order",
-                        "/pay/Orderprepare");
+                        "/pay/orderPrepare");
 
         registry.addInterceptor(noticeInterceptor)
                 .addPathPatterns("/board/notice_write");

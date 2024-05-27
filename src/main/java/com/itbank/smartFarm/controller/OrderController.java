@@ -24,6 +24,10 @@ public class OrderController {
 	@Autowired
 	private OrderService os;
 
+	//상품 디테일 페이지
+	@GetMapping("/details")
+	public void details() {}
+
 	// 상품 리스트 불러오기
 	@GetMapping("/market")
 	public ModelAndView market() {

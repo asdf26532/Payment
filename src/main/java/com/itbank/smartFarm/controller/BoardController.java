@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 import com.itbank.smartFarm.vo.MemberVO;
@@ -237,7 +238,7 @@ public class BoardController {
 
 
     @GetMapping("/QnA")
-    public ModelAndView qna(@RequestParam Map<String, Object> param) {
+    public ModelAndView qna(@RequestParam Map<String, Object> param, HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
 
@@ -376,6 +377,6 @@ public class BoardController {
 
 
 
-}
+
 
 

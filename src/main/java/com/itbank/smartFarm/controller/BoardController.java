@@ -100,7 +100,7 @@ public class BoardController {
 
         mav.addObject("map", bs.getMarkets(param));
 
-        mav.setViewName("freeMarket");
+        mav.setViewName("freemarket");
 
         return mav;
     }

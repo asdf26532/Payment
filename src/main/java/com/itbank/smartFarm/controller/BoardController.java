@@ -158,6 +158,17 @@ public class BoardController {
 
     // -----------------------------------자유게시판-----------------------------------
 
+    @GetMapping("/list")
+    public ModelAndView list(
+            @RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("map", bs.getfreeBds(param));
+        mav.setViewName("board/list");
+
+        return mav;
+    }
+
     @GetMapping("/freeBoard")
     public ModelAndView freeBoard(
             @RequestParam Map<String, Object> param) {

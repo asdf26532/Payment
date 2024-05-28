@@ -11,30 +11,29 @@
 <div class="bg-[#f0f8f0] min-h-screen flex flex-col">
     <main class="flex-1 p-6 md:p-10">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+            <div class="bg-white rounded-lg shadow-md p-6 md:p-8" th:each="row : ${orderlist}">
                 <div class="flex items-center justify-between mb-6">
                     <div>
-                        <h1 class="text-2xl font-bold">Order #12345</h1>
-                        <p class="text-gray-500">Placed on May 28, 2024</p>
+                        <h1 class="text-2xl font-bold">주문 번호</h1>
+                        <p class="text-gray-500" th:text="${row.order_id}">Placed on May 28, 2024</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Customer:</p>
-                        <p class="font-bold">John Doe</p>
+                        <p class="text-gray-500">고객 이름</p>
+                        <p class="font-bold" th:text="${row.member_name}">John Doe</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <h2 class="text-lg font-bold mb-2">Shipping Address</h2>
-                        <p>123 Main St.</p>
-                        <p>Anytown, CA 12345</p>
+                        <h2 class="text-lg font-bold mb-2">배송 주소</h2>
+                        <p th:text="${row.address}">123 Main St.</p>
                     </div>
                     <div>
-                        <h2 class="text-lg font-bold mb-2">Tracking Number</h2>
-                        <p>1Z999AA1234567890</p>
-                        <p class="text-green-500 font-bold">Delivered</p>
+                        <h2 class="text-lg font-bold mb-2">운송장 번호</h2>
+                        <p th:text="${row.delivery_id}">1Z999AA1234567890</p>
+                        <p class="text-green-500 font-bold" th:text="${row.delivery_status}">Delivered</p>
                     </div>
                 </div>
-                <h2 class="text-lg font-bold mb-4">Order Details</h2>
+                <h2 class="text-lg font-bold mb-4">상세 주문정보</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
                         <div class="flex flex-col items-center justify-center p-6">
@@ -46,48 +45,15 @@
                                     class="mb-4"
                                     style="aspect-ratio: 100 / 100; object-fit: cover;"
                             />
-                            <h3 class="text-lg font-bold mb-2">Organic Tomatoes</h3>
-                            <p class="text-gray-500 mb-2">Quantity: 2</p>
-                            <p class="text-gray-500 mb-2">$3.99 per unit</p>
-                            <p class="font-bold">$7.98</p>
+                            <h3 class="text-lg font-bold mb-2" th:text="${row.product_name}">Organic Tomatoes</h3>
+                            <p class="text-gray-500 mb-2" th:text="${row.count}">Quantity: 2</p>
+                            <p class="text-gray-500 mb-2" th:text="${row.unit_price}">$3.99 per unit</p>
+                            <p class="font-bold" th:text="${row.total_price}">$7.98</p>
                         </div>
                     </div>
-                    <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
-                        <div class="flex flex-col items-center justify-center p-6">
-                            <img
-                                    src="/placeholder.svg"
-                                    alt="Product Image"
-                                    width="100"
-                                    height="100"
-                                    class="mb-4"
-                                    style="aspect-ratio: 100 / 100; object-fit: cover;"
-                            />
-                            <h3 class="text-lg font-bold mb-2">Fresh Carrots</h3>
-                            <p class="text-gray-500 mb-2">Quantity: 1</p>
-                            <p class="text-gray-500 mb-2">$2.49 per unit</p>
-                            <p class="font-bold">$2.49</p>
-                        </div>
-                    </div>
-                    <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
-                        <div class="flex flex-col items-center justify-center p-6">
-                            <img
-                                    src="/placeholder.svg"
-                                    alt="Product Image"
-                                    width="100"
-                                    height="100"
-                                    class="mb-4"
-                                    style="aspect-ratio: 100 / 100; object-fit: cover;"
-                            />
-                            <h3 class="text-lg font-bold mb-2">Organic Spinach</h3>
-                            <p class="text-gray-500 mb-2">Quantity: 3</p>
-                            <p class="text-gray-500 mb-2">$2.99 per unit</p>
-                            <p class="font-bold">$8.97</p>
-                        </div>
-                    </div>
-                </div>
                 <div class="flex justify-end mt-6">
                     <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:text-accent-foreground h-10 px-4 py-2 bg-red-500 text-white hover:bg-red-600">
-                        Cancel Order
+                        <a th:href="@{'/pay/deleteafter/' + ${row.order_id}}">주문 취소</a>
                     </button>
                 </div>
             </div>

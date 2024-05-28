@@ -107,8 +107,6 @@ button:hover {
 			<th>상품 개수</th>
 			<th>단위 가격</th>
 			<th>총 가격</th>
-			<th>운송장 번호</th>
-			<th>배송 현황</th>
 			<th>주문수정</th>
 			<th>주문삭제</th>
 		</tr>
@@ -122,8 +120,6 @@ button:hover {
 			<td th:text="${row.count}"></td>
 			<td th:text="${row.unit_price}"></td>
 			<td th:text="${row.total_price}"></td>
-			<td th:text="${row.delivery_id}"></td>
-			<td th:text="${row.delivery_status}"></td>
 			<td><a th:href="@{'/pay/update/' + ${row.order_id}}">주문 수정</a></td>
 			<td><a th:href="@{'/pay/delete/' + ${row.order_id}}">주문 삭제</a></td>
 		</tr>

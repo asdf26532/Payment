@@ -9,6 +9,7 @@
         /* 커스텀 스타일 */
         .dropdown-menu {
             display: none;
+            z-index: 9999; /* 게시물의 z-index 보다 큰 값 */
         }
         .dropdown-menu.show {
             display: block;
@@ -43,28 +44,9 @@
         <div class="flex flex-col gap-6 border border-gray-200 rounded-lg shadow-lg p-6 bg-[#f7fbf7]">
             <div class="flex items-center justify-between">
                 <h2 class="text-2xl font-bold">Market Place</h2>
-                <div class="relative">
-                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" type="button" id="filter-button" aria-haspopup="menu" aria-expanded="false" data-state="closed" onclick="toggleDropdown('filter-menu')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">
-                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                        </svg>
-                        Filter
-                    </button>
-                    <div id="filter-menu" class="dropdown-menu absolute bg-white shadow-lg rounded-md mt-1 w-48 z-10 p-4">
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" value="title"> <span>Title</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" value="author"> <span>Author</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" value="content"> <span>Content</span>
-                        </label>
-                        <button class="mt-4 bg-blue-500 text-white px-3 py-2 rounded-md" onclick="applyFilters()">Apply</button>
-                    </div>
-                </div>
+
             </div>
-            <div class="grid grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-6" onclick="closeDropdownMenus()">
                 <div class="relative group overflow-hidden rounded-lg shadow-lg">
                     <a class="absolute inset-0 z-10" href="#">
                         <span class="sr-only">View post</span>
@@ -117,16 +99,30 @@
             <div class="flex justify-center mt-6 relative">
                 <div class="flex items-center justify-center w-full max-w-3xl mx-auto py-8">
                     <div class="relative">
+                        <button type="button" role="combobox" aria-controls="filter-menu" aria-expanded="false" aria-autocomplete="none" dir="ltr" data-state="closed" data-placeholder="" class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-2 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[90px]" onclick="toggleFilterDropdown()">
+                            <span id="filter-dropdown-label" style="pointer-events: none;">Filter by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-50" aria-hidden="true">
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+                        <ul id="filter-menu" class="dropdown-menu absolute bg-white shadow-lg rounded-md mt-1 w-full z-10">
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectFilterOption('Grains')">곡물</li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectFilterOption('Fruits')">과일</li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectFilterOption('Vegetables')">채소</li>
+                        </ul>
+                    </div>
+
+                    <div class="relative">
                         <button type="button" role="combobox" aria-controls="search-menu" aria-expanded="false" aria-autocomplete="none" dir="ltr" data-state="closed" data-placeholder="" class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[180px]" onclick="toggleSearchDropdown()">
-                            <span id="dropdown-label" style="pointer-events: none;">Search by</span>
+                            <span id="search-dropdown-label" style="pointer-events: none;">Search by</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-50" aria-hidden="true">
                                 <path d="m6 9 6 6 6-6"></path>
                             </svg>
                         </button>
                         <ul id="search-menu" class="dropdown-menu absolute bg-white shadow-lg rounded-md mt-1 w-full z-10">
-                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectOption('Title')">Title</li>
-                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectOption('Author')">Author</li>
-                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectOption('Content')">Content</li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectSearchOption('Title')">Title</li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectSearchOption('Author')">Author</li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectSearchOption('Content')">Content</li>
                         </ul>
                     </div>
                     <div class="flex-1 ml-4">
@@ -147,33 +143,54 @@
 </main>
 <div th:replace="~{footer :: footer}"></div>
 <script>
-    function toggleDropdown(menuId) {
-        const dropdownMenu = document.getElementById(menuId);
-        dropdownMenu.classList.toggle('show');
-        const isExpanded = dropdownMenu.classList.contains('show');
-        document.querySelector('[aria-controls="' + menuId + '"]').setAttribute('aria-expanded', isExpanded);
+        function toggleSearchDropdown() {
+        var searchMenu = document.getElementById("search-menu");
+        var currentState = searchMenu.getAttribute("data-state");
+        if (currentState === "closed") {
+        searchMenu.style.display = "block";
+        searchMenu.setAttribute("data-state", "open");
+    } else {
+        searchMenu.style.display = "none";
+        searchMenu.setAttribute("data-state", "closed");
+    }
     }
 
-    function selectOption(option) {
-        document.getElementById('dropdown-label').textContent = option;
-        toggleDropdown('search-menu');
+        function toggleFilterDropdown() {
+        var filterMenu = document.getElementById("filter-menu");
+        var currentState = filterMenu.getAttribute("data-state");
+        if (currentState === "closed") {
+        filterMenu.style.display = "block";
+        filterMenu.setAttribute("data-state", "open");
+    } else {
+        filterMenu.style.display = "none";
+        filterMenu.setAttribute("data-state", "closed");
+    }
     }
 
-    function toggleSearchDropdown() {
-        const dropdownMenu = document.getElementById('search-menu');
-        dropdownMenu.classList.toggle('show');
-        const isExpanded = dropdownMenu.classList.contains('show');
-        document.querySelector('[aria-controls="search-menu"]').setAttribute('aria-expanded', isExpanded);
+        function selectSearchOption(option) {
+            document.getElementById('search-dropdown-label').textContent = option;
+            toggleSearchDropdown();
     }
 
-    document.addEventListener('click', function(event) {
-        const dropdownMenu = document.getElementById('search-menu');
-        const isClickInside = dropdownMenu.contains(event.target);
-        if (!isClickInside) {
-            dropdownMenu.classList.remove('show');
-            document.querySelector('[aria-controls="search-menu"]').setAttribute('aria-expanded', false);
+        function selectFilterOption(option) {
+            document.getElementById('filter-dropdown-label').textContent = option;
+            toggleFilterDropdown();
+    }
+        function closeDropdownMenus() {
+            var filterMenu = document.getElementById("filter-menu");
+            var searchMenu = document.getElementById("search-menu");
+
+            // 드롭다운 메뉴가 열려있는 경우 닫기
+            if (filterMenu.getAttribute("data-state") === "open") {
+                filterMenu.style.display = "none";
+                filterMenu.setAttribute("data-state", "closed");
+            }
+
+            if (searchMenu.getAttribute("data-state") === "open") {
+                searchMenu.style.display = "none";
+                searchMenu.setAttribute("data-state", "closed");
+            }
         }
-    });
 </script>
 
 

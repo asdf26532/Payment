@@ -38,7 +38,7 @@
                     <p th:text="${session.user.address}">123 Main St, Anytown USA</p>
                 </div>
             </div>
-            <div class="flex w-full justify-center gap-4">
+            <div class="flex w-full justify-center gap-4 flex-wrap">
                 <a href="/chat" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-[#f0f8f0] hover:bg-[#d0e8d0] hover:text-accent-foreground h-10 px-4 py-2">
                     1:1 채팅
                 </a>
@@ -47,6 +47,12 @@
                 </a>
                 <a href="/member/delete" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#f56565] text-destructive-foreground hover:bg-[#e53e3e]/90 h-10 px-4 py-2">
                     회원탈퇴
+                </a>
+                <a href="/pay/cart" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-[#3182ce] text-primary-foreground hover:bg-[#2b6cb0] hover:text-accent-foreground h-10 px-4 py-2">
+                    장바구니
+                </a>
+                <a href="/pay/orderStatus" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-[#ed8936] text-primary-foreground hover:bg-[#dd6b20] hover:text-accent-foreground h-10 px-4 py-2">
+                    주문현황
                 </a>
             </div>
         </div>

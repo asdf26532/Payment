@@ -7,7 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrdersVO {
-	private int id, member_id, delivery_id, orderitems_id;
+	private int id, count, member_id, delivery_id, orderitem_id;
 	private Date order_date;
 	private String status;
+	
+	public OrdersVO(int memberid, int orderitem_id, int delivery_id2) {
+		this.member_id=memberid;
+		this.delivery_id=delivery_id2;
+		this.orderitem_id=orderitem_id;
+	}
 }

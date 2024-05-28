@@ -12,11 +12,28 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private LoginInterceptor loginInterceptor;
 
+    @Autowired
+    private NoticeInterceptor noticeInterceptor;
+
+    @Autowired
+    private SecretInterceptor secretInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/member/myPage",
                         "/member/update",
-                        "/chat/**");
+                        "/board/freemarket_write",
+                        "/board/fBadd",
+                        "/board/QnAadd",
+                        "/chat/**",
+                        "/pay/order",
+                        "/pay/orderPrepare");
+
+        registry.addInterceptor(noticeInterceptor)
+                .addPathPatterns("/board/notice_write");
+
+        registry.addInterceptor(secretInterceptor)
+                .addPathPatterns("/board/QnA_view/**");
     }
 }

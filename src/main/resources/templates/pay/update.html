@@ -3,33 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <title>주문수정</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f8f9fa;
+	color: #343a40;
+	margin: 0;
+	padding: 20px;
+}
+
+h3 {
+	text-align: center;
+	color: #007bff;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+	border: 1px solid #dee2e6;
+	padding: 10px;
+	text-align: center;
+}
+
+th {
+	background-color: #007bff;
+	color: white;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+input[type="text"], input[type="number"] {
+	width: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+button {
+	display: block;
+	width: 200px;
+	margin: 20px auto 0;
+	padding: 10px;
+	font-size: 16px;
+	color: white;
+	background-color: #007bff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+input[name="delivery_id"] {
+	visibility: hidden;
+	width: 0;
+	height: 0;
+	padding: 0;
+	border: none;
+	margin: 0;
+}
+</style>
 </head>
 <body>
 
 	<form method="POST">
 
-		<table>
+		<table class="board">
 			<tr>
-				<th>상품번호</th>
-				<th>주문자 번호</th>
-				<th>운송장번호</th>
-				<th>주문일</th>
-				<th>주문상태</th>
-				<th>주문수량</th>
-				<th>상품가격</th>
+				<th>고객 이름</th>
+				<th>주문 번호</th>
+				<th>배송 주소</th>
+				<th>고객 전화번호</th>
+				<th>상품명</th>
+				<th>상품 개수</th>
+				<th>단위 가격</th>
+				<th>총 가격</th>
+				<th>배송 현황</th>
 			</tr>
 
 			<tr th:each="row : ${orderlist}">
-				<td th:text="${row.orderitems_id}"></td>
-				<td th:text="${row.member_id}"></td>
-				<td th:text="${row.orderitems_id}"></td>
-				<td th:text="${row.delivery_id}"></td>
-				<td th:text="${row.order_date}"></td>
-				<td th:text="${row.status}"></td>
-				<td><input name="count" type="number" th:value="${row.total_item_count}"
+				<td th:text="${row.member_name}"></td>
+				<td th:text="${row.order_id}"></td>
+				<td><input name="address" type="text" th:value="${row.address}" /></td>
+				<td th:text="${row.member_phone}"></td>
+				<td th:text="${row.product_name}"></td>
+				<td><input name="count" type="number" th:value="${row.count}"
 					min="0" max="100" step="1" /></td>
-
-				<td th:text="${row.total_order_price}"></td>
+				<td th:text="${row.unit_price}"></td>
+				<td th:text="${row.total_price}"></td>
+				<td th:text="${row.delivery_status}"></td>
+				<td th:if="${row.delivery_id > 0}"><input name="delivery_id"
+					type="hidden" th:value="${row.delivery_id}" /></td>
 			</tr>
 		</table>
 

@@ -60,7 +60,7 @@ public interface OrderDAO {
 	public int getdeliveryid();
 
 	//최신 주문 항목 ID를 검색합니다.
-	@Select("SELECT id FROM delivery ORDER BY id DESC LIMIT 1")
+	@Select("SELECT id FROM orderitem ORDER BY id DESC LIMIT 1")
 	int getorderitem_id();
 
 	//주문과 관련된 배송 ID를 검색합니다.

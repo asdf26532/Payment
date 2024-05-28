@@ -96,7 +96,7 @@ public class OrderController {
 		int memberid = user.getId();
 		mav.addObject("orderlist", os.getOrders(memberid));
 
-		mav.setViewName("/pay/order");
+		mav.setViewName("/pay/cart");
 
 		return mav;
 	}

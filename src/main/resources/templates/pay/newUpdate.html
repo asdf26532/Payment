@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<div th:replace="~{header :: header}"></div>
+<div class="flex flex-col items-center justify-center min-h-screen bg-[#f0f8f0]">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-6">Order Modification</h1>
+        <form class="grid grid-cols-2 gap-6">
+            <div class="col-span-2 sm:col-span-1">
+                <label for="customer-name" class="block text-gray-700 font-medium mb-2">
+                    Customer Name
+                </label>
+                <input
+                        id="customer-name"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter customer name"
+                        type="text"
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="order-number" class="block text-gray-700 font-medium mb-2">
+                    Order Number
+                </label>
+                <input
+                        id="order-number"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter order number"
+                        type="text"
+                />
+            </div>
+            <div class="col-span-2">
+                <label for="delivery-address" class="block text-gray-700 font-medium mb-2">
+                    Delivery Address
+                </label>
+                <div class="grid grid-cols-3 gap-4">
+                    <input
+                            id="delivery-address"
+                            class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                            placeholder="Address"
+                            type="text"
+                    />
+                    <input
+                            id="delivery-city"
+                            class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                            placeholder="City"
+                            type="text"
+                    />
+                    <div class="grid grid-cols-2 gap-4">
+                        <input
+                                id="delivery-state"
+                                class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                                placeholder="State"
+                                type="text"
+                        />
+                        <input
+                                id="delivery-zip"
+                                class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                                placeholder="Zip"
+                                type="text"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="customer-phone" class="block text-gray-700 font-medium mb-2">
+                    Customer Phone
+                </label>
+                <input
+                        id="customer-phone"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter customer phone number"
+                        type="tel"
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="product-name" class="block text-gray-700 font-medium mb-2">
+                    Product Name
+                </label>
+                <input
+                        id="product-name"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter product name"
+                        type="text"
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="product-quantity" class="block text-gray-700 font-medium mb-2">
+                    Product Quantity
+                </label>
+                <input
+                        id="product-quantity"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter product quantity"
+                        type="number"
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="unit-price" class="block text-gray-700 font-medium mb-2">
+                    Unit Price
+                </label>
+                <input
+                        id="unit-price"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter unit price"
+                        type="number"
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="total-price" class="block text-gray-700 font-medium mb-2">
+                    Total Price
+                </label>
+                <input
+                        id="total-price"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter total price"
+                        type="number"
+                />
+            </div>
+            <div class="col-span-2">
+                <label for="delivery-status" class="block text-gray-700 font-medium mb-2">
+                    Delivery Status
+                </label>
+                <select id="delivery-status" class="border border-gray-300 rounded-md px-4 py-2 w-full">
+                    <option value="pending">Pending</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                </select>
+            </div>
+            <div class="col-span-2 flex justify-end">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

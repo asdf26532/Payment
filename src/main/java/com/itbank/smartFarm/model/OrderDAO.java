@@ -36,7 +36,7 @@ public interface OrderDAO {
 	public int deleteOrder(@Param("order_id") int id);
 
 	// 삭제 - 배송정보 - 주문과 관련된 배송 정보를 삭제합니다.
-	@Delete("DELETE FROM delivery WHERE id = (SELECT delivery_id FROM orders WHERE id = #{id})")
+	@Delete("DELETE FROM delivery WHERE id in (SELECT delivery_id FROM orders WHERE id = #{id})")
 	public int deleteShipmentByOrder(int id);
 
 	// 주문 수정 - 개수 - 주문의 수량을 업데이트합니다.
@@ -76,7 +76,7 @@ public interface OrderDAO {
 	int count(CartVO cv);
 
 	//최신 주문 ID를 검색합니다.
-	@Select("SELECT id FROM orders ORDER BY id DESC FETCH FIRST 1 ROWS ONLY")
+	@Select("SELECT id FROM orders ORDER BY id DESC LIMIT 1")
 	int getorderid();
 
 	//배송 상태를 "결제완료"로 업데이트합니다.
@@ -90,10 +90,10 @@ public interface OrderDAO {
 	//특정 회원 및 주문 항목에 대한 기존 주문 ID를 검색합니다.
 	@Select("SELECT o.id "
 			+ "FROM orders o "
-			+ "JOIN shipments s ON o.delivery_id = s.id  "
+			+ "JOIN delivery d ON o.delivery_id = d.id  "
 			+ "WHERE o.member_id = #{memberId} "
 			+ "AND o.orderitem_id = #{orderItemId} "
-			+ "AND s.status = '결제 전'")
+			+ "AND d.status = '결제 전'")
 	@ResultType(Integer.class)
 	Integer getExistingOrderId(@Param("memberId") int memberId, @Param("orderItemId") int orderItemId);
 
@@ -101,7 +101,7 @@ public interface OrderDAO {
 	@Update("UPDATE orders "
 			+ "SET count = count + #{count} "
 			+ "WHERE id = #{order_id} "
-			+ "AND delivery_id IN (SELECT id FROM shipments WHERE status != '결제완료')")
+			+ "AND delivery_id IN (SELECT id FROM delivery WHERE status != '결제완료')")
 	int countUp(CartVO input);
 
 }

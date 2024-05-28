@@ -28,20 +28,6 @@ public class OrderController {
 	@GetMapping("/details")
 	public void details() {}
 
-
-
-//	// 상세페이지 불러오기
-//	@GetMapping("/detailPage/{id}")
-//	public ModelAndView detailPage(@PathVariable("id") int id) {
-//		ModelAndView mav = new ModelAndView();
-//
-//		mav.addObject("product", os.selectOne(id));
-//		mav.setViewName("pay/detailPage");
-//
-//		return mav;
-//	}
-
-
 	// 상세페이지 정보를 받아 장바구니로 이동
 	@PostMapping("/details")
 	public ModelAndView Order(@RequestParam("quantity") int quantity,HttpSession session) {
@@ -82,13 +68,13 @@ public class OrderController {
 			
 		}
 		
-	    mav.setViewName("redirect:/pay/order");
+	    mav.setViewName("redirect:/pay/cart");
 	    
 		return mav;
 	}
 
 	// 장바구니에서 결제
-	@GetMapping("/order")
+	@GetMapping("/cart")
 	public ModelAndView order(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
@@ -119,13 +105,13 @@ public class OrderController {
 		int modifyResult = os.modify(input);
 		int modifyAddressResult = os.modifyaddress(input);
 
-		String msg = "수정 되었습니다.";
+		String msg = "수정 실패.";
 		if (modifyResult == 0 || modifyAddressResult == 0) {
-			msg = "수정 실패하였습니다.";
+			msg = "수정 성공.";
 		}
 
 		mav.addObject("row", (modifyResult != 0 && modifyAddressResult != 0) ? 1 : 0);
-		mav.addObject("path", "/pay/order");
+		mav.addObject("path", "/pay/newUpdate");
 		mav.addObject("msg", msg);
 		
 		mav.setViewName("/pay/Message");
@@ -146,7 +132,7 @@ public class OrderController {
 		if (row != 0)
 			msg = "삭제 실패하였습니다.";
 
-		mav.addObject("path", "/pay/order");
+		mav.addObject("path", "/");
 		mav.addObject("msg", msg);
 
 		mav.setViewName("/pay/Message");

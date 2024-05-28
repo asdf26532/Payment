@@ -110,7 +110,7 @@ public class OrderController {
 		int memberid = user.getId();
 		mav.addObject("orderlist", os.getOrders(memberid));
 
-		mav.setViewName("/pay/order");
+		mav.setViewName("/pay/cart");
 
 		return mav;
 	}
@@ -121,7 +121,7 @@ public class OrderController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("orderlist", os.getorder(orderId));
 
-		mav.setViewName("/pay/update");
+		mav.setViewName("/pay/newUpdate");
 
 		return mav;
 	}

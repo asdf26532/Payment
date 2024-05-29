@@ -92,18 +92,6 @@ public class BoardController {
 
     // -----------------------------------장터-----------------------------------
 
-    @GetMapping("/market")
-    public ModelAndView market(
-            @RequestParam Map<String, Object> param) {
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("map", bs.getMarkets(param));
-
-        mav.setViewName("board/market");
-
-        return mav;
-    }
-
     // 전체 장터 게시글 리스트화
     // 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
     @GetMapping("/market")

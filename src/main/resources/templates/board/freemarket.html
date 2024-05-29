@@ -99,9 +99,14 @@
             </a>
         </li>
 
-        <li th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+        <li th:if="${pg.end > 0}"  th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
             <a th:href="@{|/board/freemarket?page=${i}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
                 <span th:text="${i}"></span>
+            </a>
+        </li>
+        <li th:if="${pg.end == 0}">
+            <a th:href="@{|/board/freemarket?page=${pg.begin}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                <span th:text="${pg.begin}"></span>
             </a>
         </li>
 

@@ -134,6 +134,12 @@ public class BoardService {
         if (param.containsKey("soldout") && "".equals(param.get("soldout"))) {
             param.put("soldout", null);
         }
+        if (param.containsKey("group") && "".equals(param.get("group"))) {
+            param.put("group", null);
+        }
+        if (param.containsKey("search") && "".equals(param.get("search"))) {
+            param.put("search", null);
+        }
 
         int totalcount;
         if (param.containsKey("category") || param.containsKey("soldout") || param.containsKey("group") || param.containsKey("search")) {
@@ -212,6 +218,8 @@ public class BoardService {
     public int updateQnA(BoardVO input) {
         return bd.updateBoard(input);
     }
+
+
 
 
 

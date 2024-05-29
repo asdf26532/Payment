@@ -39,6 +39,6 @@ public class SecretInterceptor implements HandlerInterceptor {
     }
 
     private boolean canAccessBoard(MemberVO user, String boardId) {
-        return user != null && (user.getId() == 1001 || user.getId() == bs.getSelectQna(Integer.parseInt(boardId)).getMember_id());
+        return user != null && (user.getId() == 2 || user.getId() == bs.getSelectQna(Integer.parseInt(boardId)).getMember_id());
     }
 }

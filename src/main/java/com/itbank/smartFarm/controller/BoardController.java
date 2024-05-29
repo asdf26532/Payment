@@ -35,6 +35,7 @@ public class BoardController {
         return (MemberVO) session.getAttribute("user");
     }
 
+
     // -----------------------------------공지사항-----------------------------------
 
     // 전체 공지 게시글 리스트화
@@ -96,6 +97,8 @@ public class BoardController {
 
     // -----------------------------------장터-----------------------------------
 
+    // 전체 장터 게시글 리스트화
+    // 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
     @GetMapping("/market")
     public ModelAndView market(
             @RequestParam Map<String, Object> param) {
@@ -108,31 +111,19 @@ public class BoardController {
         return mav;
     }
 
-    // 전체 장터 게시글 리스트화
-    // 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
-    @GetMapping("/freemarket")
-    public ModelAndView freemarkets(
-            @RequestParam Map<String, Object> param) {
-        ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getMarkets(param));
-
-        mav.setViewName("board/freemarket");
-
-        return mav;
-    }
 
     // 지정된 글 번호(id)의 상세 글 내용 조회
     @GetMapping("/freemarket_view/{id}")
-    public String freemarket(@PathVariable("id") int id, Model model, HttpServletRequest request) {
-        MemberVO user = getUser(request);
+    public ModelAndView freemarket(@PathVariable("id") int id, HttpSession session) {
+
+        ModelAndView mav = new ModelAndView("board/freemarket_view");
         // 상세 글 조회 시, 현재 접속 중인 계정의 id를 검색해 수정/삭제 버튼을 보이게 하기 위함
-        int memberid = (user != null) ? user.getId() : -1;
 
         bs.updateViewCount(id);
-        model.addAttribute("freemarket", bs.getMarket(id));
-        model.addAttribute("memberid", memberid);
-        return "board/freemarket_view";
+        mav.addObject("freemarket", bs.getMarket(id));
+
+        return mav;
     }
 
     @PostMapping("/freemarket_view/{id}")
@@ -159,14 +150,14 @@ public class BoardController {
         MemberVO user = getUser(request);
         input.setMember_id(user.getId());
         bs.addMarket(input);
-        return "redirect:/board/freemarket";
+        return "redirect:/board/market";
     }
 
     // 장터 글 삭제
     @PostMapping("/freemarket_delete/{id}")
     public String freemarketdelete(@PathVariable("id") int id) {
         bs.deleteBoard(id);
-        return "redirect:/board/freemarket";
+        return "redirect:/board/market";
     }
 
     // 현재 글 번호(id) 정보 획득 후 장터 글 업데이트(freemarket_write form 재활용) 폼으로 전송
@@ -180,7 +171,7 @@ public class BoardController {
     @PostMapping("/freemarket_update/{id}")
     public String freemarketupdate(BoardVO input) {
         bs.updateMarket(input);
-        return "redirect:/board/freemarket";
+        return "redirect:/board/market";
     }
 
 
@@ -217,7 +208,22 @@ public class BoardController {
     public ModelAndView add(BoardVO input) {
         ModelAndView mav = new ModelAndView();
         bs.addFB(input);
-        mav.setViewName("redirect:/board/freeBoard");
+        mav.setViewName("redirect:/board/list");
+        return mav;
+    }
+
+
+    @GetMapping("/view/{id}")
+    public ModelAndView view(@PathVariable int id, HttpServletRequest request) {
+        MemberVO user = getUser(request);
+        ModelAndView mav = new ModelAndView();
+
+        bs.updateViewCount(id);
+        mav.addObject("row", bs.getfB(id));
+        mav.addObject("replies", bs.getReplies(id));
+        mav.addObject("user", user);
+        mav.setViewName("board/view");
+
         return mav;
     }
 
@@ -251,7 +257,7 @@ public class BoardController {
     @PostMapping("/deletefB/{id}")
     public String delete(@PathVariable int id) {
         bs.deleteBoard(id);
-        return "redirect:/board/freeBoard";
+        return "redirect:/board/list";
     }
 
     @GetMapping("/updatefB/{id}")
@@ -269,7 +275,7 @@ public class BoardController {
     public String updateFB(@PathVariable int id, BoardVO boardVO) {
         boardVO.setId(id);
         bs.updateFB(boardVO);
-        return "redirect:/board/freeBoard";
+        return "redirect:/board/list";
     }
 
 
@@ -375,10 +381,12 @@ public class BoardController {
         if (type.contains("QnA_view")) {
             return "board/QnA_view";
         } else if (type.contains("fB_view")) {
-            return "board/fB_view";
+            return "board/view";
         }
         return "board/QnA_view";
     }
+
+
 
     // 댓글 추가
     @PostMapping("/replies")
@@ -386,17 +394,14 @@ public class BoardController {
         MemberVO user = (MemberVO) session.getAttribute("user");
         if (user != null) {
             reply.setMember_id(user.getId());
-            int board_id = reply.getBoard_id();
-            reply.setBoard_id(board_id);
             bs.addReply(reply);
         }
         String type = request.getHeader("Referer");
-        if (type.contains("QnA_view")) {
+        if (type != null && type.contains("QnA_view")) {
             return "redirect:/board/QnA_view/" + reply.getBoard_id();
-        } else if (type.contains("fB_view")) {
-            return "redirect:/board/fB_view/" + reply.getBoard_id();
+        } else { // 기본적으로 fB_view로 리다이렉트
+            return "redirect:/board/view/" + reply.getBoard_id();
         }
-        return "redirect:/board/QnA_view/" + reply.getBoard_id();
     }
 
     // 댓글 삭제
@@ -407,10 +412,12 @@ public class BoardController {
         if (type.contains("QnA_view")) {
             return "redirect:/board/QnA_view/" + boardId;
         } else if (type.contains("fB_view")) {
-            return "redirect:/board/fB_view/" + boardId;
+            return "redirect:/board/view/" + boardId;
         }
         return "redirect:/board/QnA_view/" + boardId;
     }
+
+
 }
 
 

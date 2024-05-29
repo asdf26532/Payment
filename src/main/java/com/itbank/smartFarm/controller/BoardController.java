@@ -1,7 +1,9 @@
 package com.itbank.smartFarm.controller;
 
 import com.itbank.smartFarm.service.BoardService;
+import com.itbank.smartFarm.service.ChatService;
 import com.itbank.smartFarm.vo.BoardVO;
+import com.itbank.smartFarm.vo.MessageVO;
 import com.itbank.smartFarm.vo.ReplyVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class BoardController {
 
     @Autowired
     private BoardService bs;
+
+    @Autowired
+    private ChatService cs;
 
     // 현재 세션에 있는 유저 정보 (중복 제거를 위한 별도 메소드 할당)
     private MemberVO getUser(HttpServletRequest request) {
@@ -119,6 +124,17 @@ public class BoardController {
         mav.addObject("freemarket", bs.getMarket(id));
 
         return mav;
+    }
+
+    @PostMapping("/freemarket_view/{id}")
+    public String chat_start(@PathVariable("id") int id, MessageVO message, HttpSession session) {
+        // 게시글 id 로 해당 게시글의 작성자 member_id를 찾아서 해당아이디를 receiver_id
+        message.setReceiverId(bs.getMarket(id).getMember_id());
+        // session의 member_id를 sender_id로 설정하여 메세지전송
+        MemberVO member = (MemberVO) session.getAttribute("user");
+        message.setSenderId(member.getId());
+        cs.startChat(message);
+        return "redirect:/chat";
     }
 
     // 장터 작성 폼으로 전송 (비 로그인 시 로그인으로 리다이렉트)

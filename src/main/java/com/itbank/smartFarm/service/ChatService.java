@@ -33,4 +33,8 @@ public class ChatService {
     public List<MemberVO> getSendersByReceiverId(int receiverId) {
         return dao.findSendersByReceiverId(receiverId);
     }
+
+    public void startChat(MessageVO message) {
+        dao.insertMessage(message);
+    }
 }

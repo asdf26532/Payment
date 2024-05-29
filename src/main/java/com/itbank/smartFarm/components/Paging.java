@@ -27,7 +27,7 @@ public class Paging {
         begin = section * pageCount + 1;
         end = (section + 1) * pageCount;
 
-        end = (end < totalPage) ? end : totalPage;
+        end = Math.min(end, totalPage);
 
         prev = section != 0;
         next = end != totalPage;

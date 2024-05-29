@@ -20,7 +20,10 @@ public class HomeController {
     public void download(Model model) {}
 
     @GetMapping("/support")
-    public void support(Model model) {}
+    public String support(Model model) {
+
+        return "redirect:/board/QnA";
+    }
 
 
 }

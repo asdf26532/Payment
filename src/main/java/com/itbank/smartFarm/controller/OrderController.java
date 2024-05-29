@@ -17,6 +17,8 @@ import com.itbank.smartFarm.vo.MemberVO;
 import com.itbank.smartFarm.vo.OrdersVO;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/pay")
 public class OrderController {
@@ -43,7 +45,7 @@ public class OrderController {
 
 		// 주문이 이미 존재하는지 확인 - order 페이지에만 있는지 확인
 		int existingOrderId = os.getExistingOrderId(memberId, orderItemId);
-		
+
 		if (existingOrderId != -1) {
 			// 주문이 이미 존재하면 수량을 업데이트
 			CartVO cartVO = new CartVO();
@@ -65,11 +67,11 @@ public class OrderController {
 			cartVO.setCount(quantity);
 
 			os.count(cartVO); // 주문 수량 설정
-			
+
 		}
-		
+
 	    mav.setViewName("redirect:/pay/cart");
-	    
+
 		return mav;
 	}
 
@@ -160,27 +162,44 @@ public class OrderController {
 
 		return mav;
 	}
+
 	@PostMapping("/updateDeliveryInfo")
 	public ModelAndView updateDeliveryInfo(@RequestBody CartVO deliveryInfo, HttpSession session) {
-
 		ModelAndView mav = new ModelAndView();
+
+		// 세션에서 회원 ID 가져오기
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		int memberid = user.getId();
+		int memberId = user.getId();
+		System.out.println(deliveryInfo);
+		// 배송 상태를 "결제완료"로 업데이트
 		os.deliveryid(deliveryInfo.getDelivery_id());
-		mav.addObject("orderlist", os.getOrders(memberid));
+
+		// 회원의 최신 주문 목록을 가져오기
+		List<CartVO> order = os.getOrders(memberId);
+
+		// 업데이트된 주문 목록을 ModelAndView에 추가
+		mav.addObject("orderlist", order);
+
+		// 뷰 이름을 orderStatus로 설정
 		mav.setViewName("/pay/orderStatus");
+
 		return mav;
 	}
-	
+
 	// 주문 현황
 	@GetMapping("/orderStatus")
 	public ModelAndView afterPay(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
+		// 세션에서 현재 사용자의 ID를 가져옵니다.
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		int memberid = user.getId();
-		mav.addObject("orderlist", os.afterPay(memberid));
+		int memberId = user.getId();
 
+		// 사용자의 최신 주문 목록을 가져와서 orderlist에 추가합니다.
+		List<CartVO> orderList = os.afterPay(memberId);
+		mav.addObject("orderlist", orderList);
+
+		// 뷰 이름을 orderStatus로 설정합니다.
 		mav.setViewName("/pay/orderStatus");
 
 		return mav;

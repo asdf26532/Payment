@@ -24,7 +24,7 @@ public interface OrderDAO {
 	OrderItemVO selectOne(int id);
 
 	// 장바구니 - order 페이지 - 특정 회원의 주문(장바구니 항목)을 검색합니다.
-	@Select("SELECT * FROM cart WHERE member_id=#{id} AND delivery_status='결제 전'")
+	@Select("SELECT * FROM cart WHERE member_id= #{id} AND locate('결제 전',delivery_status)")
 	public List<CartVO> getOrders(int id);
 
 	// 수정할 주문 하나 - update 페이지 -업데이트를 위해 단일 주문(장바구니 항목)을 검색합니다.
@@ -84,8 +84,8 @@ public interface OrderDAO {
 	int deliveryid(int delivery_id);
 
 	// 결제가 완료된 후의 회원의 장바구니 항목을 검색합니다.
-	@Select("SELECT * FROM cart WHERE member_id=#{id} AND delivery_status!='결제 전'")
-	List<CartVO> afterPay(int memberid);
+	@Select("SELECT * FROM cart WHERE member_id= #{id} AND locate('결제완료',delivery_status)")
+	List<CartVO> afterPay(int id);
 
 	//특정 회원 및 주문 항목에 대한 기존 주문 ID를 검색합니다.
 	@Select("SELECT o.id "

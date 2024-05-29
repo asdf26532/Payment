@@ -87,8 +87,8 @@ public class OrderService {
 		return od.getOrders(id);
 	}
 
-	public List<CartVO> afterPay(int memberid) {
-		return od.afterPay(memberid);
+	public List<CartVO> afterPay(int id) {
+		return od.afterPay(id);
 	}
 
 	public int getExistingOrderId(int memberId, int orderItemId) {

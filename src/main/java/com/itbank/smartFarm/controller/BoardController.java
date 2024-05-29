@@ -110,15 +110,15 @@ public class BoardController {
 
     // 지정된 글 번호(id)의 상세 글 내용 조회
     @GetMapping("/freemarket_view/{id}")
-    public String freemarket(@PathVariable("id") int id, Model model, HttpServletRequest request) {
-        MemberVO user = getUser(request);
+    public ModelAndView freemarket(@PathVariable("id") int id, HttpSession session) {
+
+        ModelAndView mav = new ModelAndView("board/freemarket_view");
         // 상세 글 조회 시, 현재 접속 중인 계정의 id를 검색해 수정/삭제 버튼을 보이게 하기 위함
-        int memberid = (user != null) ? user.getId() : -1;
 
         bs.updateViewCount(id);
-        model.addAttribute("freemarket", bs.getMarket(id));
-        model.addAttribute("memberid", memberid);
-        return "board/freemarket_view";
+        mav.addObject("freemarket", bs.getMarket(id));
+
+        return mav;
     }
 
     // 장터 작성 폼으로 전송 (비 로그인 시 로그인으로 리다이렉트)

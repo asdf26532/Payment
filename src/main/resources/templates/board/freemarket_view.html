@@ -121,7 +121,7 @@
 				</p>
 			</div>
 
-			<div th:if="${memberid == freemarket.member_id}">
+			<div th:if="${session.user.id == freemarket.member_id}">
 				<div class="flex justify-end">
 					<!-- 수정 버튼 -->
 					<form th:action="'/board/freemarket_update/' + ${freemarket.id}"
@@ -160,14 +160,14 @@
 		</div>
 	</article>
 
-	<!-- 댓글 쓰기 창 -->
+	<!-- 1대1 채팅시작 창 -->
 
 	<div class="max-w-4xl mx-auto mt-8">
 		<div class="bg-white rounded-lg shadow-md overflow-hidden mt-8">
-			<div class="p-6 md:p-8 lg:p-10" th:if="${user != null}">
-				<h3 class="text-lg font-bold mb-4">Leave a Comment</h3>
+			<div class="p-6 md:p-8 lg:p-10" th:if="${session.user != null}">
+				<h3 class="text-lg font-bold mb-4">1대1 채팅하기</h3>
 				<form th:action="@{/board/replies}" method="post">
-					<input type="hidden" name="board_id" th:value="${row.id}">
+					<input type="hidden" name="receiver_id" th:value="${freemarket.member_id}">
 					<div class="mb-4" >
 						<label
 								class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-2"
@@ -195,58 +195,6 @@
 			</div>
 		</div>
 		<br>
-
-		<!-- 댓글 view 창 -->
-
-		<h2 class="text-2xl font-bold mb-4">Comments</h2>
-		<div class="bg-white rounded-lg shadow-md overflow-hidden">
-			<div class="p-6 md:p-8 lg:p-10" th:if="${replies != null}">
-				<div class="flex items-start mb-6"  th:each="reply : ${replies}">
-					<img
-							src="/placeholder.svg"
-							alt="Avatar"
-							width="40"
-							height="40"
-							class="rounded-full mr-4"
-							style="aspect-ratio: 40 / 40; object-fit: cover;"
-					/>
-					<div class="flex-1" >
-						<div class="flex items-center justify-between mb-2">
-							<h3 class="text-lg font-bold" th:text="${reply.nick}">작성자</h3>
-							<div class="flex items-center space-x-2" th:if="${user != null and reply.member_id == user.id}">
-								<form th:action="'/board/deleteReply/' + ${reply.id}" method="post">
-									<button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background h-9 rounded-md px-3 text-red-500 hover:bg-red-500 hover:text-white">
-										<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="w-4 h-4 mr-2"
-										>
-											<path d="M3 6h18"></path>
-											<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-											<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-										</svg>
-										<input type="hidden" name="board_id" th:value="${row.id}">
-										Delete
-									</button>
-								</form>
-							</div>
-						</div>
-						<p class="text-gray-500 mb-2" th:text="${reply.w_date}">작성일</p>
-						<p class="text-gray-700" th:text="${reply.contents}">내용</p>
-					</div>
-					<div th:if="${replies == null or #lists.isEmpty(replies)}">
-						<p>댓글이 없습니다.</p>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 
 </div>

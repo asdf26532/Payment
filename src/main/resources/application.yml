@@ -9,14 +9,18 @@ spring:
 #    driver-class-name: org.h2.Driver
 #    url: jdbc:h2:tcp://localhost/~/test
 #    username: sa
-#    password:
+#    password: 1
 
   # AWS Docker에 올라간 DB서버
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.36.207.45:3306/smartfarm?serverTimezone=UTC&characterEncoding=utf8
-    username: root
-    password: 12345678
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     url: jdbc:mysql://3.36.207.45:3306/smartfarm?serverTimezone=UTC&characterEncoding=utf8
+     username: root
+     password: 12345678
   thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
+     prefix: classpath:/templates/
+     suffix: .html
+
+# 파일 다운로드 디렉토리 설정
+file:
+  download-dir: src/main/resources/static/download

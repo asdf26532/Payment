@@ -16,9 +16,6 @@ public class HomeController {
     @GetMapping("/company")
     public void company(Model model) {}
 
-    @GetMapping("/download")
-    public void download(Model model) {}
-
     @GetMapping("/support")
     public String support(Model model) {
 

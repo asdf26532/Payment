@@ -90,7 +90,7 @@ public class OrderController {
 		int memberid = user.getId();
 		mav.addObject("orderlist", os.getOrders(memberid));
 
-		mav.setViewName("/pay/cart");
+		mav.setViewName("pay/cart");
 
 		return mav;
 	}
@@ -101,7 +101,7 @@ public class OrderController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("orderlist", os.getorder(orderId));
 
-		mav.setViewName("/pay/newUpdate");
+		mav.setViewName("pay/newUpdate");
 
 		return mav;
 	}
@@ -122,7 +122,7 @@ public class OrderController {
 		mav.addObject("path", "/pay/newUpdate");
 		mav.addObject("msg", msg);
 		
-		mav.setViewName("/pay/Message");
+		mav.setViewName("pay/Message");
 
 		return mav;
 	}
@@ -143,7 +143,7 @@ public class OrderController {
 		mav.addObject("path", "/");
 		mav.addObject("msg", msg);
 
-		mav.setViewName("/pay/Message");
+		mav.setViewName("pay/Message");
 
 		return mav;
 	}
@@ -164,7 +164,7 @@ public class OrderController {
 		mav.addObject("path", "/pay/orderStatus");
 		mav.addObject("msg", msg);
 
-		mav.setViewName("/pay/Message");
+		mav.setViewName("pay/Message");
 
 		return mav;
 	}
@@ -187,7 +187,7 @@ public class OrderController {
 		mav.addObject("orderlist", order);
 
 		// 뷰 이름을 orderStatus로 설정
-		mav.setViewName("/pay/orderStatus");
+		mav.setViewName("pay/orderStatus");
 
 		return mav;
 	}
@@ -206,7 +206,7 @@ public class OrderController {
 		mav.addObject("orderlist", orderList);
 
 		// 뷰 이름을 orderStatus로 설정합니다.
-		mav.setViewName("/pay/orderStatus");
+		mav.setViewName("pay/orderStatus");
 
 		return mav;
 	}

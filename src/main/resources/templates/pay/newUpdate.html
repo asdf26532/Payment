@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<div th:replace="~{header :: header}"></div>
+<div class="flex flex-col items-center justify-center min-h-screen bg-[#f0f8f0]">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-6">Order Modification</h1>
+        <form class="grid grid-cols-2 gap-6" method="post" th:object="${orderlist}">
+            <div class="col-span-2 sm:col-span-1">
+                <label for="member_name" class="block text-gray-700 font-medium mb-2">
+                    고객 이름
+                </label>
+                <input
+                        id="member_name"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter customer name"
+                        type="text"
+                        th:field="*{member_name}"
+                        readonly
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="order_id" class="block text-gray-700 font-medium mb-2">
+                    주문 번호
+                </label>
+                <input
+                        id="order_id"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter order number"
+                        type="text"
+                        th:field="*{order_id}"
+                        readonly
+                />
+            </div>
+            <div class="col-span-2">
+                <label for="address" class="block text-gray-700 font-medium mb-2">
+                    배송 주소
+                </label>
+                <div class="grid grid-cols-3 gap-4">
+                    <input
+                            id="address"
+                            class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                            placeholder="Address"
+                            type="text"
+                            th:field="*{address}"
+                    />
+                </div>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="member_phone" class="block text-gray-700 font-medium mb-2">
+                    고객 전화번호
+                </label>
+                <input
+                        id="member_phone"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter customer phone number"
+                        type="tel"
+                        th:field="*{member_phone}"
+                        readonly
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="product_name" class="block text-gray-700 font-medium mb-2">
+                    상품명
+                </label>
+                <input
+                        id="product_name"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter product name"
+                        type="text"
+                        th:field="*{product_name}"
+                        readonly
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="count" class="block text-gray-700 font-medium mb-2">
+                    수량
+                </label>
+                <input
+                        id="count"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter product quantity"
+                        type="number"
+                        th:field="*{count}"
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="unit_price" class="block text-gray-700 font-medium mb-2">
+                    단위 가격
+                </label>
+                <input
+                        id="unit_price"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter unit price"
+                        type="number"
+                        th:field="*{unit_price}"
+                        readonly
+                />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+                <label for="total_price" class="block text-gray-700 font-medium mb-2">
+                    총 가격
+                </label>
+                <input
+                        id="total_price"
+                        class="border border-gray-300 rounded-md px-4 py-2 w-full"
+                        placeholder="Enter total price"
+                        type="number"
+                        th:field="*{total_price}"
+                        readonly
+                />
+            </div>
+            <div class="col-span-2">
+                <label for="delivery_id" class="block text-gray-700 font-medium mb-2">
+                    배송 현황
+                </label>
+                <p id="delivery_id" th:field="*{delivery_id}"></p>
+            </div>
+            <div class="col-span-2 flex justify-end">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md">
+                    수정하기
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

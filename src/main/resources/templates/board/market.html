@@ -53,7 +53,26 @@
         <div class="flex flex-col gap-6 border border-gray-200 rounded-lg shadow-lg p-6 bg-[#f7fbf7]">
             <div class="flex items-center justify-between">
                 <h2 class="text-2xl font-bold">Market Place</h2>
-
+                <a th:href="@{/board/freemarket_write}">
+                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="h-4 w-4 mr-2"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5v14"></path>
+                        </svg>
+                        글 쓰기
+                    </button>
+                </a>
             </div>
             <!-- 게시글 변수 삽입부분 -->
             <div class="grid grid-cols-2 gap-6" onclick="closeDropdownMenus()" >

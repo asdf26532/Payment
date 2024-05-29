@@ -92,7 +92,8 @@ public class BoardController {
 
     // -----------------------------------장터-----------------------------------
 
-
+    // 전체 장터 게시글 리스트화
+    // 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
     @GetMapping("/market")
     public ModelAndView market(
             @RequestParam Map<String, Object> param) {
@@ -105,19 +106,7 @@ public class BoardController {
         return mav;
     }
 
-    // 전체 장터 게시글 리스트화
-    // 장터에서 카테고리, 판매 상태로 필터링하도록 추가하는 기능.
-    @GetMapping("/freemarket")
-    public ModelAndView freemarkets(
-            @RequestParam Map<String, Object> param) {
-        ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getMarkets(param));
-
-        mav.setViewName("board/freemarket");
-
-        return mav;
-    }
 
     // 지정된 글 번호(id)의 상세 글 내용 조회
     @GetMapping("/freemarket_view/{id}")
@@ -145,14 +134,14 @@ public class BoardController {
         MemberVO user = getUser(request);
         input.setMember_id(user.getId());
         bs.addMarket(input);
-        return "redirect:/board/freemarket";
+        return "redirect:/board/market";
     }
 
     // 장터 글 삭제
     @PostMapping("/freemarket_delete/{id}")
     public String freemarketdelete(@PathVariable("id") int id) {
         bs.deleteBoard(id);
-        return "redirect:/board/freemarket";
+        return "redirect:/board/market";
     }
 
     // 현재 글 번호(id) 정보 획득 후 장터 글 업데이트(freemarket_write form 재활용) 폼으로 전송
@@ -166,7 +155,7 @@ public class BoardController {
     @PostMapping("/freemarket_update/{id}")
     public String freemarketupdate(BoardVO input) {
         bs.updateMarket(input);
-        return "redirect:/board/freemarket";
+        return "redirect:/board/market";
     }
 
 
@@ -389,17 +378,14 @@ public class BoardController {
         MemberVO user = (MemberVO) session.getAttribute("user");
         if (user != null) {
             reply.setMember_id(user.getId());
-            int board_id = reply.getBoard_id();
-            reply.setBoard_id(board_id);
             bs.addReply(reply);
         }
         String type = request.getHeader("Referer");
-        if (type.contains("QnA_view")) {
+        if (type != null && type.contains("QnA_view")) {
             return "redirect:/board/QnA_view/" + reply.getBoard_id();
-        } else if (type.contains("fB_view")) {
+        } else { // 기본적으로 fB_view로 리다이렉트
             return "redirect:/board/view/" + reply.getBoard_id();
         }
-        return "redirect:/board/QnA_view/" + reply.getBoard_id();
     }
 
     // 댓글 삭제
@@ -414,6 +400,8 @@ public class BoardController {
         }
         return "redirect:/board/QnA_view/" + boardId;
     }
+
+
 }
 
 

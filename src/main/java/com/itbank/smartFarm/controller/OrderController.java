@@ -35,44 +35,50 @@ public class OrderController {
 	public ModelAndView Order(@RequestParam("quantity") int quantity,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		// 로그인 한 멤버 정보 + 아이디 + 주소 가져오기
-		MemberVO user = (MemberVO) session.getAttribute("user");
+		if (session.getAttribute("user") == null) {
+			mav.setViewName("redirect:/member/login");
+			return mav;
+		}else{
+			// 로그인 한 멤버 정보 + 아이디 + 주소 가져오기
+			MemberVO user = (MemberVO) session.getAttribute("user");
 
-		int memberId = user.getId();
-		String address = user.getAddress();
+			int memberId = user.getId();
+			String address = user.getAddress();
 
-		int orderItemId = os.getorderitem_id();
+			int orderItemId = os.getorderitem_id();
 
-		// 주문이 이미 존재하는지 확인 - order 페이지에만 있는지 확인
-		int existingOrderId = os.getExistingOrderId(memberId, orderItemId);
+			// 주문이 이미 존재하는지 확인 - order 페이지에만 있는지 확인
+			int existingOrderId = os.getExistingOrderId(memberId, orderItemId);
 
-		if (existingOrderId != -1) {
-			// 주문이 이미 존재하면 수량을 업데이트
-			CartVO cartVO = new CartVO();
-			cartVO.setOrder_id(existingOrderId);
-			cartVO.setCount(quantity);
-			os.countUp(cartVO);
-		} else {
-			// 생성한 배송정보의 ID 및 제품의 order_id 가져오기
-			// 가져온 정보를 기반으로 운송정보 생성
-			os.makedelivery(address);
-			int deliveryId = os.getdeliveryid();
-			// memberid, orderitem_id, delivery_id를 기반으로 주문 정보 생성
-			OrdersVO orderVO = new OrdersVO(memberId, orderItemId, deliveryId);
-			// 주문이 존재하지 않으면 새로운 주문 추가
-			os.makeorder(orderVO); // 주문 추가
-			int orderid = os.getorderid();
-			CartVO cartVO = new CartVO();
-			cartVO.setOrder_id(orderid);
-			cartVO.setCount(quantity);
+			if (existingOrderId != -1) {
+				// 주문이 이미 존재하면 수량을 업데이트
+				CartVO cartVO = new CartVO();
+				cartVO.setOrder_id(existingOrderId);
+				cartVO.setCount(quantity);
+				os.countUp(cartVO);
+			} else {
+				// 생성한 배송정보의 ID 및 제품의 order_id 가져오기
+				// 가져온 정보를 기반으로 운송정보 생성
+				os.makedelivery(address);
+				int deliveryId = os.getdeliveryid();
+				// memberid, orderitem_id, delivery_id를 기반으로 주문 정보 생성
+				OrdersVO orderVO = new OrdersVO(memberId, orderItemId, deliveryId);
+				// 주문이 존재하지 않으면 새로운 주문 추가
+				os.makeorder(orderVO); // 주문 추가
+				int orderid = os.getorderid();
+				CartVO cartVO = new CartVO();
+				cartVO.setOrder_id(orderid);
+				cartVO.setCount(quantity);
 
-			os.count(cartVO); // 주문 수량 설정
+				os.count(cartVO); // 주문 수량 설정
 
+			}
+
+			mav.setViewName("redirect:/pay/cart");
+
+			return mav;
 		}
 
-	    mav.setViewName("redirect:/pay/cart");
-
-		return mav;
 	}
 
 	// 장바구니에서 결제

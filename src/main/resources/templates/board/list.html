@@ -7,79 +7,79 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .main-container {
-            max-width: 1400px;
+            max-width: 1600px;
             width: 100%;
         }
-        .sidebar {
-            flex-basis: 25%;
-            margin-left: 0;
-            margin-right: 1rem;
-            height: 50%;
+
+        th.w-10 {
+            width: 10%;
         }
-        .content {
-            flex-basis: 75%;
+
+        th.w-50 {
+            width: 50%;
         }
-        th.w-10 { width: 10%; }
-        th.w-50 { width: 50%; }
-        th.w-15 { width: 15%; }
+
+        th.w-15 {
+            width: 15%;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-[#f0f8f0]">
 <br>
 <div th:replace="~{header :: header}"></div>
 <br><br>
-<main class="main-container flex-grow flex flex-col justify-center items-center p-4 mx-auto">
-    <div class="flex min-h-screen w-full flex-col bg-[#f0f8f0]">
-        <div class="flex flex-1">
-            <!-- 사이드바 -->
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-2xl font-bold">Categories</h2>
-                </div>
-                <nav class="space-y-2">
-                    <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
-                       th:href="@{/board/notice}">
-                        공지 사항
-                    </a>
-                    <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
-                       th:href="@{/board/list}">
-                        자유게시판
-                    </a>
-                    <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
-                       th:href="@{/board/market}">
-                        장터
-                    </a>
-                    <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
-                       th:href="@{/board/QnA}">
-                        QnA
-                    </a>
-                </nav>
+<main class="main-container flex-grow flex flex-col justify-center items-center p-4 mx-auto"
+      th:with="list=${map['list']}, pg=${map['pg']}">
+    <div class="grid grid-cols-[200px_1fr] gap-8 bg-[#f0f8f0] p-8">
+        <!-- 사이드바 -->
+        <div class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-bold">Categories</h2>
             </div>
-
-            <section class="content p-4 md:p-6" th:with="list=${map['list']}, pg=${map['pg']}">
-                <div class="mx-auto max-w-4xl">
+            <nav class="space-y-2">
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/notice}">
+                    공지 사항
+                </a>
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/list}">
+                    자유게시판
+                </a>
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/market}">
+                    장터
+                </a>
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/QnA}">
+                    QnA
+                </a>
+            </nav>
+        </div>
+        <div class="flex flex-1 grid grid-cols-[800px_1fr]">
+            <div class="flex flex-col gap-6 border border-gray-200 rounded-lg shadow-lg p-6 bg-[#f7fbf7]">
+                <div class="mx-auto w-full">
                     <div class="mb-6 flex items-center justify-between">
-                        <h1 class="text-2xl font-bold">Community</h1>
+                        <h1 class="text-2xl font-bold">자유게시판</h1>
                         <div class="flex items-center gap-2">
                             <a th:href="@{/board/fBadd}">
-                            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-                                <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="h-4 w-4 mr-2"
-                                >
-                                    <path d="M5 12h14"></path>
-                                    <path d="M12 5v14"></path>
-                                </svg>
-                                글 쓰기
-                            </button>
+                                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="h-4 w-4 mr-2"
+                                    >
+                                        <path d="M5 12h14"></path>
+                                        <path d="M12 5v14"></path>
+                                    </svg>
+                                    글 쓰기
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -114,118 +114,118 @@
                                            th:href="@{/board/view/{id}(id=${row.id})}"
                                         >Smart Farming Techniques</a></td>
                                     <td class="h-12 px-4 text-left align-middle hidden md:table-cell"
-                                        th:text="${row.nick != null ? row.nick : ''}">Alice</td>
+                                        th:text="${row.nick != null ? row.nick : ''}">Alice
+                                    </td>
                                     <td class="h-12 px-4 text-left align-middle hidden md:table-cell"
-                                        th:text="${row.v_count != null ? row.v_count : ''}">120</td>
+                                        th:text="${row.v_count != null ? row.v_count : ''}">120
+                                    </td>
                                     <td class="h-12 px-4 text-left align-middle hidden md:table-cell"
-                                        th:text="${row.w_date != null ? row.w_date : ''}">2024-05-01</td>
+                                        th:text="${row.w_date != null ? row.w_date : ''}">2024-05-01
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                <div class="mt-6 flex justify-center">
-                    <nav aria-label="pagination" class="mx-auto flex w-full justify-center" role="navigation">
-                        <ul class="flex flex-row items-center gap-1"
-                            th:with="groupParam=${param.group != null ? 'group=' + param.group : ''}, searchParam=${param.search != null ? 'search=' + param.search : ''}">
-                            <li class=""  th:if="${pg.prev}">
-                                <a
-                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pl-2.5"
-                                        aria-label="Go to previous page"
-                                        th:href="@{|/board/list?page=${pg.begin - 1}&${groupParam}&${searchParam}|}"
-                                >
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="h-4 w-4"
-                                    >
-                                        <path d="m15 18-6-6 6-6"></path>
-                                    </svg>
-                                    <span>Previous</span>
-                                </a>
-                            </li>
-                            <li class="" th:if="${pg.end > 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-                                <a
-                                        aria-current="page"
-                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
-                                        th:href="@{|/board/list?page=${i}&${groupParam}&${searchParam}|}"
-                                >
-                                    <span th:text="${i}"></span>
-                                </a>
-                            </li>
-                            <li class="" th:if="${pg.end == 0}">
-                                <a
-                                        aria-current="page"
-                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
-                                        th:href="@{|/board/list?page=${pg.begin}&${groupParam}&${searchParam}|}"
-                                >
-                                    <span th:text="${pg.begin}"></span>
-                                </a>
-                            </li>
-                            <li class="" th:if="${pg.end == 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
-                                <a
-                                        aria-current="page"
-                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
-                                        th:href="@{|/board/list?page=${i}&${groupParam}&${searchParam}|}"
-                                >
-                                    <span th:text="${pg.begin}"></span>
-                                </a>
-                            </li>
-
-
-                            <li class="">
-                            <li class="" th:if="${pg.next}">
-                                <a
-                                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pr-2.5"
-                                        aria-label="Go to next page"
-                                        th:href="@{|/board/list?page=${pg.end + 1}&${groupParam}&${searchParam}|}"
-                                >
-                                    <span>Next</span>
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="h-4 w-4"
-                                    >
-                                        <path d="m9 18 6-6-6-6"></path>
-                                    </svg>
-                                </a>
-                            </li>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
                     <div class="mt-6 flex justify-center">
-                    <form th:action="@{/board/list}" method="get">
-                    <input value="102" type="hidden" name="num" >
-                    <select name="group">
-                        <option value="title">제목</option>
-                        <option value="nick">작성자</option>
-                        <option value="contents">내용</option>
-                    </select>
-
-                    <input name="search" type="text">
-
-                    <button type="submit">검색</button>
-                </form>
+                        <nav aria-label="pagination" class="mx-auto flex w-full justify-center" role="navigation">
+                            <ul class="flex flex-row items-center gap-1"
+                                th:with="groupParam=${param.group != null ? 'group=' + param.group : ''}, searchParam=${param.search != null ? 'search=' + param.search : ''}">
+                                <li class="" th:if="${pg.prev}">
+                                    <a
+                                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pl-2.5"
+                                            aria-label="Go to previous page"
+                                            th:href="@{|/board/list?page=${pg.begin - 1}&${groupParam}&${searchParam}|}"
+                                    >
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="h-4 w-4"
+                                        >
+                                            <path d="m15 18-6-6 6-6"></path>
+                                        </svg>
+                                        <span>Previous</span>
+                                    </a>
+                                </li>
+                                <li class="" th:if="${pg.end > 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                                    <a
+                                            aria-current="page"
+                                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                                            th:href="@{|/board/list?page=${i}&${groupParam}&${searchParam}|}"
+                                    >
+                                        <span th:text="${i}"></span>
+                                    </a>
+                                </li>
+                                <li class="" th:if="${pg.end == 0}">
+                                    <a
+                                            aria-current="page"
+                                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                                            th:href="@{|/board/list?page=${pg.begin}&${groupParam}&${searchParam}|}"
+                                    >
+                                        <span th:text="${pg.begin}"></span>
+                                    </a>
+                                </li>
+                                <li class="" th:if="${pg.end == 0}"
+                                    th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                                    <a
+                                            aria-current="page"
+                                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                                            th:href="@{|/board/list?page=${i}&${groupParam}&${searchParam}|}"
+                                    >
+                                        <span th:text="${pg.begin}"></span>
+                                    </a>
+                                </li>
+                                <li class="" th:if="${pg.next}">
+                                    <a
+                                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pr-2.5"
+                                            aria-label="Go to next page"
+                                            th:href="@{|/board/list?page=${pg.end + 1}&${groupParam}&${searchParam}|}"
+                                    >
+                                        <span>Next</span>
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="h-4 w-4"
+                                        >
+                                            <path d="m9 18 6-6-6-6"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
+                    <div class="mt-6 flex justify-center">
+                        <form th:action="@{/board/list}" method="get">
+                            <input value="102" type="hidden" name="num">
+                            <select name="group">
+                                <option value="title">제목</option>
+                                <option value="nick">작성자</option>
+                                <option value="contents">내용</option>
+                            </select>
+
+                            <input name="search" type="text">
+
+                            <button type="submit">검색</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
     </div>
-</div>
 </main>
 <div th:replace="~{footer :: footer}"></div>
 </body>

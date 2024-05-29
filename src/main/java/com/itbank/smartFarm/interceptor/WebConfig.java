@@ -26,9 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
                         "/board/freemarket_write",
                         "/board/fBadd",
                         "/board/QnAadd",
+                        "/board/freemarket_view/**",
                         "/chat/**",
                         "/pay/order",
-                        "/pay/orderPrepare");
+                        "/pay/orderPrepare",
+                        "/download");
 
         registry.addInterceptor(noticeInterceptor)
                 .addPathPatterns("/board/notice_write");

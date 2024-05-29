@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 public class MemberVO {
 
-    private int id, phone;
-    private String name, address, email;
+    private int id;
+    private String name, address, email, phone;
     private String userid, userpw, newpw, nick;
 }

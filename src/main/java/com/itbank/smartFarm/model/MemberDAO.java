@@ -1,20 +1,16 @@
 package com.itbank.smartFarm.model;
 
 import com.itbank.smartFarm.vo.MemberVO;
-import com.itbank.smartFarm.vo.TestVO;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface MemberDAO {
 
-    @Select("select * from test")
-    TestVO test();
-
     @Select("select * from member where userid = #{userid} and userpw = #{userpw}")
     MemberVO selectOne(MemberVO input);
 
-    @Insert("insert into member (name, address, email, userid, userpw, nick) " +
-            "values (#{name}, #{address}, #{email}, #{userid}, #{userpw}, #{nick})")
+    @Insert("insert into member (name, address, email, userid, userpw, nick, phone) " +
+            "values (#{name}, #{address}, #{email}, #{userid}, #{userpw}, #{nick}, #{phone})")
     void insert(MemberVO input);
 
     @Update("update member set userpw = #{userpw}, email = #{email}, " +

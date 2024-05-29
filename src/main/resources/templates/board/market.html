@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 커스텀 스타일 */
+        .dropdown-menu {
+            display: none;
+            z-index: 9999; /* 게시물의 z-index 보다 큰 값 */
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            font-size: 0.775rem; /* 글씨 크기를 0.875rem으로 설정 (14px) */
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<br>
+<main class="main-container flex-grow flex flex-col justify-center items-center p-4 mx-auto"
+      th:with="list=${map['list']}, pg=${map['pg']}">
+    <div class="grid grid-cols-[200px_1.5fr] gap-8 bg-[#f0f8f0] p-8">
+        <!-- 사이드바 -->
+        <div class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-bold">Categories</h2>
+            </div>
+            <nav class="space-y-2">
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/notice}">
+                    공지 사항
+                </a>
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/list}">
+                    자유게시판
+                </a>
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/market}">
+                    장터
+                </a>
+                <a class="block rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100"
+                   th:href="@{/board/QnA}">
+                    QnA
+                </a>
+            </nav>
+        </div>
+        <div class="flex flex-col gap-6 border border-gray-200 rounded-lg shadow-lg p-6 bg-[#f7fbf7]">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-bold">장터</h2>
+                <a th:href="@{/board/freemarket_write}">
+                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="h-4 w-4 mr-2"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5v14"></path>
+                        </svg>
+                        글 쓰기
+                    </button>
+                </a>
+            </div>
+            <!-- 게시글 변수 삽입부분 -->
+            <div class="grid grid-cols-2 gap-6" onclick="closeDropdownMenus()">
+                <div class="relative group overflow-hidden rounded-lg shadow-lg" th:each="freemarket : ${list}">
+                    <a class="absolute inset-0 z-10" th:href="@{/board/freemarket_view/{id}(id=${freemarket.id})}">
+                        <span class="sr-only">View post</span>
+                    </a>
+                    <img src="/placeholder.svg" alt="Post thumbnail" width="400" height="300"
+                         class="h-48 w-full object-cover group-hover:opacity-80 transition-opacity"
+                         style="aspect-ratio: 400 / 300; object-fit: cover;"/>
+                    <div class="bg-white p-4">
+                        <h3 class="text-lg font-bold"
+                            th:text="${#strings.length(freemarket.title) > 10 ?
+                            #strings.substring(freemarket.title, 0, 10) : freemarket.title}">title</h3>
+                        <p class="text-sm text-gray-500" th:utext="${#strings.length(freemarket.contents) > 10 ?
+                        #strings.substring(freemarket.contents, 0, 10) : freemarket.contents}">
+                            contents
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지 -->
+            <br>
+            <div class="mt-6 flex justify-center">
+                <nav aria-label="pagination" class="mx-auto flex w-full justify-center" role="navigation">
+                    <ul class="flex flex-row items-center gap-1" th:with="groupParam=${param.group != null ? 'group=' + param.group : null}, searchParam=${param.search != null ? 'search=' + param.search : null}
+                                   , categoryParam=${param.category != null ? 'category=' + param.category : null}, soldoutParam=${param.soldout != null ? 'soldout=' + param.soldout : null}">
+                        <li th:if="${pg.prev}">
+                            <a
+                                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pl-2.5"
+                                    aria-label="Go to previous page"
+                                    th:href="@{|/board/market?page=${pg.begin - 1}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="h-4 w-4"
+                                >
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                                <span>Previous</span>
+                            </a>
+                        </li>
+
+                        <li th:if="${pg.end > 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                            <a
+                                    aria-current="page"
+                                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                                    th:href="@{|/board/market?page=${i}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                                <span th:text="${i}"></span>
+                            </a>
+                        </li>
+                        <li th:if="${pg.end == 0}">
+                            <a
+                                    aria-current="page"
+                                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                                    th:href="@{|/board/market?page=${pg.begin}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                                <span th:text="${pg.begin}"></span>
+                            </a>
+                        </li>
+
+                        <li th:if="${pg.next}">
+                            <a
+                                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pr-2.5"
+                                    aria-label="Go to next page"
+                                    th:href="@{|/board/market?page=${pg.end + 1}&${groupParam}&${searchParam}&${categoryParam}&${soldoutParam}|}">
+                                <span>Next</span>
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="h-4 w-4"
+                                >
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- 카테고리 & 검색 창 -->
+            <form action="/board/market" method="get" class="flex flex-col items-center justify-center mt-6">
+                <div class="flex items-center justify-center w-full max-w-3xl mx-auto py-8">
+                    <!-- 카테고리 선택 드롭다운 -->
+                    <div class="relative">
+                        <button type="button" role="combobox" aria-controls="filter-menu" aria-expanded="false"
+                                aria-autocomplete="none" dir="ltr" data-state="closed"
+                                class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-2 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[90px]"
+                                onclick="toggleFilterDropdown()">
+                            <span id="filter-dropdown-label">Filter by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="h-4 w-4 opacity-50" aria-hidden="true">
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+                        <ul id="filter-menu"
+                            class="dropdown-menu absolute bg-white shadow-lg rounded-md mt-1 w-full z-10 hidden">
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectFilterOption('')">전체
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectFilterOption('곡물')">
+                                곡물
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectFilterOption('과일')">
+                                과일
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectFilterOption('채소')">
+                                채소
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                                onclick="selectFilterOption('사료 작물')">사료 작물
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                                onclick="selectFilterOption('비료 작물')">비료 작물
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                                onclick="selectFilterOption('원예 작물')">원예 작물
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                                onclick="selectFilterOption('공예 작물')">공예 작물
+                            </li>
+                        </ul>
+                        <input type="hidden" id="category" name="category">
+                    </div>
+
+                    <!-- 검색 조건 선택 드롭다운 -->
+                    <div class="relative ml-4">
+                        <button type="button" role="combobox" aria-controls="search-menu" aria-expanded="false"
+                                aria-autocomplete="none" dir="ltr" data-state="closed"
+                                class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[180px]"
+                                onclick="toggleSearchDropdown()">
+                            <span id="search-dropdown-label">Search by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="h-4 w-4 opacity-50" aria-hidden="true">
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+                        <ul id="search-menu"
+                            class="dropdown-menu absolute bg-white shadow-lg rounded-md mt-1 w-full z-10 hidden">
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                                onclick="selectSearchOption('title')">제목
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200" onclick="selectSearchOption('nick')">
+                                작성자
+                            </li>
+                            <li class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                                onclick="selectSearchOption('contents')">내용
+                            </li>
+                        </ul>
+                        <input type="hidden" id="group" name="group">
+                    </div>
+
+                    <!-- 검색 입력 필드 -->
+                    <div class="flex-1 ml-4">
+                        <input class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                               placeholder="Search..." name="search" type="text"/>
+                    </div>
+
+                    <!-- 검색 버튼 -->
+                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 ml-4"
+                            type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="w-5 h-5 mr-2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
+<script>
+    function toggleSearchDropdown() {
+        var searchMenu = document.getElementById("search-menu");
+        var currentState = searchMenu.getAttribute("data-state");
+        if (currentState === "closed") {
+            searchMenu.style.display = "block";
+            searchMenu.setAttribute("data-state", "open");
+        } else {
+            searchMenu.style.display = "none";
+            searchMenu.setAttribute("data-state", "closed");
+        }
+    }
+
+    function toggleFilterDropdown() {
+        var filterMenu = document.getElementById("filter-menu");
+        var currentState = filterMenu.getAttribute("data-state");
+        if (currentState === "closed") {
+            filterMenu.style.display = "block";
+            filterMenu.setAttribute("data-state", "open");
+        } else {
+            filterMenu.style.display = "none";
+            filterMenu.setAttribute("data-state", "closed");
+        }
+    }
+
+    function selectSearchOption(value) {
+        document.getElementById('group').value = value;
+        document.getElementById('search-dropdown-label').textContent = value || 'Search by';
+        toggleSearchDropdown();
+    }
+
+
+    function selectFilterOption(value) {
+        document.getElementById('category').value = value;
+        document.getElementById('filter-dropdown-label').textContent = value || 'Filter by';
+        toggleFilterDropdown();
+    }
+
+    function closeDropdownMenus() {
+        var filterMenu = document.getElementById("filter-menu");
+        var searchMenu = document.getElementById("search-menu");
+
+        // 드롭다운 메뉴가 열려있는 경우 닫기
+        if (filterMenu.getAttribute("data-state") === "open") {
+            filterMenu.style.display = "none";
+            filterMenu.setAttribute("data-state", "closed");
+        }
+
+        if (searchMenu.getAttribute("data-state") === "open") {
+            searchMenu.style.display = "none";
+            searchMenu.setAttribute("data-state", "closed");
+        }
+    }
+</script>
+
+
+</body>
+</html>

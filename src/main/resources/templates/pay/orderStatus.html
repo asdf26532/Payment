@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<div th:replace="~{header :: header}"></div>
+<div class="bg-[#f0f8f0] min-h-screen flex flex-col">
+    <main class="flex-1 p-6 md:p-10">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md p-6 md:p-8" th:each="row : ${orderlist}">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold">주문 번호</h1>
+                        <p class="text-gray-500" th:text="${row.order_id}"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">고객 이름</p>
+                        <p class="font-bold" th:text="${row.member_name}"></p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold mb-2">배송 주소</h2>
+                        <p th:text="${row.address}"></p>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold mb-2">운송장 번호</h2>
+                        <p th:text="${row.delivery_id}"></p>
+                        <p class="text-green-500 font-bold" th:text="${row.delivery_status}"></p>
+                    </div>
+                </div>
+                <h2 class="text-lg font-bold mb-4">상세 주문정보</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+                        <div class="flex flex-col items-center justify-center p-6">
+                            <img
+                                    src="/placeholder.svg"
+                                    alt="Product Image"
+                                    width="100"
+                                    height="100"
+                                    class="mb-4"
+                                    style="aspect-ratio: 100 / 100; object-fit: cover;"
+                            />
+                            <h3 class="text-lg font-bold mb-2" th:text="${row.product_name}"></h3>
+                            <p class="text-gray-500 mb-2" th:text="${row.count}"></p>
+                            <p class="text-gray-500 mb-2" th:text="${row.unit_price}"></p>
+                            <p class="font-bold" th:text="${row.total_price}"></p>
+                        </div>
+                    </div>
+            </div>
+                <div class="flex justify-end mt-6">
+                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:text-accent-foreground h-10 px-4 py-2 bg-red-500 text-white hover:bg-red-600">
+                        <a th:href="@{'/pay/deleteafter/' + ${row.order_id}}">주문 취소</a>
+                    </button>
+                </div>
+        </div>
+    </main>
+</div>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

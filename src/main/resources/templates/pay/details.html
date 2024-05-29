@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<div th:replace="~{header :: header}"></div>
+<div class="bg-[#f0f8f0] text-gray-900">
+    <div class="container mx-auto px-4 py-12 md:py-20 lg:py-24 max-w-screen-xl" style="max-width: 1400px;">
+        <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div>
+                <img
+                        src="/img/arduino.jpeg"
+                        width="800"
+                        height="800"
+                        alt="Smart Farm Device"
+                        class="w-full rounded-lg shadow-lg"
+                        style="aspect-ratio: 800 / 800; object-fit: cover;"
+                />
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold">Smart Farm Device</h1>
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mt-2">
+                        Revolutionize your farming with our cutting-edge smart device.
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h2 class="text-2xl font-semibold">Key Features</h2>
+                        <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-400">
+                            <li class="flex items-center">
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="w-5 h-5 mr-2 text-green-500"
+                                >
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                Remote temperature and humidity monitoring
+                            </li>
+                            <li class="flex items-center">
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="w-5 h-5 mr-2 text-green-500"
+                                >
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                Integrated camera for real-time monitoring
+                            </li>
+                            <li class="flex items-center">
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="w-5 h-5 mr-2 text-green-500"
+                                >
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                Mobile app integration for easy control
+                            </li>
+                            <li class="flex items-center">
+                                <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="w-5 h-5 mr-2 text-green-500"
+                                >
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                Automated alerts and notifications
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-semibold">Description</h2>
+                        <p class="mt-2 text-gray-600 dark:text-gray-400">
+                            Our smart farm device is designed to revolutionize the way you manage your agricultural operations.
+                            With its advanced features, you can remotely monitor temperature and humidity levels, view real-time
+                            camera footage, and receive automated alerts to ensure your crops and livestock are thriving.
+                            Seamlessly integrate with our mobile app for complete control and convenience.
+                        </p>
+                    </div>
+                    <form action="/pay/details" method="POST">
+                    <div class="flex items-center gap-4">
+                                <input
+                                        type="number"
+                                        name="quantity"
+                                        min="1"
+                                        value="1"
+                                        class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                />
+                            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 flex-1">
+                            Buy Now
+                            </button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

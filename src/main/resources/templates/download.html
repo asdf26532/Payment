@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<main class="flex-grow flex flex-col justify-center items-center p-4">
+    <div class="w-full flex flex-col items-center bg-[#f0f8f0] py-12 md:py-24 lg:py-32 xl:py-48">
+        <div class="container flex flex-col items-center px-4 md:px-6">
+            <div class="flex flex-col items-center space-y-6 text-center">
+                <div class="space-y-4">
+                    <h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                        Monitor Your Smart Farm
+                    </h1>
+                    <p class="mx-auto max-w-[700px] text-gray-700 md:text-xl dark:text-gray-400">
+                        Download our mobile app to track the growing environment of your smart farm and optimize your operations.
+                    </p>
+                </div>
+                <div>
+                    <a
+                            class="inline-flex h-10 items-center justify-center rounded-md bg-green-600 px-6 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-800 disabled:pointer-events-none disabled:opacity-50 dark:bg-green-500 dark:text-white dark:hover:bg-green-600 dark:focus-visible:ring-green-700"
+                            href="/download/IoT.apk"
+                    >
+                        Download App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

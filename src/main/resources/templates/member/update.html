@@ -1,89 +1,111 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 정보 수정</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-    </style>
+    <title>Smart Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div class="container">
-    <h1>회원 정보 수정</h1>
-    <form method="post">
-        <div class="form-group">
-            <label for="userpw">현재 비밀번호:</label>
-            <input type="password" id="userpw" name="userpw" required>
+<body class="min-h-screen flex flex-col bg-[#f0f8f0]">
+<br>
+<div th:replace="~{header :: header}"></div>
+<main class="flex min-h-screen w-full items-center justify-center bg-[#f0f8f0] p-4">
+    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+        <div class="space-y-4">
+            <h1 class="text-2xl font-bold">Update Your Profile</h1>
+            <form class="space-y-4" method="post" action="/member/update">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div class="space-y-2">
+                        <label
+                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                for="userpw"
+                        >
+                            현재 비밀번호
+                        </label>
+                        <input
+                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                id="userpw"
+                                name="userpw"
+                                type="password"
+                                required
+                        />
+                    </div>
+                    <div class="space-y-2">
+                        <label
+                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                for="newpw"
+                        >
+                            변경할 비밀번호
+                        </label>
+                        <input
+                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                id="newpw"
+                                name="newpw"
+                                type="password"
+                                required
+                        />
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="email"
+                    >
+                        이메일
+                    </label>
+                    <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="email"
+                            name="email"
+                            type="email"
+                            th:value="${session.user.email}"
+                            required
+                    />
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="address"
+                    >
+                        주소
+                    </label>
+                    <textarea
+                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="address"
+                            name="address"
+                            rows="3"
+                            th:text="${session.user.address}"
+                            required
+                    ></textarea>
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="phone"
+                    >
+                        전화번호
+                    </label>
+                    <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="phone"
+                            name="phone"
+                            th:value="${session.user.phone}"
+                            required
+                    />
+                </div>
+                <!-- 버튼을 폼 안에 넣어서 POST 요청을 보내도록 수정 -->
+                <div class="mt-6 flex justify-end">
+                    <button
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#48bb78] text-white hover:bg-[#2f855a] h-10 px-4 py-2"
+                            type="submit"
+                    >
+                        변경하기
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="newpw">변경할 비밀번호:</label>
-            <input type="password" id="newpw" name="newpw" required>
-        </div>
-        <div class="form-group">
-            <label for="email">이메일:</label>
-            <input type="email" id="email" name="email" th:value="${session.user.email}" required>
-        </div>
-        <div class="form-group">
-            <label for="address">주소:</label>
-            <input type="text" id="address" name="address" th:value="${session.user.address}" required>
-        </div>
-        <div class="form-group">
-            <label for="phone">전화번호:</label>
-            <input type="tel" id="phone" name="phone" th:value="${session.user.phone}" required>
-        </div>
-        <button type="submit">정보 수정</button>
-    </form>
-</div>
+    </div>
+</main>
+<div th:replace="~{footer :: footer}"></div>
 </body>
 </html>

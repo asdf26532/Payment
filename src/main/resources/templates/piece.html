@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>piece</title>
+	<style>
+		a {
+			color : inherit;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+			color: 	#DC143C;
+			background-color: #f08080;
+		}
+		.menulist {
+			display: flex;
+			list-style: none;
+			padding: 0;
+		}
+
+		.menulist > li {
+			margin: 0 10px;
+		}
+
+		table {
+			border-collapse: collapse;
+		}
+		th, td {
+			border: 1px solid black;
+			padding: 5px 10px;
+
+		}
+	</style>
+
+</head>
+<body>
+	<header th:fragment="header">
+		<h1>SmartFarm HomePage</h1>
+
+		<div th:class="menulist">
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/board/notice">공지사항</a></li>
+			<li><a href="/board/freeBoard">자유게시판</a></li>
+			<li><a href="/board/freemarket">장터</a></li>
+			<li><a href="/board/QnA">질문게시판</a></li>
+			<li><a href="/chat/chatbot">챗봇</a></li>
+		</ul>
+
+		</div>
+		<hr>
+	</header>
+	
+	<footer th:fragment="footer">
+	<hr>
+	
+	<h4>(주)SmartFarm</h4>
+	</footer>
+
+</body>
+</html>

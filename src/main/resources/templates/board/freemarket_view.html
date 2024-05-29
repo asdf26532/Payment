@@ -166,8 +166,7 @@
 		<div class="bg-white rounded-lg shadow-md overflow-hidden mt-8">
 			<div class="p-6 md:p-8 lg:p-10" th:if="${session.user != null}">
 				<h3 class="text-lg font-bold mb-4">1대1 채팅하기</h3>
-				<form th:action="@{/board/replies}" method="post">
-					<input type="hidden" name="receiver_id" th:value="${freemarket.member_id}">
+				<form method="post">
 					<div class="mb-4" >
 						<label
 								class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-2"
@@ -180,7 +179,7 @@
 								id="comment"
 								rows="4"
 								placeholder="Enter your comment..."
-								name="contents"
+								name="content"
 						></textarea>
 					</div>
 					<div class="flex justify-end">

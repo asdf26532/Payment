@@ -134,7 +134,7 @@ public class BoardController {
         MemberVO member = (MemberVO) session.getAttribute("user");
         message.setSenderId(member.getId());
         cs.startChat(message);
-        return "chat/chat";
+        return "redirect:/chat";
     }
 
     // 장터 작성 폼으로 전송 (비 로그인 시 로그인으로 리다이렉트)

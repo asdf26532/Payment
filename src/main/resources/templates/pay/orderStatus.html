@@ -15,22 +15,22 @@
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <h1 class="text-2xl font-bold">주문 번호</h1>
-                        <p class="text-gray-500" th:text="${row.order_id}">Placed on May 28, 2024</p>
+                        <p class="text-gray-500" th:text="${row.order_id}"></p>
                     </div>
                     <div>
                         <p class="text-gray-500">고객 이름</p>
-                        <p class="font-bold" th:text="${row.member_name}">John Doe</p>
+                        <p class="font-bold" th:text="${row.member_name}"></p>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <h2 class="text-lg font-bold mb-2">배송 주소</h2>
-                        <p th:text="${row.address}">123 Main St.</p>
+                        <p th:text="${row.address}"></p>
                     </div>
                     <div>
                         <h2 class="text-lg font-bold mb-2">운송장 번호</h2>
-                        <p th:text="${row.delivery_id}">1Z999AA1234567890</p>
-                        <p class="text-green-500 font-bold" th:text="${row.delivery_status}">Delivered</p>
+                        <p th:text="${row.delivery_id}"></p>
+                        <p class="text-green-500 font-bold" th:text="${row.delivery_status}"></p>
                     </div>
                 </div>
                 <h2 class="text-lg font-bold mb-4">상세 주문정보</h2>
@@ -45,18 +45,18 @@
                                     class="mb-4"
                                     style="aspect-ratio: 100 / 100; object-fit: cover;"
                             />
-                            <h3 class="text-lg font-bold mb-2" th:text="${row.product_name}">Organic Tomatoes</h3>
-                            <p class="text-gray-500 mb-2" th:text="${row.count}">Quantity: 2</p>
-                            <p class="text-gray-500 mb-2" th:text="${row.unit_price}">$3.99 per unit</p>
-                            <p class="font-bold" th:text="${row.total_price}">$7.98</p>
+                            <h3 class="text-lg font-bold mb-2" th:text="${row.product_name}"></h3>
+                            <p class="text-gray-500 mb-2" th:text="${row.count}"></p>
+                            <p class="text-gray-500 mb-2" th:text="${row.unit_price}"></p>
+                            <p class="font-bold" th:text="${row.total_price}"></p>
                         </div>
                     </div>
+            </div>
                 <div class="flex justify-end mt-6">
                     <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:text-accent-foreground h-10 px-4 py-2 bg-red-500 text-white hover:bg-red-600">
                         <a th:href="@{'/pay/deleteafter/' + ${row.order_id}}">주문 취소</a>
                     </button>
                 </div>
-            </div>
         </div>
     </main>
 </div>

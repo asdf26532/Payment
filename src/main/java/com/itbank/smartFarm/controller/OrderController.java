@@ -1,5 +1,7 @@
 package com.itbank.smartFarm.controller;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import com.itbank.smartFarm.vo.MemberVO;
 import com.itbank.smartFarm.vo.OrdersVO;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/pay")
 public class OrderController {
@@ -26,40 +30,10 @@ public class OrderController {
 	@GetMapping("/details")
 	public void details() {}
 
-	// 상품 리스트 불러오기
-	@GetMapping("/market")
-	public ModelAndView market() {
-		ModelAndView mav = new ModelAndView();
-
-		mav.addObject("list", os.selectAll());
-		mav.setViewName("/pay/market");
-
-		return mav;
-	}
-
-	// 상세페이지 불러오기
-	@GetMapping("/detailPage/{id}")
-	public ModelAndView detailPage(@PathVariable("id") int id) {
-		ModelAndView mav = new ModelAndView();
-
-		mav.addObject("product", os.selectOne(id));
-		mav.setViewName("pay/detailPage");
-
-		return mav;
-	}
-
-
 	// 상세페이지 정보를 받아 장바구니로 이동
-	@PostMapping("/detailPage/{id}")
-	public ModelAndView Order(@PathVariable("id") int productId, @RequestParam("quantity") int quantity,
-			HttpSession session) {
+	@PostMapping("/details")
+	public ModelAndView Order(@RequestParam("quantity") int quantity,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-
-		if (session.getAttribute("user") == null) {
-			// 로그인 페이지로 리다이렉트
-			mav.setViewName("redirect:/member/login");
-			return mav;
-		}
 
 		// 로그인 한 멤버 정보 + 아이디 + 주소 가져오기
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -71,7 +45,7 @@ public class OrderController {
 
 		// 주문이 이미 존재하는지 확인 - order 페이지에만 있는지 확인
 		int existingOrderId = os.getExistingOrderId(memberId, orderItemId);
-		
+
 		if (existingOrderId != -1) {
 			// 주문이 이미 존재하면 수량을 업데이트
 			CartVO cartVO = new CartVO();
@@ -93,16 +67,16 @@ public class OrderController {
 			cartVO.setCount(quantity);
 
 			os.count(cartVO); // 주문 수량 설정
-			
+
 		}
-		
-	    mav.setViewName("redirect:/pay/order");
-	    
+
+	    mav.setViewName("redirect:/pay/cart");
+
 		return mav;
 	}
 
 	// 장바구니에서 결제
-	@GetMapping("/order")
+	@GetMapping("/cart")
 	public ModelAndView order(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
@@ -116,7 +90,7 @@ public class OrderController {
 	}
 
 	// 정보 수정
-	@GetMapping("/update/{order_id}")
+	@GetMapping("/newUpdate/{order_id}")
 	public ModelAndView update(@PathVariable("order_id") int orderId) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("orderlist", os.getorder(orderId));
@@ -126,20 +100,20 @@ public class OrderController {
 		return mav;
 	}
 
-	@PostMapping("/update/{order_id}")
+	@PostMapping("/newUpdate/{order_id}")
 	public ModelAndView postupdate(CartVO input) {
 		ModelAndView mav = new ModelAndView();
 
 		int modifyResult = os.modify(input);
 		int modifyAddressResult = os.modifyaddress(input);
 
-		String msg = "수정 되었습니다.";
+		String msg = "수정 실패.";
 		if (modifyResult == 0 || modifyAddressResult == 0) {
-			msg = "수정 실패하였습니다.";
+			msg = "수정 성공.";
 		}
 
 		mav.addObject("row", (modifyResult != 0 && modifyAddressResult != 0) ? 1 : 0);
-		mav.addObject("path", "/pay/order");
+		mav.addObject("path", "/pay/newUpdate");
 		mav.addObject("msg", msg);
 		
 		mav.setViewName("/pay/Message");
@@ -160,7 +134,7 @@ public class OrderController {
 		if (row != 0)
 			msg = "삭제 실패하였습니다.";
 
-		mav.addObject("path", "/pay/order");
+		mav.addObject("path", "/");
 		mav.addObject("msg", msg);
 
 		mav.setViewName("/pay/Message");
@@ -181,35 +155,52 @@ public class OrderController {
 		if (row != 0)
 			msg = "삭제 실패하였습니다.";
 
-		mav.addObject("path", "/pay/Orderprepare");
+		mav.addObject("path", "/pay/orderStatus");
 		mav.addObject("msg", msg);
 
 		mav.setViewName("/pay/Message");
 
 		return mav;
 	}
+
 	@PostMapping("/updateDeliveryInfo")
 	public ModelAndView updateDeliveryInfo(@RequestBody CartVO deliveryInfo, HttpSession session) {
-
 		ModelAndView mav = new ModelAndView();
+
+		// 세션에서 회원 ID 가져오기
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		int memberid = user.getId();
+		int memberId = user.getId();
+		System.out.println(deliveryInfo);
+		// 배송 상태를 "결제완료"로 업데이트
 		os.deliveryid(deliveryInfo.getDelivery_id());
-		mav.addObject("orderlist", os.getOrders(memberid));
-		mav.setViewName("/pay/Orderprepare");
+
+		// 회원의 최신 주문 목록을 가져오기
+		List<CartVO> order = os.getOrders(memberId);
+
+		// 업데이트된 주문 목록을 ModelAndView에 추가
+		mav.addObject("orderlist", order);
+
+		// 뷰 이름을 orderStatus로 설정
+		mav.setViewName("/pay/orderStatus");
+
 		return mav;
 	}
-	
+
 	// 주문 현황
-	@GetMapping("/orderPrepare")
+	@GetMapping("/orderStatus")
 	public ModelAndView afterPay(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
+		// 세션에서 현재 사용자의 ID를 가져옵니다.
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		int memberid = user.getId();
-		mav.addObject("orderlist", os.afterPay(memberid));
+		int memberId = user.getId();
 
-		mav.setViewName("/pay/orderPrepare");
+		// 사용자의 최신 주문 목록을 가져와서 orderlist에 추가합니다.
+		List<CartVO> orderList = os.afterPay(memberId);
+		mav.addObject("orderlist", orderList);
+
+		// 뷰 이름을 orderStatus로 설정합니다.
+		mav.setViewName("/pay/orderStatus");
 
 		return mav;
 	}

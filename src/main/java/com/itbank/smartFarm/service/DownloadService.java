@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class DownloadService {
 
     // 다운로드 디렉토리 주입
-    @Value("${file.download-dir}")
+    @Value("${file.download-dir}") // "file:/download"
     private String downloadDir;
 
     // 지정된 파일 이름을 사용하여 파일 경로를 로드하는 메서드

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>payment</title>
+</head>
+<body>
+<h1>결제 페이지</h1>
+<table id="order-table">
+    <tr>
+        <th>물품</th>
+        <th>수량</th>
+        <th>가격</th>
+    </tr>
+</table>
+<!-- jQuery -->
+<script type="text/javascript"
+        src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript"
+        src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+<script>
+    const orderId = 1; // 예시
+
+    function loadOrder() {
+        $.get(`/order/cart/${orderId}`, function(data) {
+            let orderTable = $('#order-table');
+            orderTable.find('tr:gt(0)').remove();
+            $.each(data.orderItems, function(index, item) {
+                orderTable.append('<tr><td>' + item.itemName + '</td><td>' + item.quantity + '</td><td>' + item.price + '</td></tr>');
+            });
+        });
+    }
+
+    $(document).ready(function() {
+        loadOrder();
+    });
+</script>
+</body>
+</html>

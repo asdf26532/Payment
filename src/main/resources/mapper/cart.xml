@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itbank.smartFarm.model.CartDAO">
+
+    <select id="findByMemberId" resultType="CartVO">
+        SELECT * FROM cart WHERE member_id = #{memberId}
+    </select>
+
+    <insert id="addItem">
+        INSERT INTO cart_item (cart_id, item_id, quantity, price) VALUES (#{cartId}, #{itemId}, #{quantity}, #{price})
+    </insert>
+
+    <delete id="removeItem">
+        DELETE FROM cart_item WHERE id = #{cartItemId}
+    </delete>
+
+    <update id="updateItemQuantity">
+        UPDATE cart_item SET quantity = #{quantity} WHERE id = #{cartItemId}
+    </update>
+
+</mapper>

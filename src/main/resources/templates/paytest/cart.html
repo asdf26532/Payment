@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>장바구니</h1>
+<table id="cart-table">
+    <tr>
+        <th>Item Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Action</th>
+    </tr>
+</table>
+<button onclick="checkout()">Checkout</button>
+<script>
+    const memberId = 1; // Example memberId
+
+    function loadCart() {
+        $.get(`/api/cart/${memberId}`, function(data) {
+            let cartTable = $('#cart-table');
+            cartTable.find('tr:gt(0)').remove();
+            $.each(data.cartItems, function(index, item) {
+                cartTable.append('<tr><td>' + item.itemName + '</td><td>' + item.quantity + '</td><td>' + item.price + '</td><td><button onclick="removeItem(' + item.id + ')">Remove</button><button onclick="updateItem(' + item.id + ')">Update</button></td></tr>');
+            });
+        });
+    }
+
+    function removeItem(itemId) {
+        $.ajax({
+            url: `/api/cart/remove/${itemId}`,
+            type: 'DELETE',
+            success: function(result) {
+                loadCart();
+            }
+        });
+    }
+
+    function updateItem(itemId) {
+        const newQuantity = prompt("Enter new quantity:");
+        $.ajax({
+            url: `/api/cart/update`,
+            type: 'PUT',
+            data: JSON.stringify({ id: itemId, quantity: newQuantity }),
+            contentType: "application/json",
+            success: function(result) {
+                loadCart();
+            }
+        });
+    }
+
+    function checkout() {
+        $.post(`/api/order/checkout/${memberId}`, function(result) {
+            alert("Checkout successful");
+        });
+    }
+
+    $(document).ready(function() {
+        loadCart();
+    });
+</script>
+</body>
+</html>

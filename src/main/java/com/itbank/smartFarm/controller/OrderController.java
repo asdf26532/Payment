@@ -38,7 +38,7 @@ public class OrderController {
 		if (session.getAttribute("user") == null) {
 			mav.setViewName("redirect:/member/login");
 			return mav;
-		}else{
+		} else {
 			// 로그인 한 멤버 정보 + 아이디 + 주소 가져오기
 			MemberVO user = (MemberVO) session.getAttribute("user");
 

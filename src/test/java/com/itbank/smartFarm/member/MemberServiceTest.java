@@ -1,7 +1,6 @@
 package com.itbank.smartFarm.member;
 
 import com.itbank.smartFarm.model.MemberDAO;
-import com.itbank.smartFarm.service.MemberService;
 import com.itbank.smartFarm.vo.MemberVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

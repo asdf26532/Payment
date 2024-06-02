@@ -9,6 +9,12 @@ import lombok.ToString;
 public class MemberVO {
 
     private int id;
-    private String name, address, email, phone;
-    private String userid, userpw, newpw, nick;
+    private String username;
+    private String password;
+    private String email;
+    private String phoneNumber;
+    private String address;
+    private String createdAt;
+    private String updatedAt;
+
 }

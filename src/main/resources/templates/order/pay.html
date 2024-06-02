@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>결제 페이지</title>
+</head>
+<body>
+<h1>결제 페이지</h1>
+<p>회원 정보</p>
+<ul>
+    <li>이름: <span th:text="${member.username}">Name</span></li>
+    <li>주소: <span th:text="${member.address}">Address</span></li>
+    <li>전화번호: <span th:text="${member.phoneNumber}">Phone Number</span></li>
+    <li>이메일: <span th:text="${member.email}">Email</span></li>
+</ul>
+<p>장바구니</p>
+<ul>
+    <li th:each="item : ${cart.cartItems}">
+        <span th:text="${item.itemName}">Item Name</span> -
+        <span th:text="${item.price}">Price</span>원 x
+        <span th:text="${item.quantity}">Quantity</span>
+    </li>
+</ul>
+<p>총 가격: <span th:text="${cart.totalPrice}">Total Price</span>원</p>
+<button onclick="requestPay()">결제하기</button>
+
+<script src="https://service.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+<script>
+    function requestPay() {
+        var IMP = window.IMP;
+        IMP.init('imp81357167'); // 'your_imp_key'를 실제 발급받은 키로 변경
+
+        IMP.request_pay({
+            pg: 'kcp', // 결제방식
+            pay_method: 'card', // 결제수단
+            merchant_uid: 'merchant_' + new Date().getTime(), // 주문번호
+            name: '주문명: 결제테스트',
+            amount: [[${cart.totalPrice}]], // 결제금액
+            buyer_email: [[${member.email}]],
+            buyer_name: [[${member.username}]],
+            buyer_tel: [[${member.phoneNumber}]],
+            buyer_addr: [[${member.address}]],
+            buyer_postcode: '123-456'
+        }, function (rsp) {
+            if (rsp.success) {
+                alert('결제가 완료되었습니다.');
+                // 성공적으로 결제 완료 시 로직
+            } else {
+                alert('결제에 실패하였습니다. 에러 내용: ' + rsp.error_msg);
+                // 결제 실패 시 로직
+            }
+        });
+    }
+</script>
+</body>
+</html>

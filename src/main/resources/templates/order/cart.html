@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+</head>
+<body>
+<h1>장바구니</h1>
+<ul>
+    <li th:each="item : ${cart.cartItems}">
+        <span th:text="${item.itemName}">Item Name</span> -
+        <span th:text="${item.price}">Price</span>원 x
+        <span th:text="${item.quantity}">Quantity</span>
+    </li>
+</ul>
+<p>총 가격: <span th:text="${cart.totalPrice}">Total Price</span>원</p>
+<a href="/order/pay">결제하기</a>
+</body>
+</html>

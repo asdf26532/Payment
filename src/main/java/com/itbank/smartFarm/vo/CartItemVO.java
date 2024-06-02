@@ -10,8 +10,10 @@ public class CartItemVO {
     private int id;
     private int cartId;
     private int itemId;
+    private String itemName;
     private int quantity;
     private int price;
-    private String itemName;
 
+    public CartItemVO(int i, int i1, int i2, String itemA, int i3, int i4) {
+    }
 }

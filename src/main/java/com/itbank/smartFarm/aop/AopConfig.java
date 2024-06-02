@@ -8,9 +8,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 public class AopConfig {
 
-    @Bean
-    public PasswordHashAspect passwordHashAspect() {
-        return new PasswordHashAspect();
-    }
+
 }
 
